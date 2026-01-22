@@ -9,7 +9,8 @@ public class Keybind {
 
     public Keybind(String name, String description, int keyCode) {
         this.name = name;
-        this.keyBinding = new KeyBinding(name, keyCode, "Lucid Dreaming");
+        // Ensure the key binding name follows Forge's expected format
+        this.keyBinding = new KeyBinding("key.luciddreaming." + name.toLowerCase(), keyCode, "Lucid Dreaming");
     }
 
     public Keybind(String name, String description) {
@@ -17,15 +18,17 @@ public class Keybind {
     }
 
     public boolean isPressed() {
-        return keyBinding.isPressed();
+        return keyBinding != null && keyBinding.isPressed();
     }
 
     public int getKeyCode() {
-        return keyBinding.getKeyCode();
+        return keyBinding != null ? keyBinding.getKeyCode() : Keyboard.KEY_NONE;
     }
 
     public void setKeyCode(int keyCode) {
-        keyBinding.setKeyCode(keyCode);
+        if (keyBinding != null) {
+            keyBinding.setKeyCode(keyCode);
+        }
     }
 
     public String getKeyName() {

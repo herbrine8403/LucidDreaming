@@ -4,6 +4,7 @@ import com.luciddreaming.config.ModConfig;
 import com.luciddreaming.http.HTTPServer;
 import com.luciddreaming.modules.ModuleManager;
 import com.luciddreaming.proxy.CommonProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -23,6 +24,7 @@ public class LucidDreaming {
 
     public static HTTPServer httpServer;
     public static ModuleManager moduleManager;
+    public static Minecraft mc;
 
     @SidedProxy(clientSide = "com.luciddreaming.proxy.ClientProxy", serverSide = "com.luciddreaming.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -56,5 +58,9 @@ public class LucidDreaming {
     public void postInit(FMLPostInitializationEvent event) {
         LOGGER.info("Lucid Dreaming Mod fully initialized!");
         LOGGER.info("Registered {} modules", moduleManager.getModules().size());
+        
+        // Set Minecraft instance and call proxy postInit
+        mc = Minecraft.getMinecraft();
+        proxy.postInit(moduleManager);
     }
 }

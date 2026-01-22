@@ -10,4 +10,8 @@ public class CommonProxy {
     public void registerModules(ModuleManager moduleManager) {
         // Modules will be registered in ClientProxy
     }
+    
+    public void postInit(ModuleManager moduleManager) {
+        // Empty in common proxy
+    }
 }
