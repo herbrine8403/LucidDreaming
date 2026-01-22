@@ -4,6 +4,7 @@ import com.luciddreaming.LucidDreaming;
 import com.luciddreaming.config.ModuleConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
@@ -27,7 +28,22 @@ public class FakeBlackScreen extends Module {
 
     @Override
     public void onTick() {
+        // Tick event is not used for rendering
+        // Rendering is done in RenderGameOverlayEvent
+    }
+
+    @SubscribeEvent
+    public void onRenderGameOverlay(RenderGameOverlayEvent event) {
+        if (!isEnabled()) {
+            return;
+        }
+
         if (mc.world == null || mc.player == null) {
+            return;
+        }
+
+        // Don't render if a GUI is open
+        if (mc.currentScreen != null) {
             return;
         }
 
@@ -36,10 +52,6 @@ public class FakeBlackScreen extends Module {
     }
 
     private void renderBlackScreen() {
-        if (mc.currentScreen != null) {
-            return;
-        }
-
         // Enable blending for transparency
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
