@@ -1,5 +1,6 @@
 package com.luciddreaming.proxy;
 
+import com.luciddreaming.modules.AutoFish;
 import com.luciddreaming.modules.ModuleManager;
 
 public class ClientProxy extends CommonProxy {
@@ -10,9 +11,10 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void registerModules(ModuleManager moduleManager) {
-        // Modules will be registered here
-        // Example:
-        // moduleManager.registerModule(new AutoFish());
+        // Register AutoFish module
+        moduleManager.registerModule(new AutoFish());
+        
+        // More modules will be added here:
         // moduleManager.registerModule(new AutoClicker());
         // moduleManager.registerModule(new KillAura());
         // moduleManager.registerModule(new AntiKick());
