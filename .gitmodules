@@ -7,3 +7,6 @@
 [submodule "third_party/no_render"]
 	path = third_party/no_render
 	url = https://github.com/Friendly-Banana/no_render.git
+[submodule "third_party/baritone"]
+	path = third_party/baritone
+	url = https://github.com/cabaletta/baritone.git
