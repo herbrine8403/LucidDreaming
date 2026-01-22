@@ -89,12 +89,16 @@ public class AutoClicker extends Module {
     }
 
     private void leftClick() {
-        if (mc.objectMouseOver == null) {
+        if (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null) {
             return;
         }
 
-        mc.playerController.attackEntity(mc.player, mc.objectMouseOver.entityHit);
-        mc.player.swingArm(EnumHand.MAIN_HAND);
+        try {
+            mc.playerController.attackEntity(mc.player, mc.objectMouseOver.entityHit);
+            mc.player.swingArm(EnumHand.MAIN_HAND);
+        } catch (Exception e) {
+            // Ignore errors during click
+        }
     }
 
     private void rightClick() {

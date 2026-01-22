@@ -140,6 +140,10 @@ public class KillAura extends Module {
     }
 
     private void attackEntity(Entity target) {
+        if (target == null || !target.isEntityAlive() || mc.player == null || mc.playerController == null) {
+            return;
+        }
+
         // Check if we can see the target
         if (!mc.player.canEntityBeSeen(target)) {
             return;
