@@ -26,6 +26,21 @@ public class WebTemplate {
                 "            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);\n" +
                 "            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);\n" +
                 "            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);\n" +
+                "            --scoreboard-bg: #808080;\n" +
+                "        }\n" +
+                "        \n" +
+                "        [data-theme=\"dark\"] {\n" +
+                "            --primary-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);\n" +
+                "            --card-bg: rgba(30, 30, 50, 0.95);\n" +
+                "            --text-primary: #e2e8f0;\n" +
+                "            --text-secondary: #a0aec0;\n" +
+                "            --accent-color: #667eea;\n" +
+                "            --success-color: #48bb78;\n" +
+                "            --border-color: #4a5568;\n" +
+                "            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);\n" +
+                "            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);\n" +
+                "            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);\n" +
+                "            --scoreboard-bg: #808080;\n" +
                 "        }\n" +
                 "        \n" +
                 "        body {\n" +
@@ -35,6 +50,7 @@ public class WebTemplate {
                 "            padding: 20px;\n" +
                 "            color: var(--text-primary);\n" +
                 "            line-height: 1.6;\n" +
+                "            transition: background 0.3s ease, color 0.3s ease;\n" +
                 "        }\n" +
                 "        \n" +
                 "        .container {\n" +
@@ -70,15 +86,16 @@ public class WebTemplate {
                 "            opacity: 0.85;\n" +
                 "        }\n" +
                 "        \n" +
-                "        .language-selector {\n" +
+                "        .header-controls {\n" +
                 "            position: absolute;\n" +
                 "            top: 0;\n" +
                 "            right: 0;\n" +
                 "            display: flex;\n" +
-                "            gap: 8px;\n" +
+                "            gap: 10px;\n" +
+                "            align-items: center;\n" +
                 "        }\n" +
                 "        \n" +
-                "        .lang-btn {\n" +
+                "        .control-btn {\n" +
                 "            background: rgba(255, 255, 255, 0.2);\n" +
                 "            border: 2px solid rgba(255, 255, 255, 0.3);\n" +
                 "            color: white;\n" +
@@ -89,17 +106,14 @@ public class WebTemplate {
                 "            font-weight: 500;\n" +
                 "            transition: all 0.3s ease;\n" +
                 "            backdrop-filter: blur(10px);\n" +
+                "            display: flex;\n" +
+                "            align-items: center;\n" +
+                "            gap: 6px;\n" +
                 "        }\n" +
                 "        \n" +
-                "        .lang-btn:hover {\n" +
+                "        .control-btn:hover {\n" +
                 "            background: rgba(255, 255, 255, 0.3);\n" +
                 "            transform: translateY(-2px);\n" +
-                "        }\n" +
-                "        \n" +
-                "        .lang-btn.active {\n" +
-                "            background: white;\n" +
-                "            color: var(--accent-color);\n" +
-                "            border-color: white;\n" +
                 "        }\n" +
                 "        \n" +
                 "        .info-grid {\n" +
@@ -194,18 +208,20 @@ public class WebTemplate {
                 "        \n" +
                 "        .scoreboard-list {\n" +
                 "            list-style: none;\n" +
-                "            background: rgba(0, 0, 0, 0.03);\n" +
+                "            background: var(--scoreboard-bg);\n" +
                 "            border-radius: 12px;\n" +
                 "            padding: 16px;\n" +
                 "        }\n" +
                 "        \n" +
                 "        .scoreboard-list li {\n" +
                 "            padding: 10px 12px;\n" +
-                "            border-bottom: 1px solid var(--border-color);\n" +
+                "            border-bottom: 1px solid rgba(255, 255, 255, 0.2);\n" +
                 "            font-family: 'Courier New', 'Consolas', monospace;\n" +
                 "            font-size: 0.9em;\n" +
                 "            line-height: 1.5;\n" +
                 "            transition: background-color 0.2s ease;\n" +
+                "            color: white;\n" +
+                "            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);\n" +
                 "        }\n" +
                 "        \n" +
                 "        .scoreboard-list li:last-child {\n" +
@@ -213,32 +229,95 @@ public class WebTemplate {
                 "        }\n" +
                 "        \n" +
                 "        .scoreboard-list li:hover {\n" +
-                "            background-color: rgba(102, 126, 234, 0.08);\n" +
+                "            background-color: rgba(102, 126, 234, 0.3);\n" +
                 "            border-radius: 6px;\n" +
                 "        }\n" +
                 "        \n" +
                 "        /* Minecraft color codes */\n" +
-                "        .color-0 { color: #000000; }\n" +
-                "        .color-1 { color: #0000AA; }\n" +
-                "        .color-2 { color: #00AA00; }\n" +
-                "        .color-3 { color: #00AAAA; }\n" +
-                "        .color-4 { color: #AA0000; }\n" +
-                "        .color-5 { color: #AA00AA; }\n" +
-                "        .color-6 { color: #FFAA00; }\n" +
-                "        .color-7 { color: #AAAAAA; }\n" +
-                "        .color-8 { color: #555555; }\n" +
-                "        .color-9 { color: #5555FF; }\n" +
-                "        .color-a { color: #55FF55; }\n" +
-                "        .color-b { color: #55FFFF; }\n" +
-                "        .color-c { color: #FF5555; }\n" +
-                "        .color-d { color: #FF55FF; }\n" +
-                "        .color-e { color: #FFFF55; }\n" +
-                "        .color-f { color: #FFFFFF; }\n" +
+                "        .color-0 { color: #000000; text-shadow: none; }\n" +
+                "        .color-1 { color: #0000AA; text-shadow: none; }\n" +
+                "        .color-2 { color: #00AA00; text-shadow: none; }\n" +
+                "        .color-3 { color: #00AAAA; text-shadow: none; }\n" +
+                "        .color-4 { color: #AA0000; text-shadow: none; }\n" +
+                "        .color-5 { color: #AA00AA; text-shadow: none; }\n" +
+                "        .color-6 { color: #FFAA00; text-shadow: none; }\n" +
+                "        .color-7 { color: #AAAAAA; text-shadow: none; }\n" +
+                "        .color-8 { color: #555555; text-shadow: none; }\n" +
+                "        .color-9 { color: #5555FF; text-shadow: none; }\n" +
+                "        .color-a { color: #55FF55; text-shadow: none; }\n" +
+                "        .color-b { color: #55FFFF; text-shadow: none; }\n" +
+                "        .color-c { color: #FF5555; text-shadow: none; }\n" +
+                "        .color-d { color: #FF55FF; text-shadow: none; }\n" +
+                "        .color-e { color: #FFFF55; text-shadow: none; }\n" +
+                "        .color-f { color: #FFFFFF; text-shadow: none; }\n" +
                 "        .color-l { font-weight: bold; }\n" +
                 "        .color-m { text-decoration: line-through; }\n" +
                 "        .color-n { text-decoration: underline; }\n" +
                 "        .color-o { font-style: italic; }\n" +
-                "        .color-r { color: inherit; text-decoration: none; font-style: normal; font-weight: normal; }\n" +
+                "        .color-r { color: inherit; text-decoration: none; font-style: normal; font-weight: normal; text-shadow: none; }\n" +
+                "        \n" +
+                "        .screenshot-container {\n" +
+                "            background: var(--card-bg);\n" +
+                "            border-radius: 16px;\n" +
+                "            padding: 24px;\n" +
+                "            box-shadow: var(--shadow-lg);\n" +
+                "            margin-top: 20px;\n" +
+                "            animation: fadeInUp 0.6s ease-out;\n" +
+                "            backdrop-filter: blur(10px);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-container h2 {\n" +
+                "            color: var(--accent-color);\n" +
+                "            margin-bottom: 18px;\n" +
+                "            border-bottom: 2px solid var(--accent-color);\n" +
+                "            padding-bottom: 10px;\n" +
+                "            font-size: 1.35em;\n" +
+                "            font-weight: 600;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-btn {\n" +
+                "            background: var(--accent-color);\n" +
+                "            color: white;\n" +
+                "            border: none;\n" +
+                "            padding: 12px 24px;\n" +
+                "            border-radius: 8px;\n" +
+                "            cursor: pointer;\n" +
+                "            font-size: 1em;\n" +
+                "            font-weight: 600;\n" +
+                "            transition: all 0.3s ease;\n" +
+                "            display: inline-flex;\n" +
+                "            align-items: center;\n" +
+                "            gap: 8px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-btn:hover {\n" +
+                "            transform: translateY(-2px);\n" +
+                "            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-btn:active {\n" +
+                "            transform: translateY(0);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-btn:disabled {\n" +
+                "            background: var(--text-secondary);\n" +
+                "            cursor: not-allowed;\n" +
+                "            transform: none;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-preview {\n" +
+                "            margin-top: 20px;\n" +
+                "            border-radius: 12px;\n" +
+                "            overflow: hidden;\n" +
+                "            box-shadow: var(--shadow-md);\n" +
+                "            display: none;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .screenshot-preview img {\n" +
+                "            width: 100%;\n" +
+                "            height: auto;\n" +
+                "            display: block;\n" +
+                "        }\n" +
                 "        \n" +
                 "        .footer {\n" +
                 "            text-align: center;\n" +
@@ -297,10 +376,11 @@ public class WebTemplate {
                 "                font-size: 2em;\n" +
                 "            }\n" +
                 "            \n" +
-                "            .language-selector {\n" +
+                "            .header-controls {\n" +
                 "                position: static;\n" +
                 "                justify-content: center;\n" +
                 "                margin-top: 15px;\n" +
+                "                flex-wrap: wrap;\n" +
                 "            }\n" +
                 "            \n" +
                 "            .info-grid {\n" +
@@ -326,9 +406,9 @@ public class WebTemplate {
                 "<body>\n" +
                 "    <div class=\"container\">\n" +
                 "        <div class=\"header\">\n" +
-                "            <div class=\"language-selector\">\n" +
-                "                <button class=\"lang-btn active\" onclick=\"setLanguage('en')\">English</button>\n" +
-                "                <button class=\"lang-btn\" onclick=\"setLanguage('zh')\">中文</button>\n" +
+                "            <div class=\"header-controls\">\n" +
+                "                <button class=\"control-btn\" onclick=\"toggleTheme()\" id=\"themeBtn\">🌙 Dark</button>\n" +
+                "                <button class=\"control-btn\" onclick=\"takeScreenshot()\" id=\"screenshotBtn\">📸 Screenshot</button>\n" +
                 "            </div>\n" +
                 "            <h1 id=\"title\">🌙 Lucid Dreaming</h1>\n" +
                 "            <p id=\"subtitle\">Real-time Minecraft Game Information</p>\n" +
@@ -417,6 +497,16 @@ public class WebTemplate {
                 "            </div>\n" +
                 "        </div>\n" +
                 "        \n" +
+                "        <div class=\"screenshot-container\">\n" +
+                "            <h2>📸 <span id=\"screenshot-title\">Screenshot</span></h2>\n" +
+                "            <button class=\"screenshot-btn\" onclick=\"takeScreenshot()\" id=\"screenshotBtn2\">\n" +
+                "                <span>📸</span> Take Screenshot\n" +
+                "            </button>\n" +
+                "            <div class=\"screenshot-preview\" id=\"screenshotPreview\">\n" +
+                "                <img id=\"screenshotImage\" alt=\"Game Screenshot\">\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        \n" +
                 "        <div class=\"scoreboard-container\">\n" +
                 "            <h2>📊 <span id=\"scoreboard-title\">Scoreboard</span></h2>\n" +
                 "            <ul class=\"scoreboard-list\" id=\"scoreboardList\">\n" +
@@ -430,6 +520,55 @@ public class WebTemplate {
                 "    </div>\n" +
                 "    \n" +
                 "    <script>\n" +
+                "        // Theme management\n" +
+                "        let currentTheme = localStorage.getItem('theme') || 'light';\n" +
+                "        \n" +
+                "        function toggleTheme() {\n" +
+                "            currentTheme = currentTheme === 'light' ? 'dark' : 'light';\n" +
+                "            localStorage.setItem('theme', currentTheme);\n" +
+                "            applyTheme();\n" +
+                "        }\n" +
+                "        \n" +
+                "        function applyTheme() {\n" +
+                "            document.documentElement.setAttribute('data-theme', currentTheme);\n" +
+                "            const themeBtn = document.getElementById('themeBtn');\n" +
+                "            if (themeBtn) {\n" +
+                "                themeBtn.textContent = currentTheme === 'light' ? '🌙 Dark' : '☀️ Light';\n" +
+                "            }\n" +
+                "        }\n" +
+                "        \n" +
+                "        // Screenshot functionality\n" +
+                "        function takeScreenshot() {\n" +
+                "            const btn = document.getElementById('screenshotBtn');\n" +
+                "            const btn2 = document.getElementById('screenshotBtn2');\n" +
+                "            const preview = document.getElementById('screenshotPreview');\n" +
+                "            const img = document.getElementById('screenshotImage');\n" +
+                "            \n" +
+                "            if (btn) btn.disabled = true;\n" +
+                "            if (btn2) btn2.disabled = true;\n" +
+                "            \n" +
+                "            fetch('/api/screenshot')\n" +
+                "                .then(response => {\n" +
+                "                    if (!response.ok) {\n" +
+                "                        throw new Error('Screenshot failed');\n" +
+                "                    }\n" +
+                "                    return response.blob();\n" +
+                "                })\n" +
+                "                .then(blob => {\n" +
+                "                    const url = URL.createObjectURL(blob);\n" +
+                "                    img.src = url;\n" +
+                "                    preview.style.display = 'block';\n" +
+                "                })\n" +
+                "                .catch(error => {\n" +
+                "                    console.error('Screenshot error:', error);\n" +
+                "                    alert('Failed to take screenshot: ' + error.message);\n" +
+                "                })\n" +
+                "                .finally(() => {\n" +
+                "                    if (btn) btn.disabled = false;\n" +
+                "                    if (btn2) btn2.disabled = false;\n" +
+                "                });\n" +
+                "        }\n" +
+                "        \n" +
                 "        // Language translations\n" +
                 "        const translations = {\n" +
                 "            en: {\n" +
@@ -440,6 +579,7 @@ public class WebTemplate {
                 "                gameInfo: 'Game Information',\n" +
                 "                serverInfo: 'Server Information',\n" +
                 "                systemInfo: 'System Information',\n" +
+                "                screenshot: 'Screenshot',\n" +
                 "                scoreboard: 'Scoreboard',\n" +
                 "                loadingScoreboard: 'Loading scoreboard...',\n" +
                 "                footer: 'Lucid Dreaming Mod v1.0.0 | Auto-refreshing every 1 second',\n" +
@@ -475,6 +615,7 @@ public class WebTemplate {
                 "                gameInfo: '游戏信息',\n" +
                 "                serverInfo: '服务器信息',\n" +
                 "                systemInfo: '系统信息',\n" +
+                "                screenshot: '截图',\n" +
                 "                scoreboard: '计分板',\n" +
                 "                loadingScoreboard: '加载计分板中...',\n" +
                 "                footer: '清醒梦 Mod v1.0.0 | 每秒自动刷新',\n" +
@@ -509,13 +650,12 @@ public class WebTemplate {
                 "        function setLanguage(lang) {\n" +
                 "            currentLang = lang;\n" +
                 "            localStorage.setItem('lang', lang);\n" +
-                "            \n" +
-                "            // Update active button\n" +
-                "            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));\n" +
-                "            event.target.classList.add('active');\n" +
-                "            \n" +
-                "            // Update translations\n" +
-                "            const t = translations[lang];\n" +
+                "            updateTranslations();\n" +
+                "            updateInfo();\n" +
+                "        }\n" +
+                "        \n" +
+                "        function updateTranslations() {\n" +
+                "            const t = translations[currentLang];\n" +
                 "            document.getElementById('title').textContent = t.title;\n" +
                 "            document.getElementById('subtitle').textContent = t.subtitle;\n" +
                 "            document.getElementById('auto-refresh').innerHTML = t.autoRefresh + '<span class=\"refresh-indicator\"></span>';\n" +
@@ -523,11 +663,11 @@ public class WebTemplate {
                 "            document.getElementById('game-info-title').textContent = t.gameInfo;\n" +
                 "            document.getElementById('server-info-title').textContent = t.serverInfo;\n" +
                 "            document.getElementById('system-info-title').textContent = t.systemInfo;\n" +
+                "            document.getElementById('screenshot-title').textContent = t.screenshot;\n" +
                 "            document.getElementById('scoreboard-title').textContent = t.scoreboard;\n" +
                 "            document.getElementById('loading-scoreboard').textContent = t.loadingScoreboard;\n" +
                 "            document.getElementById('footer').textContent = t.footer;\n" +
                 "            \n" +
-                "            // Update labels\n" +
                 "            for (const [key, value] of Object.entries(t.labels)) {\n" +
                 "                const elementId = 'label-' + key.replace(/[A-Z]/g, m => '-' + m.toLowerCase());\n" +
                 "                const element = document.getElementById(elementId);\n" +
@@ -535,9 +675,6 @@ public class WebTemplate {
                 "                    element.textContent = value;\n" +
                 "                }\n" +
                 "            }\n" +
-                "            \n" +
-                "            // Refresh data\n" +
-                "            updateInfo();\n" +
                 "        }\n" +
                 "        \n" +
                 "        // Parse Minecraft color codes\n" +
@@ -591,35 +728,29 @@ public class WebTemplate {
                 "                .then(data => {\n" +
                 "                    const t = translations[currentLang];\n" +
                 "                    \n" +
-                "                    // Player info\n" +
                 "                    document.getElementById('playerName').textContent = data.player.name;\n" +
                 "                    document.getElementById('playerHealth').textContent = data.player.health + '/' + data.player.maxHealth;\n" +
                 "                    document.getElementById('playerHunger').textContent = data.player.hunger + '/20';\n" +
                 "                    document.getElementById('playerPosition').textContent = data.player.position;\n" +
                 "                    \n" +
-                "                    // Translate dimension name\n" +
                 "                    const dimensionName = t.dimensionNames[data.player.dimension] || data.player.dimension;\n" +
                 "                    document.getElementById('playerDimension').textContent = dimensionName;\n" +
                 "                    \n" +
                 "                    document.getElementById('playerExperience').textContent = (currentLang === 'zh' ? '等级 ' : 'Level ') + data.player.experienceLevel;\n" +
                 "                    \n" +
-                "                    // Game info\n" +
                 "                    document.getElementById('mcVersion').textContent = data.game.minecraftVersion;\n" +
                 "                    document.getElementById('forgeVersion').textContent = data.game.forgeVersion;\n" +
                 "                    document.getElementById('fps').textContent = data.game.fps;\n" +
                 "                    document.getElementById('uptime').textContent = data.game.uptime;\n" +
                 "                    document.getElementById('currentTime').textContent = data.game.currentTime;\n" +
                 "                    \n" +
-                "                    // Server info\n" +
                 "                    document.getElementById('serverType').textContent = data.server.type;\n" +
                 "                    document.getElementById('serverAddress').textContent = data.server.address;\n" +
                 "                    document.getElementById('serverName').textContent = data.server.name;\n" +
                 "                    \n" +
-                "                    // System info\n" +
                 "                    document.getElementById('osName').textContent = data.system.osName + ' ' + data.system.osVersion;\n" +
                 "                    document.getElementById('javaVersion').textContent = data.system.javaVersion;\n" +
                 "                    \n" +
-                "                    // Scoreboard with color codes\n" +
                 "                    const scoreboardList = document.getElementById('scoreboardList');\n" +
                 "                    scoreboardList.innerHTML = '';\n" +
                 "                    data.scoreboard.forEach(line => {\n" +
@@ -633,44 +764,13 @@ public class WebTemplate {
                 "                });\n" +
                 "        }\n" +
                 "        \n" +
-                "        // Initialize language\n" +
+                "        // Initialize\n" +
                 "        document.addEventListener('DOMContentLoaded', function() {\n" +
-                "            const langButtons = document.querySelectorAll('.lang-btn');\n" +
-                "            langButtons.forEach(btn => {\n" +
-                "                if (btn.textContent.includes(currentLang === 'en' ? 'English' : '中文')) {\n" +
-                "                    btn.classList.add('active');\n" +
-                "                } else {\n" +
-                "                    btn.classList.remove('active');\n" +
-                "                }\n" +
-                "            });\n" +
-                "            \n" +
-                "            // Apply initial translations\n" +
-                "            const t = translations[currentLang];\n" +
-                "            document.getElementById('title').textContent = t.title;\n" +
-                "            document.getElementById('subtitle').textContent = t.subtitle;\n" +
-                "            document.getElementById('auto-refresh').innerHTML = t.autoRefresh + '<span class=\"refresh-indicator\"></span>';\n" +
-                "            document.getElementById('player-info-title').textContent = t.playerInfo;\n" +
-                "            document.getElementById('game-info-title').textContent = t.gameInfo;\n" +
-                "            document.getElementById('server-info-title').textContent = t.serverInfo;\n" +
-                "            document.getElementById('system-info-title').textContent = t.systemInfo;\n" +
-                "            document.getElementById('scoreboard-title').textContent = t.scoreboard;\n" +
-                "            document.getElementById('loading-scoreboard').textContent = t.loadingScoreboard;\n" +
-                "            document.getElementById('footer').textContent = t.footer;\n" +
-                "            \n" +
-                "            for (const [key, value] of Object.entries(t.labels)) {\n" +
-                "                const elementId = 'label-' + key.replace(/[A-Z]/g, m => '-' + m.toLowerCase());\n" +
-                "                const element = document.getElementById(elementId);\n" +
-                "                if (element) {\n" +
-                "                    element.textContent = value;\n" +
-                "                }\n" +
-                "            }\n" +
+                "            applyTheme();\n" +
+                "            updateTranslations();\n" +
+                "            updateInfo();\n" +
+                "            setInterval(updateInfo, 1000);\n" +
                 "        });\n" +
-                "        \n" +
-                "        // Initial load\n" +
-                "        updateInfo();\n" +
-                "        \n" +
-                "        // Update every 1 second\n" +
-                "        setInterval(updateInfo, 1000);\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
