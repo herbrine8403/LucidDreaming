@@ -1,0 +1,3 @@
+[submodule "third_party/autofish"]
+	path = third_party/autofish
+	url = https://github.com/troyhayes/autofish.git
