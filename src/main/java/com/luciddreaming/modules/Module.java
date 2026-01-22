@@ -2,6 +2,8 @@ package com.luciddreaming.modules;
 
 import com.luciddreaming.utils.Keybind;
 import com.luciddreaming.LucidDreaming;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -44,9 +46,11 @@ public abstract class Module {
             if (enabled) {
                 onEnable();
                 LucidDreaming.LOGGER.info("Module '{}' enabled", name);
+                sendLocalChatMessage("§a[Lucid Dreaming] §f" + name + " §aenabled");
             } else {
                 onDisable();
                 LucidDreaming.LOGGER.info("Module '{}' disabled", name);
+                sendLocalChatMessage("§c[Lucid Dreaming] §f" + name + " §cdisabled");
             }
         }
     }
@@ -79,4 +83,15 @@ public abstract class Module {
     }
 
     public abstract void onTick();
+
+    /**
+     * Send a local chat message that is only visible to the player
+     * @param message The message to send
+     */
+    protected void sendLocalChatMessage(String message) {
+        if (Minecraft.getMinecraft().player != null) {
+            TextComponentString textComponent = new TextComponentString(message);
+            Minecraft.getMinecraft().player.sendMessage(textComponent);
+        }
+    }
 }
