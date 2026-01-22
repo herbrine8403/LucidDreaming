@@ -187,15 +187,56 @@ public class ModuleConfigs {
         @Config.Comment("Keybind to toggle anti kick")
         public int keybind = 0;
 
-        @Config.Name("Mode")
-        @Config.Comment("Anti kick mode: 0 = Jump, 1 = Rotate, 2 = Move")
-        @Config.RangeInt(min = 0, max = 2)
-        public int mode = 0;
+        // Action settings
+        @Config.Name("Jump")
+        @Config.Comment("Jump randomly to prevent AFK kick")
+        public boolean jump = true;
 
+        @Config.Name("Swing")
+        @Config.Comment("Swing hand randomly")
+        public boolean swing = false;
+
+        @Config.Name("Sneak")
+        @Config.Comment("Sneak and unsneak quickly")
+        public boolean sneak = false;
+
+        @Config.Name("Sneak Time")
+        @Config.Comment("How many ticks to stay sneaked")
+        @Config.RangeInt(min = 1, max = 20)
+        public int sneakTime = 5;
+
+        @Config.Name("Rotate")
+        @Config.Comment("Rotate player randomly")
+        public boolean rotate = true;
+
+        @Config.Name("Rotate Speed")
+        @Config.Comment("Rotation speed")
+        @Config.RangeInt(min = 1, max = 20)
+        public int rotateSpeed = 7;
+
+        @Config.Name("Move")
+        @Config.Comment("Move slightly to prevent AFK kick")
+        public boolean move = false;
+
+        @Config.Name("Move Distance")
+        @Config.Comment("Movement distance")
+        @Config.RangeDouble(min = 0.01, max = 0.5)
+        public double moveDistance = 0.1;
+
+        // Timing settings
         @Config.Name("Interval")
         @Config.Comment("Action interval in ticks")
         @Config.RangeInt(min = 10, max = 1200)
         public int interval = 300;
+
+        @Config.Name("Random Interval")
+        @Config.Comment("Add random variation to interval")
+        public boolean randomInterval = true;
+
+        @Config.Name("Max Random Variation")
+        @Config.Comment("Maximum random interval variation in ticks")
+        @Config.RangeInt(min = 0, max = 100)
+        public int maxRandomVariation = 50;
     }
 
     @Config.Name("AutoWalk")

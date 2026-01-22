@@ -3,6 +3,7 @@ package com.luciddreaming.modules;
 import com.luciddreaming.LucidDreaming;
 import com.luciddreaming.config.ModuleConfigs;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -13,7 +14,10 @@ public class AntiKick extends Module {
     private final Random random = new Random();
     
     private int tickCounter = 0;
-    private boolean shouldPerformAction = false;
+    private int currentInterval;
+    private int sneakTimer = 0;
+    private boolean isSneaking = false;
+    private float lastYaw;
 
     public AntiKick() {
         super("AntiKick", "Prevent being kicked for being AFK", ModuleCategory.MISC);
@@ -23,11 +27,21 @@ public class AntiKick extends Module {
     protected void onEnable() {
         LucidDreaming.LOGGER.info("AntiKick enabled");
         tickCounter = 0;
+        sneakTimer = 0;
+        isSneaking = false;
+        lastYaw = mc.player.rotationYaw;
+        updateInterval();
     }
 
     @Override
     protected void onDisable() {
         LucidDreaming.LOGGER.info("AntiKick disabled");
+        // Reset movement input
+        if (mc.player != null) {
+            mc.player.movementInput.moveForward = 0;
+            mc.player.movementInput.moveStrafe = 0;
+            mc.player.setSneaking(false);
+        }
     }
 
     @Override
@@ -39,63 +53,96 @@ public class AntiKick extends Module {
         tickCounter++;
         
         // Check if it's time to perform anti-kick action
-        int interval = ModuleConfigs.antiKick.interval;
-        if (tickCounter >= interval) {
+        if (tickCounter >= currentInterval) {
             tickCounter = 0;
-            shouldPerformAction = true;
+            updateInterval();
+            performAntiKickActions();
         }
 
-        if (shouldPerformAction) {
-            performAntiKickAction();
-            shouldPerformAction = false;
-        }
+        // Continuous actions
+        performContinuousActions();
     }
 
-    private void performAntiKickAction() {
-        int mode = ModuleConfigs.antiKick.mode;
-        
-        switch (mode) {
-            case 0:
-                jumpAction();
-                break;
-            case 1:
-                rotateAction();
-                break;
-            case 2:
-                moveAction();
-                break;
-            default:
-                jumpAction();
+    private void updateInterval() {
+        currentInterval = ModuleConfigs.antiKick.interval;
+        if (ModuleConfigs.antiKick.randomInterval && ModuleConfigs.antiKick.maxRandomVariation > 0) {
+            int variation = random.nextInt(ModuleConfigs.antiKick.maxRandomVariation + 1);
+            if (random.nextBoolean()) {
+                currentInterval += variation;
+            } else {
+                currentInterval = Math.max(10, currentInterval - variation);
+            }
         }
     }
 
-    private void jumpAction() {
-        // Jump occasionally to prevent AFK kick
-        if (mc.player.onGround) {
-            mc.player.jump();
+    private void performAntiKickActions() {
+        // Jump action
+        if (ModuleConfigs.antiKick.jump && mc.player.onGround) {
+            if (random.nextInt(100) < 20) { // 20% chance to jump
+                mc.player.jump();
+            }
+        }
+
+        // Swing action
+        if (ModuleConfigs.antiKick.swing && random.nextInt(100) < 10) { // 10% chance to swing
+            mc.player.swingArm(EnumHand.MAIN_HAND);
         }
     }
 
-    private void rotateAction() {
-        // Rotate player occasionally
-        float yawChange = (random.nextFloat() - 0.5f) * 180.0f;
-        float pitchChange = (random.nextFloat() - 0.5f) * 90.0f;
-        
-        mc.player.rotationYaw += yawChange;
-        mc.player.rotationPitch += pitchChange;
-        
-        // Clamp pitch to valid range
-        mc.player.rotationPitch = Math.max(-90.0f, Math.min(90.0f, mc.player.rotationPitch));
-    }
+    private void performContinuousActions() {
+        // Rotate action (continuous)
+        if (ModuleConfigs.antiKick.rotate) {
+            lastYaw += ModuleConfigs.antiKick.rotateSpeed;
+            mc.player.rotationYaw = lastYaw;
+        }
 
-    private void moveAction() {
-        // Move slightly to prevent AFK kick
-        boolean shouldMoveForward = random.nextBoolean();
-        boolean shouldMoveBackward = !shouldMoveForward && random.nextBoolean();
-        boolean shouldMoveLeft = random.nextBoolean();
-        boolean shouldMoveRight = !shouldMoveLeft && random.nextBoolean();
-        
-        mc.player.movementInput.moveForward = shouldMoveForward ? 0.1f : (shouldMoveBackward ? -0.1f : 0.0f);
-        mc.player.movementInput.moveStrafe = shouldMoveLeft ? 0.1f : (shouldMoveRight ? -0.1f : 0.0f);
+        // Sneak action
+        if (ModuleConfigs.antiKick.sneak) {
+            if (isSneaking) {
+                sneakTimer++;
+                if (sneakTimer >= ModuleConfigs.antiKick.sneakTime) {
+                    mc.player.setSneaking(false);
+                    isSneaking = false;
+                    sneakTimer = 0;
+                }
+            } else {
+                if (random.nextInt(200) < 5) { // Small chance to start sneaking
+                    mc.player.setSneaking(true);
+                    isSneaking = true;
+                }
+            }
+        }
+
+        // Move action
+        if (ModuleConfigs.antiKick.move) {
+            double moveDistance = ModuleConfigs.antiKick.moveDistance;
+            
+            // Randomly move in different directions
+            if (random.nextInt(100) < 10) { // 10% chance to move
+                int direction = random.nextInt(4);
+                switch (direction) {
+                    case 0: // Forward
+                        mc.player.movementInput.moveForward = (float) moveDistance;
+                        mc.player.movementInput.moveStrafe = 0;
+                        break;
+                    case 1: // Backward
+                        mc.player.movementInput.moveForward = (float) -moveDistance;
+                        mc.player.movementInput.moveStrafe = 0;
+                        break;
+                    case 2: // Left
+                        mc.player.movementInput.moveForward = 0;
+                        mc.player.movementInput.moveStrafe = (float) moveDistance;
+                        break;
+                    case 3: // Right
+                        mc.player.movementInput.moveForward = 0;
+                        mc.player.movementInput.moveStrafe = (float) -moveDistance;
+                        break;
+                }
+            } else {
+                // Reset movement
+                mc.player.movementInput.moveForward = 0;
+                mc.player.movementInput.moveStrafe = 0;
+            }
+        }
     }
 }
