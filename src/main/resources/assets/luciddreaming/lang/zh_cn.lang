@@ -1,0 +1,48 @@
+# Lucid Dreaming Mod Localization (Chinese)
+
+# Mod Info
+mod.luciddreaming.name=清醒梦
+mod.luciddreaming.description=一个通过网页界面提供实时游戏信息的 Minecraft 模组。
+
+# Module Categories
+category.luciddreaming.server=服务器
+category.luciddreaming.combat=战斗
+category.luciddreaming.movement=移动
+category.luciddreaming.player=玩家
+category.luciddreaming.render=渲染
+category.luciddreaming.misc=杂项
+
+# Modules
+module.luciddreaming.autofish.name=自动钓鱼
+module.luciddreaming.autofish.description=自动钓鱼
+
+module.luciddreaming.autoclicker.name=自动点击
+module.luciddreaming.autoclicker.description=自动为你点击
+
+module.luciddreaming.autokill.name=自动攻击
+module.luciddreaming.autokill.description=自动攻击附近的实体
+
+module.luciddreaming.antikick.name=防踢出
+module.luciddreaming.antikick.description=防止因挂机被服务器踢出
+
+module.luciddreaming.autowalk.name=自动行走
+module.luciddreaming.autowalk.description=使用寻路自动走到目标坐标
+
+module.luciddreaming.norender.name=禁用渲染
+module.luciddreaming.norender.description=限制渲染以提升性能
+
+module.luciddreaming.fakeblackscreen.name=假黑屏
+module.luciddreaming.fakeblackscreen.description=显示假黑屏
+
+# Messages
+message.luciddreaming.enabled=§a[清醒梦] §f%s §a已启用
+message.luciddreaming.disabled=§c[清醒梦] §f%s §c已禁用
+
+# Keybinds
+key.luciddreaming.autofish=切换自动钓鱼
+key.luciddreaming.autoclicker=切换自动点击
+key.luciddreaming.autokill=切换自动攻击
+key.luciddreaming.antikick=切换防踢出
+key.luciddreaming.autowalk=切换自动行走
+key.luciddreaming.norender=切换禁用渲染
+key.luciddreaming.fakeblackscreen=切换假黑屏

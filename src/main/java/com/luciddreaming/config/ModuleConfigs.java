@@ -256,6 +256,34 @@ public class ModuleConfigs {
         @Config.Comment("Walking speed multiplier")
         @Config.RangeDouble(min = 0.1, max = 5.0)
         public double speed = 1.0;
+        
+        @Config.Name("Allow Break Blocks")
+        @Config.Comment("Allow breaking blocks during pathfinding (default: false)")
+        public boolean allowBreak = false;
+        
+        @Config.Name("Allow Place Blocks")
+        @Config.Comment("Allow placing blocks during pathfinding (default: false)")
+        public boolean allowPlace = false;
+        
+        @Config.Name("Break Block Cost")
+        @Config.Comment("Additional cost for breaking blocks (higher = prefer breaking less)")
+        @Config.RangeDouble(min = 0.0, max = 100.0)
+        public double breakBlockCost = 10.0;
+        
+        @Config.Name("Place Block Cost")
+        @Config.Comment("Additional cost for placing blocks (higher = prefer placing less)")
+        @Config.RangeDouble(min = 0.0, max = 100.0)
+        public double placeBlockCost = 10.0;
+        
+        @Config.Name("Max Pathfinding Distance")
+        @Config.Comment("Maximum distance to search for path (in blocks)")
+        @Config.RangeInt(min = 50, max = 1000)
+        public int maxPathfindingDistance = 200;
+        
+        @Config.Name("Max Pathfinding Time")
+        @Config.Comment("Maximum time to spend pathfinding (in milliseconds)")
+        @Config.RangeInt(min = 1000, max = 30000)
+        public int maxPathfindingTime = 10000;
     }
 
     @Config.Name("NoRender")

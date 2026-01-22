@@ -29,6 +29,9 @@ public class ClientProxy extends CommonProxy {
         
         // Register FakeBlackScreen module
         moduleManager.registerModule(new FakeBlackScreen());
+        
+        // Register AutoWalk module
+        moduleManager.registerModule(new AutoWalk());
     }
     
     @Override

@@ -241,7 +241,124 @@ public class WebTemplate {
                 "            border-radius: 6px;\n" +
                 "        }\n" +
                 "        \n" +
-                "        /* Minecraft color codes */\n" +
+                "        .autowalk-container {\n" +
+                "            background: var(--container-bg);\n" +
+                "            border-radius: 16px;\n" +
+                "            padding: 24px;\n" +
+                "            box-shadow: var(--shadow-lg);\n" +
+                "            margin-top: 20px;\n" +
+                "            animation: fadeInUp 0.6s ease-out;\n" +
+                "            backdrop-filter: blur(10px);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-container h2 {\n" +
+                "            color: var(--accent-color);\n" +
+                "            margin-bottom: 18px;\n" +
+                "            border-bottom: 2px solid var(--accent-color);\n" +
+                "            padding-bottom: 10px;\n" +
+                "            font-size: 1.35em;\n" +
+                "            font-weight: 600;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-controls {\n" +
+                "            display: flex;\n" +
+                "            flex-direction: column;\n" +
+                "            gap: 16px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group {\n" +
+                "            display: flex;\n" +
+                "            align-items: center;\n" +
+                "            gap: 10px;\n" +
+                "            flex-wrap: wrap;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group label {\n" +
+                "            font-weight: 600;\n" +
+                "            color: var(--text-color);\n" +
+                "            min-width: 20px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group input {\n" +
+                "            padding: 10px 14px;\n" +
+                "            border: 2px solid var(--border-color);\n" +
+                "            border-radius: 8px;\n" +
+                "            background: var(--input-bg);\n" +
+                "            color: var(--text-color);\n" +
+                "            font-size: 14px;\n" +
+                "            width: 80px;\n" +
+                "            transition: all 0.3s ease;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group input:focus {\n" +
+                "            outline: none;\n" +
+                "            border-color: var(--accent-color);\n" +
+                "            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group button {\n" +
+                "            padding: 10px 20px;\n" +
+                "            border: none;\n" +
+                "            border-radius: 8px;\n" +
+                "            background: var(--accent-color);\n" +
+                "            color: white;\n" +
+                "            font-size: 14px;\n" +
+                "            font-weight: 600;\n" +
+                "            cursor: pointer;\n" +
+                "            transition: all 0.3s ease;\n" +
+                "            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group button:hover {\n" +
+                "            background: #5b7cfa;\n" +
+                "            transform: translateY(-2px);\n" +
+                "            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-input-group button:active {\n" +
+                "            transform: translateY(0);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .autowalk-status {\n" +
+                "            background: var(--info-bg);\n" +
+                "            border-radius: 8px;\n" +
+                "            padding: 14px;\n" +
+                "            border-left: 4px solid var(--accent-color);\n" +
+                "        }\n" +
+                "        \n" +
+                "                .autowalk-status p {\n" +
+                                "            margin: 6px 0;\n" +
+                                "            color: var(--text-color);\n" +
+                                "            font-size: 14px;\n" +
+                                "        }\n" +
+                                "        \n" +
+                                "        .autowalk-status span {\n" +
+                                "            font-weight: 600;\n" +
+                                "        }\n" +
+                                "        \n" +
+                                "        .pathfinding-status {\n" +
+                                "            margin-top: 10px;\n" +
+                                "            padding: 10px;\n" +
+                                "            border-radius: 6px;\n" +
+                                "            font-size: 13px;\n" +
+                                "        }\n" +
+                                "        \n" +
+                                "        .pathfinding-status.calculating {\n" +
+                                "            background: rgba(255, 193, 7, 0.2);\n" +
+                                "            border-left: 4px solid #FFC107;\n" +
+                                "        }\n" +
+                                "        \n" +
+                                "        .pathfinding-status.active {\n" +
+                                "            background: rgba(76, 175, 80, 0.2);\n" +
+                                "            border-left: 4px solid #4CAF50;\n" +
+                                "        }\n" +
+                                "        \n" +
+                                "        .pathfinding-status.failed {\n" +
+                                "            background: rgba(244, 67, 54, 0.2);\n" +
+                                "            border-left: 4px solid #F44336;\n" +
+                                "        }\n" +
+                                "        \n" +
+                                "        /* Minecraft color codes */\n" +
                 "        .color-0 { color: #000000; text-shadow: none; }\n" +
                 "        .color-1 { color: #0000AA; text-shadow: none; }\n" +
                 "        .color-2 { color: #00AA00; text-shadow: none; }\n" +
@@ -628,6 +745,27 @@ public class WebTemplate {
                 "            </div>\n" +
                 "        </div>\n" +
                 "        \n" +
+                "        <div class=\"autowalk-container\">\n" +
+                "            <h2>🚶 <span id=\"autowalk-title\">Auto Walk</span></h2>\n" +
+                "            <div class=\"autowalk-controls\">\n" +
+                "                <div class=\"autowalk-input-group\">\n" +
+                "                    <label for=\"targetX\">X:</label>\n" +
+                "                    <input type=\"number\" id=\"targetX\" placeholder=\"X\" />\n" +
+                "                    <label for=\"targetY\">Y:</label>\n" +
+                "                    <input type=\"number\" id=\"targetY\" placeholder=\"Y\" />\n" +
+                "                    <label for=\"targetZ\">Z:</label>\n" +
+                "                    <input type=\"number\" id=\"targetZ\" placeholder=\"Z\" />\n" +
+                "                    <button onclick=\"setAutoWalkTarget()\">Set Target</button>\n" +
+                "                    <button onclick=\"clearAutoWalkTarget()\">Clear</button>\n" +
+                "                </div>\n" +
+                "                <div class=\"autowalk-status\" id=\"autowalkStatus\">\n" +
+                "                    <p>Status: <span id=\"autowalkStatusText\">Not active</span></p>\n" +
+                "                    <p id=\"autowalkTargetInfo\"></p>\n" +
+                "                    <div id=\"pathfindingStatus\" class=\"pathfinding-status\"></div>\n" +
+                "                </div>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        \n" +
                 "        <div class=\"scoreboard-container\">\n" +
                 "            <h2>📊 <span id=\"scoreboard-title\">Scoreboard</span></h2>\n" +
                 "            <ul class=\"scoreboard-list\" id=\"scoreboardList\">\n" +
@@ -710,14 +848,17 @@ public class WebTemplate {
                 "            modules.forEach(module => {\n" +
                 "                const card = document.createElement('div');\n" +
                 "                card.className = 'module-card' + (module.enabled ? ' enabled' : '');\n" +
+                "                const localizedName = module.localizedName || module.name;\n" +
+                "                const localizedDescription = module.localizedDescription || module.description;\n" +
+                "                const localizedCategory = module.localizedCategory || module.category;\n" +
                 "                card.innerHTML = `\n" +
                 "                    <div class=\"module-header\">\n" +
-                "                        <span class=\"module-name\">${escapeHtml(module.name)}</span>\n" +
+                "                        <span class=\"module-name\">${escapeHtml(localizedName)}</span>\n" +
                 "                        <div class=\"module-toggle ${module.enabled ? 'enabled' : ''}\" onclick=\"toggleModule('${escapeHtml(module.name)}')\"></div>\n" +
                 "                    </div>\n" +
-                "                    <div class=\"module-description\">${escapeHtml(module.description)}</div>\n" +
+                "                    <div class=\"module-description\">${escapeHtml(localizedDescription)}</div>\n" +
                 "                    <div class=\"module-keybind\">Keybind: ${escapeHtml(module.keybind)}</div>\n" +
-                "                    <div class=\"module-category\">${escapeHtml(module.category)}</div>\n" +
+                "                    <div class=\"module-category\">${escapeHtml(localizedCategory)}</div>\n" +
                 "                `;\n" +
                 "                grid.appendChild(card);\n" +
                 "            });\n" +
@@ -954,6 +1095,91 @@ public class WebTemplate {
                 "                });\n" +
                 "        }\n" +
                 "        \n" +
+                "        // AutoWalk functions\n" +
+                "        function setAutoWalkTarget() {\n" +
+                "            const x = document.getElementById('targetX').value;\n" +
+                "            const y = document.getElementById('targetY').value;\n" +
+                "            const z = document.getElementById('targetZ').value;\n" +
+                "            \n" +
+                "            if (!x || !y || !z) {\n" +
+                "                alert('Please enter X, Y, and Z coordinates');\n" +
+                "                return;\n" +
+                "            }\n" +
+                "            \n" +
+                "            fetch('/api/autowalk?x=' + x + '&y=' + y + '&z=' + z)\n" +
+                "                .then(response => response.json())\n" +
+                "                .then(data => {\n" +
+                "                    if (data.success) {\n" +
+                "                        alert(data.message);\n" +
+                "                        updateAutoWalkStatus();\n" +
+                "                    } else {\n" +
+                "                        alert('Error: ' + data.error);\n" +
+                "                    }\n" +
+                "                })\n" +
+                "                .catch(error => {\n" +
+                "                    alert('Error: ' + error);\n" +
+                "                });\n" +
+                "        }\n" +
+                "        \n" +
+                "        function clearAutoWalkTarget() {\n" +
+                "            fetch('/api/autowalk?action=clear')\n" +
+                "                .then(response => response.json())\n" +
+                "                .then(data => {\n" +
+                "                    if (data.success) {\n" +
+                "                        alert(data.message);\n" +
+                "                        updateAutoWalkStatus();\n" +
+                "                    } else {\n" +
+                "                        alert('Error: ' + data.error);\n" +
+                "                    }\n" +
+                "                })\n" +
+                "                .catch(error => {\n" +
+                "                    alert('Error: ' + error);\n" +
+                "                });\n" +
+                "        }\n" +
+                "        \n" +
+                "        function updateAutoWalkStatus() {\n" +
+                "            fetch('/api/autowalk')\n" +
+                "                .then(response => response.json())\n" +
+                "                .then(data => {\n" +
+                "                    const statusText = document.getElementById('autowalkStatusText');\n" +
+                "                    const targetInfo = document.getElementById('autowalkTargetInfo');\n" +
+                "                    const pathfindingStatus = document.getElementById('pathfindingStatus');\n" +
+                "                    \n" +
+                "                    if (data.enabled && data.hasTarget) {\n" +
+                "                        statusText.textContent = data.pathfinding ? 'Calculating path...' : 'Moving';\n" +
+                "                        statusText.style.color = data.pathfinding ? '#FFC107' : '#4CAF50';\n" +
+                "                        if (data.target) {\n" +
+                "                            targetInfo.textContent = 'Target: X=' + data.target.x + ', Y=' + data.target.y + ', Z=' + data.target.z;\n" +
+                "                        }\n" +
+                "                        \n" +
+                "                        // Update pathfinding status\n" +
+                "                        if (pathfindingStatus) {\n" +
+                "                            if (data.pathfinding) {\n" +
+                "                                pathfindingStatus.className = 'pathfinding-status calculating';\n" +
+                "                                pathfindingStatus.textContent = '⏳ Calculating optimal path...';\n" +
+                "                            } else if (data.hasPath) {\n" +
+                "                                pathfindingStatus.className = 'pathfinding-status active';\n" +
+                "                                pathfindingStatus.textContent = '✅ Path found (' + data.pathLength + ' nodes)';\n" +
+                "                            } else {\n" +
+                "                                pathfindingStatus.className = 'pathfinding-status failed';\n" +
+                "                                pathfindingStatus.textContent = '❌ Path not found';\n" +
+                "                            }\n" +
+                "                        }\n" +
+                "                    } else {\n" +
+                "                        statusText.textContent = 'Not active';\n" +
+                "                        statusText.style.color = '#f44336';\n" +
+                "                        targetInfo.textContent = '';\n" +
+                "                        if (pathfindingStatus) {\n" +
+                "                            pathfindingStatus.className = 'pathfinding-status';\n" +
+                "                            pathfindingStatus.textContent = '';\n" +
+                "                        }\n" +
+                "                    }\n" +
+                "                })\n" +
+                "                .catch(error => {\n" +
+                "                    console.error('Error fetching AutoWalk status:', error);\n" +
+                "                });\n" +
+                "        }\n" +
+                "        \n" +
                 "        // Initialize\n" +
                 "        document.addEventListener('DOMContentLoaded', function() {\n" +
                 "            applyTheme();\n" +
@@ -967,8 +1193,10 @@ public class WebTemplate {
                 "            updateTranslations();\n" +
                 "            updateInfo();\n" +
                 "            loadModules();\n" +
+                "            updateAutoWalkStatus();\n" +
                 "            setInterval(updateInfo, 1000);\n" +
                 "            setInterval(loadModules, 2000); // Refresh modules every 2 seconds\n" +
+                "            setInterval(updateAutoWalkStatus, 1000); // Refresh AutoWalk status every 1 second\n" +
                 "        });\n" +
                 "    </script>\n" +
                 "</body>\n" +

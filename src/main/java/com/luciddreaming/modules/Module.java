@@ -3,6 +3,7 @@ package com.luciddreaming.modules;
 import com.luciddreaming.utils.Keybind;
 import com.luciddreaming.LucidDreaming;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -21,15 +22,23 @@ public abstract class Module {
         this.category = category;
         this.enabled = false;
         // Default to no key binding (KEY_NONE)
-        this.keybind = new Keybind("key." + name.toLowerCase(), description, Keyboard.KEY_NONE);
+        this.keybind = new Keybind("key.luciddreaming." + name.toLowerCase(), description, Keyboard.KEY_NONE);
     }
 
     public String getName() {
         return name;
     }
 
+    public String getLocalizedName() {
+        return I18n.format("module.luciddreaming." + name.toLowerCase() + ".name");
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public String getLocalizedDescription() {
+        return I18n.format("module.luciddreaming." + name.toLowerCase() + ".description");
     }
 
     public ModuleCategory getCategory() {
@@ -46,11 +55,11 @@ public abstract class Module {
             if (enabled) {
                 onEnable();
                 LucidDreaming.LOGGER.info("Module '{}' enabled", name);
-                sendLocalChatMessage("§a[Lucid Dreaming] §f" + name + " §aenabled");
+                sendLocalChatMessage(String.format(I18n.format("message.luciddreaming.enabled"), getLocalizedName()));
             } else {
                 onDisable();
                 LucidDreaming.LOGGER.info("Module '{}' disabled", name);
-                sendLocalChatMessage("§c[Lucid Dreaming] §f" + name + " §cdisabled");
+                sendLocalChatMessage(String.format(I18n.format("message.luciddreaming.disabled"), getLocalizedName()));
             }
         }
     }

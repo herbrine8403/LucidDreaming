@@ -4,13 +4,13 @@ import com.luciddreaming.LucidDreaming;
 import com.luciddreaming.config.ModuleConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -23,7 +23,7 @@ import java.util.Random;
 public class AutoKill extends Module {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final Random random = new Random();
-    
+
     private int hitTimer = 0;
     private double currentAttackSpeed;
     private float targetYaw, targetPitch;
@@ -67,23 +67,22 @@ public class AutoKill extends Module {
 
         // Find targets
         List<Entity> targets = findTargets();
-        
+
         if (targets.isEmpty()) {
             hitTimer = 0;
             return;
         }
 
-        // Check attack cooldown
-        int attackDelay = (int) (1000.0 / currentAttackSpeed);
-        if (hitTimer < attackDelay) {
-            hitTimer++;
+        // Check attack cooldown (like GateClient)
+        float attackDelay = (float) (1.0 / currentAttackSpeed);
+        if (mc.player.getCooledAttackStrength(-attackDelay) < 1.0F) {
             return;
         }
 
         // Attack targets
         for (int i = 0; i < Math.min(ModuleConfigs.autoKill.maxTargets, targets.size()); i++) {
             Entity target = targets.get(i);
-            
+
             // Check miss chance
             if (ModuleConfigs.autoKill.missChance > 0 && random.nextDouble() < ModuleConfigs.autoKill.missChance) {
                 continue;
@@ -91,13 +90,11 @@ public class AutoKill extends Module {
 
             attackEntity(target);
         }
-
-        hitTimer = 0;
     }
 
     private void updateAttackSpeedFluctuation() {
         double fluctuation = ModuleConfigs.autoKill.fluctuationAmount;
-        
+
         // Randomly adjust attack speed within fluctuation range
         if (random.nextDouble() < 0.1) {
             double speedFluctuation = (random.nextDouble() - 0.5) * 2 * fluctuation;
@@ -108,7 +105,7 @@ public class AutoKill extends Module {
     private List<Entity> findTargets() {
         List<Entity> targets = new ArrayList<>();
         double range = ModuleConfigs.autoKill.range;
-        
+
         // Only on look mode - use targeted entity
         if (ModuleConfigs.autoKill.onlyOnLook && mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
             Entity targeted = mc.objectMouseOver.entityHit;
@@ -117,7 +114,7 @@ public class AutoKill extends Module {
             }
             return targets;
         }
-        
+
         // Normal mode - find all targets
         for (Entity entity : mc.world.loadedEntityList) {
             if (entity == mc.player || entity.isDead) {
@@ -126,11 +123,11 @@ public class AutoKill extends Module {
 
             // Check distance
             double distance = mc.player.getDistance(entity);
-            
+
             // Check if visible
             boolean canSee = mc.player.canEntityBeSeen(entity);
             double effectiveRange = canSee ? range : ModuleConfigs.autoKill.wallsRange;
-            
+
             if (distance > effectiveRange) {
                 continue;
             }
@@ -151,7 +148,7 @@ public class AutoKill extends Module {
 
     private void sortTargets(List<Entity> targets) {
         int priority = ModuleConfigs.autoKill.priority;
-        
+
         switch (priority) {
             case 0: // Closest
                 targets.sort(Comparator.comparingDouble(e -> mc.player.getDistance(e)));
@@ -230,12 +227,12 @@ public class AutoKill extends Module {
         // Rotate to face target
         if (ModuleConfigs.autoKill.rotationMode != 2) { // Not None
             float[] rotations = getRotations(target);
-            
+
             if (ModuleConfigs.autoKill.rotationMode == 0) { // Always
                 // Smooth rotation
                 float yawDiff = rotations[0] - mc.player.rotationYaw;
                 float pitchDiff = rotations[1] - mc.player.rotationPitch;
-                
+
                 double speed = ModuleConfigs.autoKill.rotationSpeed;
                 mc.player.rotationYaw += yawDiff * speed;
                 mc.player.rotationPitch += pitchDiff * speed;
@@ -245,24 +242,26 @@ public class AutoKill extends Module {
             }
         }
 
-        // Reset attack cooldown to bypass Minecraft's attack speed limit
-        mc.player.resetCooldown();
+        // Use packet method (like Mousse and GateClient)
+        mc.player.connection.sendPacket(new CPacketUseEntity(target));
 
-        // Attack
-        mc.playerController.attackEntity(mc.player, target);
+        // Swing arm
         mc.player.swingArm(EnumHand.MAIN_HAND);
+
+        // Reset cooldown to bypass attack speed limit
+        mc.player.resetCooldown();
     }
 
     private float[] getRotations(Entity entity) {
         double x = entity.posX - mc.player.posX;
         double y = entity.posY - mc.player.posY;
         double z = entity.posZ - mc.player.posZ;
-        
+
         double distance = Math.sqrt(x * x + z * z);
-        
+
         float yaw = (float) (Math.atan2(z, x) * 180.0 / Math.PI) - 90.0f;
         float pitch = (float) -(Math.atan2(y, distance) * 180.0 / Math.PI);
-        
+
         return new float[]{yaw, pitch};
     }
 

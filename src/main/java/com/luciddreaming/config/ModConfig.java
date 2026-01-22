@@ -49,6 +49,14 @@ public class ModConfig {
         @Config.RangeDouble(min = 0.1, max = 1.0)
         public double screenshotQuality = 0.8;
 
+        @Config.Name("Auto Save Screenshots")
+        @Config.Comment("Automatically save screenshots to local file")
+        public boolean autoSaveScreenshots = false;
+
+        @Config.Name("Screenshot Save Path")
+        @Config.Comment("Directory to save screenshots (default: screenshots/luciddreaming/)")
+        public String screenshotSavePath = "screenshots/luciddreaming/";
+
         @Config.Name("Theme Mode")
         @Config.Comment("Theme mode: 0 = Auto, 1 = Light, 2 = Dark")
         @Config.RangeInt(min = 0, max = 2)

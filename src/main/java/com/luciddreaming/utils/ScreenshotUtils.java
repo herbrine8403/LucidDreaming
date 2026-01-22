@@ -2,80 +2,79 @@ package com.luciddreaming.utils;
 
 import com.luciddreaming.LucidDreaming;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.util.ScreenShotHelper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ScreenshotUtils {
     private static Minecraft mc = Minecraft.getMinecraft();
 
+    public static class ScreenshotResult {
+        public final byte[] imageData;
+        public final BufferedImage image;
+
+        public ScreenshotResult(byte[] imageData, BufferedImage image) {
+            this.imageData = imageData;
+            this.image = image;
+        }
+    }
+
     public static byte[] takeScreenshot(float quality) throws IOException {
+        ScreenshotResult result = takeScreenshotWithImage(quality);
+        return result != null ? result.imageData : null;
+    }
+
+    public static ScreenshotResult takeScreenshotWithImage(float quality) throws IOException {
         if (mc == null || mc.world == null) {
             LucidDreaming.LOGGER.warn("Cannot take screenshot: Minecraft not initialized");
             return null;
         }
 
         try {
-            // Get framebuffer
-            Framebuffer framebuffer = mc.getFramebuffer();
-            if (framebuffer == null) {
-                LucidDreaming.LOGGER.warn("capture screenshot: framebuffer is null");
+            // Use Minecraft's built-in screenshot method
+            BufferedImage image = ScreenShotHelper.createScreenshot(mc.displayWidth, mc.displayHeight, mc.getFramebuffer());
+            
+            if (image == null) {
+                LucidDreaming.LOGGER.warn("Screenshot returned null image");
                 return null;
             }
-
-            int width = mc.displayWidth;
-            int height = mc.displayHeight;
-
-            // Create screenshot
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            ByteBuffer pixelBuffer = ByteBuffer.allocateDirect(width * height * 4);
-            
-            // Bind framebuffer
-            framebuffer.bindFramebufferTexture();
-            OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, framebuffer.framebufferObject);
-            
-            // Read pixels using GL11
-            org.lwjgl.opengl.GL11.glReadPixels(0, 0, width, height, org.lwjgl.opengl.GL11.GL_RGBA, org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE, pixelBuffer);
-            pixelBuffer.rewind();
-            
-            // Convert to image
-            int[] pixelData = new int[width * height];
-            for (int i = 0; i < pixelData.length; i++) {
-                int r = pixelBuffer.get() & 0xFF;
-                int g = pixelBuffer.get() & 0xFF;
-                int b = pixelBuffer.get() & 0xFF;
-                pixelBuffer.get(); // skip alpha
-                pixelData[i] = (r << 16) | (g << 8) | b;
-            }
-            
-            // Flip image vertically (OpenGL renders upside down)
-            for (int y = 0; y < height / 2; y++) {
-                for (int x = 0; x < width; x++) {
-                    int temp = pixelData[y * width + x];
-                    pixelData[y * width + x] = pixelData[(height - 1 - y) * width + x];
-                    pixelData[(height - 1 - y) * width + x] = temp;
-                }
-            }
-            
-            image.setRGB(0, 0, width, height, pixelData, 0, width);
-            
-            // Unbind framebuffer
-            mc.getFramebuffer().unbindFramebufferTexture();
 
             // Convert to byte array
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             String format = quality >= 1.0f ? "png" : "jpg";
-            float actualQuality = format.equals("jpg") ? quality : 1.0f;
 
-            ImageIO.write(image, format, baos);
+            if (format.equals("jpg")) {
+                // For JPEG, use ImageIO with quality
+                java.awt.image.BufferedImage jpgImage = new java.awt.image.BufferedImage(
+                    image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+                jpgImage.getGraphics().drawImage(image, 0, 0, null);
+                
+                javax.imageio.ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+                javax.imageio.ImageWriteParam param = writer.getDefaultWriteParam();
+                param.setCompressionMode(javax.imageio.ImageWriteParam.MODE_EXPLICIT);
+                param.setCompressionQuality(quality);
+                
+                try (javax.imageio.stream.ImageOutputStream ios = ImageIO.createImageOutputStream(baos)) {
+                    writer.setOutput(ios);
+                    writer.write(null, new javax.imageio.IIOImage(jpgImage, null, null), param);
+                }
+            } else {
+                // For PNG, use ImageIO directly
+                ImageIO.write(image, "png", baos);
+            }
 
             LucidDreaming.LOGGER.info("Screenshot taken successfully ({} bytes)", baos.size());
-            return baos.toByteArray();
+            return new ScreenshotResult(baos.toByteArray(), image);
         } catch (Exception e) {
             LucidDreaming.LOGGER.error("Failed to take screenshot", e);
             e.printStackTrace();
@@ -85,5 +84,49 @@ public class ScreenshotUtils {
 
     public static byte[] takeScreenshot() throws IOException {
         return takeScreenshot(0.8f);
+    }
+
+    public static String saveScreenshotToFile(BufferedImage image, float quality, String savePath) {
+        try {
+            // Create save directory if it doesn't exist
+            File saveDir = new File(savePath);
+            if (!saveDir.exists()) {
+                saveDir.mkdirs();
+            }
+
+            // Generate filename with timestamp
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss");
+            String timestamp = dateFormat.format(new Date());
+            String format = quality >= 1.0f ? "png" : "jpg";
+            String filename = String.format("screenshot-%s.%s", timestamp, format);
+            File outputFile = new File(saveDir, filename);
+
+            // Save image
+            if (format.equals("jpg")) {
+                // For JPEG, use ImageIO with quality
+                java.awt.image.BufferedImage jpgImage = new java.awt.image.BufferedImage(
+                    image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+                jpgImage.getGraphics().drawImage(image, 0, 0, null);
+                
+                javax.imageio.ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+                javax.imageio.ImageWriteParam param = writer.getDefaultWriteParam();
+                param.setCompressionMode(javax.imageio.ImageWriteParam.MODE_EXPLICIT);
+                param.setCompressionQuality(quality);
+                
+                try (javax.imageio.stream.ImageOutputStream ios = ImageIO.createImageOutputStream(outputFile)) {
+                    writer.setOutput(ios);
+                    writer.write(null, new javax.imageio.IIOImage(jpgImage, null, null), param);
+                }
+            } else {
+                // For PNG, use ImageIO directly
+                ImageIO.write(image, "png", outputFile);
+            }
+
+            LucidDreaming.LOGGER.info("Screenshot saved to: {}", outputFile.getAbsolutePath());
+            return outputFile.getAbsolutePath();
+        } catch (Exception e) {
+            LucidDreaming.LOGGER.error("Failed to save screenshot to file", e);
+            return null;
+        }
     }
 }

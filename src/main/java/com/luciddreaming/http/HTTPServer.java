@@ -41,6 +41,7 @@ public class HTTPServer {
             server.createContext("/api/json", new APIJSONHandler());
             server.createContext("/api/screenshot", new APIScreenshotHandler());
             server.createContext("/api/modules", new ModuleAPIHandler());
+            server.createContext("/api/autowalk", new APIAutoWalkHandler());
 
             server.setExecutor(null); // creates a default executor
             server.start();
@@ -110,9 +111,10 @@ public class HTTPServer {
             }
 
             try {
-                byte[] screenshot = ScreenshotUtils.takeScreenshot((float) ModConfig.webInterface.screenshotQuality);
+                float quality = (float) ModConfig.webInterface.screenshotQuality;
+                ScreenshotUtils.ScreenshotResult result = ScreenshotUtils.takeScreenshotWithImage(quality);
 
-                if (screenshot == null) {
+                if (result == null || result.imageData == null) {
                     String response = "{\"error\":\"Failed to take screenshot\"}";
                     exchange.getResponseHeaders().set("Content-Type", "application/json");
                     exchange.sendResponseHeaders(500, response.getBytes(StandardCharsets.UTF_8).length);
@@ -122,11 +124,23 @@ public class HTTPServer {
                     return;
                 }
 
-                String format = ModConfig.webInterface.screenshotQuality >= 1.0f ? "image/png" : "image/jpeg";
+                // Auto-save to file if enabled
+                if (ModConfig.webInterface.autoSaveScreenshots && result.image != null) {
+                    String savedPath = ScreenshotUtils.saveScreenshotToFile(
+                        result.image, 
+                        quality, 
+                        ModConfig.webInterface.screenshotSavePath
+                    );
+                    if (savedPath != null) {
+                        LucidDreaming.LOGGER.info("Screenshot auto-saved to: {}", savedPath);
+                    }
+                }
+
+                String format = quality >= 1.0f ? "image/png" : "image/jpeg";
                 exchange.getResponseHeaders().set("Content-Type", format);
-                exchange.sendResponseHeaders(200, screenshot.length);
+                exchange.sendResponseHeaders(200, result.imageData.length);
                 try (OutputStream os = exchange.getResponseBody()) {
-                    os.write(screenshot);
+                    os.write(result.imageData);
                 }
             } catch (Exception e) {
                 LucidDreaming.LOGGER.error("Error taking screenshot", e);
@@ -135,6 +149,151 @@ public class HTTPServer {
                 exchange.sendResponseHeaders(500, response.getBytes(StandardCharsets.UTF_8).length);
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response.getBytes(StandardCharsets.UTF_8));
+                }
+            }
+        }
+    }
+
+    static class APIAutoWalkHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String method = exchange.getRequestMethod();
+            
+            if (!"GET".equals(method) && !"POST".equals(method)) {
+                String response = "{\"error\":\"Method not allowed\"}";
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+                exchange.sendResponseHeaders(405, response.getBytes(StandardCharsets.UTF_8).length);
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.getBytes(StandardCharsets.UTF_8));
+                }
+                return;
+            }
+
+            if ("GET".equals(method)) {
+                // Get current AutoWalk status
+                com.luciddreaming.modules.AutoWalk autoWalk = (com.luciddreaming.modules.AutoWalk) 
+                    LucidDreaming.moduleManager.getModule("AutoWalk");
+                
+                if (autoWalk == null) {
+                    String response = "{\"error\":\"AutoWalk module not found\"}";
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.sendResponseHeaders(404, response.getBytes(StandardCharsets.UTF_8).length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes(StandardCharsets.UTF_8));
+                    }
+                    return;
+                }
+
+                StringBuilder response = new StringBuilder();
+                                    response.append("{");
+                                    response.append("\"enabled\":").append(autoWalk.isEnabled()).append(",");
+                                    response.append("\"hasTarget\":").append(autoWalk.hasTarget()).append(",");
+                                    response.append("\"pathfinding\":").append(autoWalk.isPathfinding());
+                                    
+                                    if (autoWalk.hasTarget()) {
+                                        net.minecraft.util.math.BlockPos target = autoWalk.getTarget();
+                                        if (target != null) {
+                                            response.append(",\"target\":{");
+                                            response.append("\"x\":").append(target.getX()).append(",");
+                                            response.append("\"y\":").append(target.getY()).append(",");
+                                            response.append("\"z\":").append(target.getZ());
+                                            response.append("}");
+                                        }
+                                        
+                                        com.luciddreaming.pathfinding.Path path = autoWalk.getCurrentPath();
+                                        if (path != null) {
+                                            response.append(",\"hasPath\":true");
+                                            response.append(",\"pathLength\":").append(path.getLength());
+                                        } else {
+                                            response.append(",\"hasPath\":false");
+                                        }
+                                    }
+                                    
+                                    response.append("}");                
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+                exchange.sendResponseHeaders(200, response.length());
+                try (OutputStream os = exchange.getResponseBody()) {
+                    os.write(response.toString().getBytes(StandardCharsets.UTF_8));
+                }
+            } else if ("POST".equals(method)) {
+                // Set AutoWalk target
+                com.luciddreaming.modules.AutoWalk autoWalk = (com.luciddreaming.modules.AutoWalk) 
+                    LucidDreaming.moduleManager.getModule("AutoWalk");
+                
+                if (autoWalk == null) {
+                    String response = "{\"error\":\"AutoWalk module not found\"}";
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.sendResponseHeaders(404, response.getBytes(StandardCharsets.UTF_8).length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes(StandardCharsets.UTF_8));
+                    }
+                    return;
+                }
+
+                // Parse query parameters
+                String query = exchange.getRequestURI().getQuery();
+                if (query == null) {
+                    String response = "{\"error\":\"Missing parameters\"}";
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.sendResponseHeaders(400, response.getBytes(StandardCharsets.UTF_8).length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes(StandardCharsets.UTF_8));
+                    }
+                    return;
+                }
+
+                String[] params = query.split("&");
+                int x = 0, y = 0, z = 0;
+                boolean hasX = false, hasY = false, hasZ = false;
+                String action = null;
+
+                for (String param : params) {
+                    String[] keyValue = param.split("=");
+                    if (keyValue.length == 2) {
+                        String key = keyValue[0];
+                        String value = keyValue[1];
+                        
+                        if ("x".equals(key)) {
+                            x = Integer.parseInt(value);
+                            hasX = true;
+                        } else if ("y".equals(key)) {
+                            y = Integer.parseInt(value);
+                            hasY = true;
+                        } else if ("z".equals(key)) {
+                            z = Integer.parseInt(value);
+                            hasZ = true;
+                        } else if ("action".equals(key)) {
+                            action = value;
+                        }
+                    }
+                }
+
+                if ("clear".equals(action)) {
+                    autoWalk.clearTarget();
+                    String response = "{\"success\":true,\"message\":\"Target cleared\"}";
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes(StandardCharsets.UTF_8));
+                    }
+                    return;
+                }
+
+                if (hasX && hasY && hasZ) {
+                    autoWalk.setTarget(x, y, z);
+                    String response = "{\"success\":true,\"message\":\"Target set to " + x + ", " + y + ", " + z + "\"}";
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes(StandardCharsets.UTF_8));
+                    }
+                } else {
+                    String response = "{\"error\":\"Missing x, y, or z parameter\"}";
+                    exchange.getResponseHeaders().set("Content-Type", "application/json");
+                    exchange.sendResponseHeaders(400, response.getBytes(StandardCharsets.UTF_8).length);
+                    try (OutputStream os = exchange.getResponseBody()) {
+                        os.write(response.getBytes(StandardCharsets.UTF_8));
+                    }
                 }
             }
         }

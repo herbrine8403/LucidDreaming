@@ -5,6 +5,7 @@ import com.luciddreaming.http.HTTPServer;
 import com.luciddreaming.modules.ModuleManager;
 import com.luciddreaming.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -28,6 +29,14 @@ public class LucidDreaming {
 
     @SidedProxy(clientSide = "com.luciddreaming.proxy.ClientProxy", serverSide = "com.luciddreaming.proxy.CommonProxy")
     public static CommonProxy proxy;
+
+    public static String getLocalizedName() {
+        return I18n.format("mod.luciddreaming.name");
+    }
+
+    public static String getLocalizedDescription() {
+        return I18n.format("mod.luciddreaming.description");
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

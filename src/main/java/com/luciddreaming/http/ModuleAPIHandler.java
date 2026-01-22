@@ -46,8 +46,11 @@ public class ModuleAPIHandler implements HttpHandler {
             Module module = modules.get(i);
             response.append("{");
             response.append("\"name\":\"").append(escapeJson(module.getName())).append("\",");
+            response.append("\"localizedName\":\"").append(escapeJson(module.getLocalizedName())).append("\",");
             response.append("\"description\":\"").append(escapeJson(module.getDescription())).append("\",");
+            response.append("\"localizedDescription\":\"").append(escapeJson(module.getLocalizedDescription())).append("\",");
             response.append("\"category\":\"").append(escapeJson(module.getCategory().getName())).append("\",");
+            response.append("\"localizedCategory\":\"").append(escapeJson(module.getCategory().getLocalizedName())).append("\",");
             response.append("\"enabled\":").append(module.isEnabled()).append(",");
             response.append("\"keybind\":\"").append(escapeJson(module.getKeybind().getKeyName())).append("\"");
             response.append("}");
@@ -122,11 +125,14 @@ public class ModuleAPIHandler implements HttpHandler {
         }
 
         String response = String.format(
-            "{\"name\":\"%s\",\"enabled\":%s,\"description\":\"%s\",\"category\":\"%s\"}",
+            "{\"name\":\"%s\",\"localizedName\":\"%s\",\"enabled\":%s,\"description\":\"%s\",\"localizedDescription\":\"%s\",\"category\":\"%s\",\"localizedCategory\":\"%s\"}",
             escapeJson(module.getName()),
+            escapeJson(module.getLocalizedName()),
             newState,
             escapeJson(module.getDescription()),
-            escapeJson(module.getCategory().getName())
+            escapeJson(module.getLocalizedDescription()),
+            escapeJson(module.getCategory().getName()),
+            escapeJson(module.getCategory().getLocalizedName())
         );
 
         sendResponse(exchange, 200, response, "application/json");
