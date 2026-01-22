@@ -52,8 +52,9 @@ public class AutoClicker extends Module {
             updateCPSFluctuation();
         }
 
-        // Left click
-        if (currentLeftCPS > 0) {
+        // Left click (mode 0 or 2)
+        int clickMode = ModuleConfigs.autoClicker.clickMode;
+        if ((clickMode == 0 || clickMode == 2) && currentLeftCPS > 0) {
             int leftClickDelay = (int) (1000.0 / currentLeftCPS);
             leftClickTimer++;
             
@@ -63,8 +64,8 @@ public class AutoClicker extends Module {
             }
         }
 
-        // Right click
-        if (currentRightCPS > 0) {
+        // Right click (mode 1 or 2)
+        if ((clickMode == 1 || clickMode == 2) && currentRightCPS > 0) {
             int rightClickDelay = (int) (1000.0 / currentRightCPS);
             rightClickTimer++;
             
@@ -89,12 +90,13 @@ public class AutoClicker extends Module {
     }
 
     private void leftClick() {
-        if (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null) {
-            return;
-        }
-
         try {
-            mc.playerController.attackEntity(mc.player, mc.objectMouseOver.entityHit);
+            // Attack entity if mouse is over one, otherwise just click
+            if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
+                mc.playerController.attackEntity(mc.player, mc.objectMouseOver.entityHit);
+            } else {
+                mc.playerController.attackEntity(mc.player, null);
+            }
             mc.player.swingArm(EnumHand.MAIN_HAND);
         } catch (Exception e) {
             // Ignore errors during click
@@ -102,10 +104,10 @@ public class AutoClicker extends Module {
     }
 
     private void rightClick() {
-        if (mc.objectMouseOver == null) {
-            return;
+        try {
+            mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
+        } catch (Exception e) {
+            // Ignore errors during click
         }
-
-        mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
     }
 }

@@ -45,6 +45,11 @@ public class ModuleConfigs {
         @Config.Comment("Keybind to toggle auto clicker")
         public int keybind = 0;
 
+        @Config.Name("Click Mode")
+        @Config.Comment("Click mode: 0 = Left Click, 1 = Right Click, 2 = Both")
+        @Config.RangeInt(min = 0, max = 2)
+        public int clickMode = 0;
+
         @Config.Name("Left CPS")
         @Config.Comment("Clicks per second for left click")
         @Config.RangeInt(min = 1, max = 30)
