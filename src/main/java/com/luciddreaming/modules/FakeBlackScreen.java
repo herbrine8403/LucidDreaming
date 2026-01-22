@@ -12,7 +12,7 @@ public class FakeBlackScreen extends Module {
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public FakeBlackScreen() {
-        super("FakeBlackScreen", "Display a fake black screen", ModuleCategory.RENDER, 0);
+        super("FakeBlackScreen", "Display a fake black screen", ModuleCategory.RENDER);
     }
 
     @Override

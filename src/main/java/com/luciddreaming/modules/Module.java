@@ -18,12 +18,8 @@ public abstract class Module {
         this.description = description;
         this.category = category;
         this.enabled = false;
-        this.keybind = new Keybind("key." + name.toLowerCase(), description);
-    }
-
-    public Module(String name, String description, ModuleCategory category, int defaultKey) {
-        this(name, description, category);
-        this.keybind.setKeyCode(defaultKey);
+        // Default to no key binding (KEY_NONE)
+        this.keybind = new Keybind("key." + name.toLowerCase(), description, Keyboard.KEY_NONE);
     }
 
     public String getName() {

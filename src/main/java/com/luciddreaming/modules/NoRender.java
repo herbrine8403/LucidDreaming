@@ -12,7 +12,7 @@ public class NoRender extends Module {
     private final Minecraft mc = Minecraft.getMinecraft();
 
     public NoRender() {
-        super("NoRender", "Limit rendering to save performance", ModuleCategory.RENDER, 0);
+        super("NoRender", "Limit rendering to save performance", ModuleCategory.RENDER);
     }
 
     @Override

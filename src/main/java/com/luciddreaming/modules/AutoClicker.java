@@ -19,7 +19,7 @@ public class AutoClicker extends Module {
     private double currentRightCPS;
 
     public AutoClicker() {
-        super("AutoClicker", "Automatically click for you", ModuleCategory.PLAYER, 0);
+        super("AutoClicker", "Automatically click for you", ModuleCategory.PLAYER);
     }
 
     @Override

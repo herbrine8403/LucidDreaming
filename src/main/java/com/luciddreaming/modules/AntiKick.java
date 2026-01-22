@@ -16,7 +16,7 @@ public class AntiKick extends Module {
     private boolean shouldPerformAction = false;
 
     public AntiKick() {
-        super("AntiKick", "Prevent being kicked for being AFK", ModuleCategory.MISC, 0);
+        super("AntiKick", "Prevent being kicked for being AFK", ModuleCategory.MISC);
     }
 
     @Override

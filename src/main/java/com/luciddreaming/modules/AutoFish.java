@@ -17,7 +17,7 @@ public class AutoFish extends Module {
     private int previousTicksExisted = 0;
 
     public AutoFish() {
-        super("AutoFish", "Automatically catch fish", ModuleCategory.PLAYER, 0);
+        super("AutoFish", "Automatically catch fish", ModuleCategory.PLAYER);
     }
 
     @Override

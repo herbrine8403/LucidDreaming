@@ -24,7 +24,7 @@ public class KillAura extends Module {
     private double currentAttackSpeed;
 
     public KillAura() {
-        super("KillAura", "Automatically attack nearby entities", ModuleCategory.COMBAT, 0);
+        super("KillAura", "Automatically attack nearby entities", ModuleCategory.COMBAT);
     }
 
     @Override
