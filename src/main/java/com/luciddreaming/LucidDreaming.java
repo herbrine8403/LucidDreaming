@@ -2,7 +2,9 @@ package com.luciddreaming;
 
 import com.luciddreaming.config.ModConfig;
 import com.luciddreaming.http.HTTPServer;
+import com.luciddreaming.modules.ModuleManager;
 import com.luciddreaming.proxy.CommonProxy;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -16,38 +18,43 @@ public class LucidDreaming {
     public static final String MODID = "luciddreaming";
     public static final String NAME = "Lucid Dreaming";
     public static final String VERSION = "1.0.0";
-    
+
     public static final Logger LOGGER = LogManager.getLogger(NAME);
-    
-    public static ModConfig config;
+
     public static HTTPServer httpServer;
-    
+    public static ModuleManager moduleManager;
+
     @SidedProxy(clientSide = "com.luciddreaming.proxy.ClientProxy", serverSide = "com.luciddreaming.proxy.CommonProxy")
     public static CommonProxy proxy;
-    
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("Initializing Lucid Dreaming Mod...");
-        config = new ModConfig(event.getSuggestedConfigurationFile());
-        config.loadConfig();
-        LOGGER.info("Configuration loaded. HTTP Server Port: {}", config.httpPort);
+        LOGGER.info("Configuration loaded. HTTP Server Port: {}", ModConfig.server.httpPort);
     }
-    
+
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        if (config.enableWebServer) {
+        LOGGER.info("Initializing Module Manager...");
+        moduleManager = new ModuleManager();
+        MinecraftForge.EVENT_BUS.register(moduleManager);
+
+        proxy.registerModules(moduleManager);
+
+        if (ModConfig.server.enableWebServer) {
             LOGGER.info("Starting HTTP Server...");
-            httpServer = new HTTPServer(config.httpPort, config.bindAddress);
+            httpServer = new HTTPServer(ModConfig.server.httpPort, ModConfig.server.bindAddress);
             httpServer.start();
-            LOGGER.info("HTTP Server started successfully on {}:{}", config.bindAddress, config.httpPort);
-            LOGGER.info("Access game information at http://{}:{}/", config.bindAddress.equals("0.0.0.0") ? "localhost" : config.bindAddress, config.httpPort);
+            LOGGER.info("HTTP Server started successfully on {}:{}", ModConfig.server.bindAddress, ModConfig.server.httpPort);
+            LOGGER.info("Access game information at http://{}:{}/", ModConfig.server.bindAddress.equals("0.0.0.0") ? "localhost" : ModConfig.server.bindAddress, ModConfig.server.httpPort);
         } else {
             LOGGER.info("Web Server is disabled in configuration. Skipping HTTP server startup.");
         }
     }
-    
+
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         LOGGER.info("Lucid Dreaming Mod fully initialized!");
+        LOGGER.info("Registered {} modules", moduleManager.getModules().size());
     }
 }
