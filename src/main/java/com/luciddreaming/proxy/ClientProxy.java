@@ -1,7 +1,6 @@
 package com.luciddreaming.proxy;
 
-import com.luciddreaming.modules.AutoFish;
-import com.luciddreaming.modules.ModuleManager;
+import com.luciddreaming.modules.*;
 
 public class ClientProxy extends CommonProxy {
     @Override
@@ -14,12 +13,19 @@ public class ClientProxy extends CommonProxy {
         // Register AutoFish module
         moduleManager.registerModule(new AutoFish());
         
-        // More modules will be added here:
-        // moduleManager.registerModule(new AutoClicker());
-        // moduleManager.registerModule(new KillAura());
-        // moduleManager.registerModule(new AntiKick());
-        // moduleManager.registerModule(new AutoWalk());
-        // moduleManager.registerModule(new NoRender());
-        // moduleManager.registerModule(new FakeBlackScreen());
+        // Register AutoClicker module
+        moduleManager.registerModule(new AutoClicker());
+        
+        // Register KillAura module
+        moduleManager.registerModule(new KillAura());
+        
+        // Register AntiKick module
+        moduleManager.registerModule(new AntiKick());
+        
+        // Register NoRender module
+        moduleManager.registerModule(new NoRender());
+        
+        // Register FakeBlackScreen module
+        moduleManager.registerModule(new FakeBlackScreen());
     }
 }
