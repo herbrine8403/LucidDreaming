@@ -70,37 +70,108 @@ public class ModuleConfigs {
         public double fluctuationAmount = 1.0;
     }
 
-    @Config.Name("KillAura")
-    @Config.Comment("Kill Aura module settings")
-    public static KillAura killAura = new KillAura();
+    @Config.Name("AutoKill")
+    @Config.Comment("Auto Kill module settings")
+    public static AutoKill autoKill = new AutoKill();
 
-    public static class KillAura {
+    public static class AutoKill {
         @Config.Name("Enabled")
-        @Config.Comment("Enable or disable kill aura")
+        @Config.Comment("Enable or disable auto kill")
         public boolean enabled = false;
 
         @Config.Name("Keybind")
-        @Config.Comment("Keybind to toggle kill aura")
+        @Config.Comment("Keybind to toggle auto kill")
         public int keybind = 0;
 
-        @Config.Name("Attack Speed")
-        @Config.Comment("Attack speed in hits per second")
-        @Config.RangeDouble(min = 1.0, max = 20.0)
-        public double attackSpeed = 8.0;
+        // Targeting settings
+        @Config.Name("Target Players")
+        @Config.Comment("Attack other players")
+        public boolean targetPlayers = true;
+
+        @Config.Name("Target Hostile Mobs")
+        @Config.Comment("Attack hostile mobs")
+        public boolean targetHostileMobs = true;
+
+        @Config.Name("Target Passive Mobs")
+        @Config.Comment("Attack passive mobs (animals)")
+        public boolean targetPassiveMobs = false;
 
         @Config.Name("Range")
         @Config.Comment("Attack range in blocks")
         @Config.RangeDouble(min = 1.0, max = 6.0)
         public double range = 4.5;
 
+        @Config.Name("Walls Range")
+        @Config.Comment("Attack range through walls in blocks")
+        @Config.RangeDouble(min = 0.0, max = 6.0)
+        public double wallsRange = 3.5;
+
+        @Config.Name("Max Targets")
+        @Config.Comment("Maximum number of targets to attack at once")
+        @Config.RangeInt(min = 1, max = 5)
+        public int maxTargets = 1;
+
+        @Config.Name("Priority")
+        @Config.Comment("Target priority: 0 = Closest, 1 = Lowest Health, 2 = Closest Angle")
+        @Config.RangeInt(min = 0, max = 2)
+        public int priority = 0;
+
+        @Config.Name("Ignore Named")
+        @Config.Comment("Ignore mobs with custom names")
+        public boolean ignoreNamed = false;
+
+        @Config.Name("Ignore Tamed")
+        @Config.Comment("Ignore tamed mobs")
+        public boolean ignoreTamed = false;
+
+        @Config.Name("Mob Age Filter")
+        @Config.Comment("Mob age filter: 0 = Both, 1 = Baby, 2 = Adult")
+        @Config.RangeInt(min = 0, max = 2)
+        public int mobAgeFilter = 2;
+
+        // Rotation settings
+        @Config.Name("Rotation Mode")
+        @Config.Comment("Rotation mode: 0 = Always, 1 = On Hit, 2 = None")
+        @Config.RangeInt(min = 0, max = 2)
+        public int rotationMode = 0;
+
+        @Config.Name("Rotation Speed")
+        @Config.Comment("Rotation speed (0.0 - 1.0)")
+        @Config.RangeDouble(min = 0.1, max = 1.0)
+        public double rotationSpeed = 0.5;
+
+        // Attack settings
+        @Config.Name("Attack Speed")
+        @Config.Comment("Attack speed in hits per second")
+        @Config.RangeDouble(min = 1.0, max = 20.0)
+        public double attackSpeed = 8.0;
+
         @Config.Name("CPS Fluctuation")
         @Config.Comment("Enable CPS fluctuation to avoid detection")
         public boolean cpsFluctuation = true;
+
+        @Config.Name("Fluctuation Amount")
+        @Config.Comment("Amount of CPS fluctuation")
+        @Config.RangeDouble(min = 0.0, max = 5.0)
+        public double fluctuationAmount = 1.0;
 
         @Config.Name("Miss Chance")
         @Config.Comment("Chance to miss an attack (for anti-cheat evasion)")
         @Config.RangeDouble(min = 0.0, max = 0.5)
         public double missChance = 0.05;
+
+        // Extra settings
+        @Config.Name("Only On Click")
+        @Config.Comment("Only attack when holding left click")
+        public boolean onlyOnClick = false;
+
+        @Config.Name("Only On Look")
+        @Config.Comment("Only attack when looking at an entity")
+        public boolean onlyOnLook = false;
+
+        @Config.Name("Require Weapon")
+        @Config.Comment("Only attack when holding a weapon")
+        public boolean requireWeapon = false;
     }
 
     @Config.Name("AntiKick")

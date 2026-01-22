@@ -18,8 +18,8 @@ public class ClientProxy extends CommonProxy {
         // Register AutoClicker module
         moduleManager.registerModule(new AutoClicker());
         
-        // Register KillAura module
-        moduleManager.registerModule(new KillAura());
+        // Register AutoKill module
+        moduleManager.registerModule(new AutoKill());
         
         // Register AntiKick module
         moduleManager.registerModule(new AntiKick());
