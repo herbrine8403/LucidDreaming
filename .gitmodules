@@ -1,3 +1,6 @@
 [submodule "third_party/autofish"]
 	path = third_party/autofish
 	url = https://github.com/troyhayes/autofish.git
+[submodule "third_party/meteor-client"]
+	path = third_party/meteor-client
+	url = https://github.com/MeteorDevelopment/meteor-client.git
