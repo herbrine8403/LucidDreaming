@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-**Lucid Dreaming（清醒梦）** 是一个 Minecraft 1.12.2 Forge Mod，通过内置的 HTTP 服务器实时展示游戏信息，让玩家可以在浏览器中查看游戏状态。
+**Lucid Dreaming（清醒梦）** 是一个 Minecraft 1.12.2 Forge Mod，通过内置的 HTTP 服务器实时展示游戏信息，并提供模块化游戏辅助功能。玩家可以在浏览器中查看游戏状态并控制各种游戏模块。
 
 - **项目名称**：Lucid Dreaming
 - **版本**：1.0.0
@@ -20,12 +20,27 @@
 src/main/java/com/luciddreaming/
 ├── LucidDreaming.java          # 主类，Mod 入口点
 ├── config/
-│   └── ModConfig.java          # 配置管理（端口、绑定地址等）
+│   ├── ModConfig.java          # Mod 配置管理（端口、绑定地址、网页设置等）
+│   └── ModuleConfigs.java      # 模块配置管理（各模块的详细配置）
 ├── http/
 │   ├── HTTPServer.java         # HTTP 服务器实现
+│   ├── ModuleAPIHandler.java   # 模块 API 处理器
 │   └── WebTemplate.java        # HTML 网页模板生成
 ├── info/
 │   └── GameInfoCollector.java  # 游戏信息收集器
+├── modules/
+│   ├── Module.java             # 模块抽象基类
+│   ├── ModuleManager.java      # 模块管理器
+│   ├── ModuleCategory.java     # 模块类别枚举
+│   ├── AutoFish.java           # 自动钓鱼模块
+│   ├── AutoClicker.java        # 自动点击器模块
+│   ├── KillAura.java           # 自动攻击光环模块
+│   ├── AntiKick.java           # 防踢出模块
+│   ├── NoRender.java           # 渲染控制模块
+│   └── FakeBlackScreen.java    # 假黑屏模块
+├── utils/
+│   ├── Keybind.java            # 按键绑定工具类
+│   └── ScreenshotUtils.java    # 截图工具类
 └── proxy/
     ├── CommonProxy.java        # 通用代理
     └── ClientProxy.java        # 客户端代理
@@ -35,7 +50,7 @@ src/main/java/com/luciddreaming/
 
 #### 1. LucidDreaming (主类)
 - Mod 生命周期管理
-- 初始化 HTTP 服务器
+- 初始化 HTTP 服务器和模块管理器
 - 加载配置文件
 - 日志记录
 
@@ -45,15 +60,88 @@ src/main/java/com/luciddreaming/
   - HTTP 服务器端口（默认：1122）
   - 绑定地址（默认：0.0.0.0）
   - 局域网访问开关（默认：true）
+  - 网页界面设置（截图、主题、自动刷新间隔等）
 
-#### 3. http.HTTPServer
+#### 3. config.ModuleConfigs
+- 模块配置文件管理（`config/Lucid Dreaming_modules.cfg`）
+- 每个模块都有独立的配置类和配置项：
+  - AutoFish：重抛延迟、多竿、不损坏
+  - AutoClicker：CPS、CPS 波动
+  - KillAura：攻击速度、范围、CPS 波动、未命中概率
+  - AntiKick：模式、间隔
+  - NoRender：隐藏实体、粒子、天气等
+  - FakeBlackScreen：不透明度
+
+#### 4. http.HTTPServer
 - 内置 HTTP 服务器实现（使用 `com.sun.net.httpserver`）
-- 提供三个端点：
-  - `/` - HTML 界面
+- 提供五个端点：
+  - `/` - HTML 界面（包含模块控制面板）
   - `/api/info` - 纯文本信息
   - `/api/json` - JSON 数据
+  - `/api/screenshot` - 截图功能
+  - `/api/modules` - 模块管理 API
 
-#### 4. info.GameInfoCollector
+#### 5. http.ModuleAPIHandler
+- 模块 API 处理器
+- `GET /api/modules` - 获取所有模块列表和状态
+- `POST /api/modules/{name}` - 切换模块状态（支持 enable/disable/toggle）
+
+#### 6. modules.ModuleManager
+- 模块管理器，负责：
+  - 注册所有模块
+  - 管理模块生命周期
+  - 在客户端 tick 中调用已启用模块的 onTick 方法
+
+#### 7. modules.Module (抽象基类)
+- 模块抽象基类，定义了所有模块的通用功能：
+  - 模块名称、描述、类别
+  - 启用/禁用状态管理
+  - 按键绑定
+  - onEnable/onDisable 生命周期钩子
+  - onTick 抽象方法（子类必须实现）
+
+#### 8. modules.ModuleCategory
+- 模块类别枚举：
+  - Server - 服务器相关
+  - Combat - 战斗相关
+  - Movement - 移动相关
+  - Player - 玩家相关
+  - Render - 渲染相关
+  - Misc - 杂项
+
+#### 9. 具体模块实现
+
+##### AutoFish (自动钓鱼)
+- 自动检测鱼钩状态
+- 自动收杆和重抛
+- 支持多竿和不损坏配置
+- 可配置重抛延迟
+
+##### AutoClicker (自动点击器)
+- 支持左右键自动点击
+- 可配置 CPS（每秒点击次数）
+- 支持 CPS 波动以避免检测
+
+##### KillAura (自动攻击光环)
+- 自动攻击范围内的敌对生物
+- 支持攻击速度配置
+- 支持攻击范围配置
+- 支持 CPS 波动和未命中概率（反作弊）
+
+##### AntiKick (防踢出)
+- 防止因挂机被服务器踢出
+- 支持多种模式：跳跃、旋转、移动
+- 可配置动作间隔
+
+##### NoRender (渲染控制)
+- 隐藏实体、粒子、天气、天空、雾气
+- 提升性能或视觉效果
+
+##### FakeBlackScreen (假黑屏)
+- 模拟黑屏效果
+- 可配置不透明度
+
+#### 10. info.GameInfoCollector
 - 收集游戏信息：
   - 玩家信息（名称、生命值、饥饿度、经验、位置、维度、游戏模式）
   - 游戏信息（版本、运行时长、FPS）
@@ -61,9 +149,19 @@ src/main/java/com/luciddreaming/
   - 计分板内容
   - 系统信息（操作系统、Java 版本）
 
-#### 5. proxy 包
+#### 11. utils.Keybind
+- 按键绑定工具类
+- 封装 Minecraft 的 KeyBinding
+- 提供按键检测和名称获取
+
+#### 12. utils.ScreenshotUtils
+- 截图工具类
+- 支持可配置的截图质量
+- 返回 PNG 或 JPEG 格式
+
+#### 13. proxy 包
 - CommonProxy：服务器端和客户端通用逻辑
-- ClientProxy：客户端特定逻辑
+- ClientProxy：客户端特定逻辑，负责注册模块
 
 ## 开发环境配置
 
@@ -158,6 +256,14 @@ LucidDreaming.LOGGER.error("Error message", exception);
 - 使用 `@SidedProxy` 区分客户端和服务端代码
 - 使用 `@SideOnly` 标记客户端专用方法
 
+### 模块开发规范
+
+- 所有模块必须继承 `Module` 抽象类
+- 在构造函数中指定模块名称、描述和类别
+- 实现 `onTick()` 方法（每帧调用）
+- 可选实现 `onEnable()` 和 `onDisable()` 生命周期方法
+- 在 `ClientProxy` 中注册模块
+
 ## 核心功能
 
 ### 1. HTTP 服务器
@@ -171,7 +277,12 @@ Mod 启动时自动启动 HTTP 服务器，监听配置的端口（默认 1122�
 ### 2. API 端点
 
 #### GET `/`
-返回美观的 HTML 界面，自动刷新显示游戏信息。
+返回美观的 HTML 界面，包含：
+- 游戏信息展示（玩家、游戏、服务器、计分板）
+- 模块控制面板
+- 截图功能
+- 主题切换（明/暗）
+- 自动刷新
 
 #### GET `/api/info`
 返回纯文本格式的游戏信息。
@@ -179,8 +290,42 @@ Mod 启动时自动启动 HTTP 服务器，监听配置的端口（默认 1122�
 #### GET `/api/json`
 返回 JSON 格式的游戏信息，可用于自定义应用。
 
+#### GET `/api/screenshot`
+返回当前游戏画面的截图（PNG/JPEG 格式）。
+
+#### GET `/api/modules`
+返回所有模块的列表和状态（JSON 格式）：
+```json
+{
+  "modules": [
+    {
+      "name": "AutoFish",
+      "description": "Automatically catch fish",
+      "category": "Player",
+      "enabled": false,
+      "keybind": "NONE"
+    }
+  ],
+  "categories": ["Server", "Combat", "Movement", "Player", "Render", "Misc"]
+}
+```
+
+#### POST `/api/modules/{name}`
+切换模块状态，支持三种操作：
+- `toggle` - 切换状态
+- `enable` - 启用模块
+- `disable` - 禁用模块
+
+请求体示例：
+```json
+{
+  "action": "toggle"
+}
+```
+
 ### 3. 配置系统
 
+#### 主配置文件
 配置文件位置：`config/luciddreaming.cfg`
 
 ```ini
@@ -192,7 +337,99 @@ S:Bind Address=0.0.0.0
 
 # 是否允许局域网访问（默认：true）
 B:Enable LAN Access=true
+
+# 是否启用 Web 服务器
+B:Enable Web Server=true
+
+# 网页界面设置
+B:Enable Screenshot=true
+D:Screenshot Quality=0.8
+I:Theme Mode=0
+I:Auto Refresh Interval=1000
+B:Enable Module Control=true
 ```
+
+#### 模块配置文件
+配置文件位置：`config/Lucid Dreaming_modules.cfg`
+
+```ini
+# AutoFish 模块配置
+AutoFish {
+  B:Enabled=false
+  I:Keybind=0
+  I:Recast Delay=1500
+  B:Multi Rod=false
+  B:No Break=false
+}
+
+# AutoClicker 模块配置
+AutoClicker {
+  B:Enabled=false
+  I:Keybind=0
+  I:Left CPS=8
+  I:Right CPS=4
+  B:CPS Fluctuation=true
+  D:Fluctuation Amount=1.0
+}
+
+# KillAura 模块配置
+KillAura {
+  B:Enabled=false
+  I:Keybind=0
+  D:Attack Speed=8.0
+  D:Range=4.5
+  B:CPS Fluctuation=true
+  D:Miss Chance=0.05
+}
+
+# AntiKick 模块配置
+AntiKick {
+  B:Enabled=false
+  I:Keybind=0
+  I:Mode=0
+  I:Interval=300
+}
+
+# NoRender 模块配置
+NoRender {
+  B:Enabled=false
+  I:Keybind=0
+  B:Hide Entities=false
+  B:Hide Particles=false
+  B:Hide Weather=false
+  B:Hide Sky=false
+  B:Hide Fog=false
+}
+
+# FakeBlackScreen 模块配置
+FakeBlackScreen {
+  B:Enabled=false
+  I:Keybind=0
+  D:Opacity=1.0
+}
+```
+
+### 4. 模块系统
+
+#### 模块生命周期
+1. **注册**：在 `ClientProxy.registerModules()` 中注册模块
+2. **初始化**：模块管理器初始化所有模块
+3. **启用**：通过按键绑定或 API 调用启用模块
+4. **运行**：每帧调用 `onTick()` 方法
+5. **禁用**：通过按键绑定或 API 调用禁用模块
+
+#### 按键绑定
+- 每个模块都有独立的按键绑定
+- 可以在配置文件中修改按键代码
+- 按下按键时自动切换模块状态
+
+#### 模块分类
+- **Server**：服务器相关功能
+- **Combat**：战斗辅助功能
+- **Movement**：移动辅助功能
+- **Player**：玩家辅助功能
+- **Render**：渲染相关功能
+- **Misc**：其他功能
 
 ## 测试指南
 
@@ -213,13 +450,27 @@ B:Enable LAN Access=true
    - 在浏览器中访问 `http://localhost:1122`
    - 检查页面是否正常显示游戏信息
    - 测试自动刷新功能
+   - 测试主题切换
+   - 测试截图功能
 
-5. **测试 API 端点**：
+5. **测试模块控制面板**：
+   - 检查所有模块是否正确显示
+   - 测试模块开关功能
+   - 测试模块状态更新
+
+6. **测试 API 端点**：
    - 访问 `http://localhost:1122/api/info` 查看纯文本输出
    - 访问 `http://localhost:1122/api/json` 查看 JSON 输出
+   - 访问 `http://localhost:1122/api/modules` 查看模块列表
+   - 测试 POST `/api/modules/{name}` 切换模块状态
 
-6. **测试局域网访问**：
+7. **测试局域网访问**：
    - 在同一网络的其他设备上访问 `http://[IP]:1122`
+
+8. **测试模块功能**：
+   - 为每个模块绑定按键
+   - 在游戏中测试每个模块的功能
+   - 检查模块配置是否生效
 
 ### 调试
 
@@ -265,7 +516,85 @@ export PATH=$JAVA_HOME/bin:$PATH
 2. 检查防火墙设置
 3. 确保设备在同一网络
 
+### 模块无法启用
+
+**问题**：模块开关无反应
+
+**解决方案**：
+1. 检查按键绑定是否正确
+2. 检查日志中是否有错误信息
+3. 确认模块是否已正确注册
+
 ## 扩展开发
+
+### 添加新模块
+
+1. **创建模块类**：
+   ```java
+   package com.luciddreaming.modules;
+
+   import com.luciddreaming.LucidDreaming;
+   import net.minecraft.client.Minecraft;
+   import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+   import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+   public class MyModule extends Module {
+       private final Minecraft mc = Minecraft.getMinecraft();
+
+       public MyModule() {
+           super("MyModule", "My custom module", ModuleCategory.MISC, 0);
+       }
+
+       @Override
+       protected void onEnable() {
+           LucidDreaming.LOGGER.info("MyModule enabled");
+       }
+
+       @Override
+       protected void onDisable() {
+           LucidDreaming.LOGGER.info("MyModule disabled");
+       }
+
+       @Override
+       public void onTick() {
+           // 模块逻辑
+           if (mc.world == null || mc.player == null) {
+               return;
+           }
+           // 实现模块功能
+       }
+   }
+   ```
+
+2. **注册模块**：
+   在 `ClientProxy.java` 中添加：
+   ```java
+   @Override
+   public void registerModules(ModuleManager moduleManager) {
+       super.registerModules(moduleManager);
+       moduleManager.registerModule(new MyModule());
+   }
+   ```
+
+3. **添加模块配置**（可选）：
+   在 `ModuleConfigs.java` 中添加：
+   ```java
+   @Config.Name("MyModule")
+   @Config.Comment("My Module settings")
+   public static MyModule myModule = new MyModule();
+
+   public static class MyModule {
+       @Config.Name("Enabled")
+       @Config.Comment("Enable or disable my module")
+       public boolean enabled = false;
+
+       @Config.Name("Keybind")
+       @Config.Comment("Keybind to toggle my module")
+       public int keybind = 0;
+
+       // 添加其他配置项
+   }
+   ```
 
 ### 添加新的 API 端点
 
@@ -364,8 +693,8 @@ minecraft {
 ## 联系方式
 
 - 作者：Drwei
-- GitHub：[项目仓库地址]
+- GitHub：[项目仓库地址](https://github.com/herbrine8403/LucidDreaming)
 
 ---
 
-**最后更新**：2026-01-21
+**最后更新**：2026-01-22
