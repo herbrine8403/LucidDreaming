@@ -4,3 +4,6 @@
 [submodule "third_party/meteor-client"]
 	path = third_party/meteor-client
 	url = https://github.com/MeteorDevelopment/meteor-client.git
+[submodule "third_party/no_render"]
+	path = third_party/no_render
+	url = https://github.com/Friendly-Banana/no_render.git
