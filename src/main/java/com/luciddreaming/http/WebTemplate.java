@@ -22,6 +22,7 @@ public class WebTemplate {
                 "            --text-secondary: #718096;\n" +
                 "            --accent-color: #667eea;\n" +
                 "            --success-color: #48bb78;\n" +
+                "            --danger-color: #f56565;\n" +
                 "            --border-color: #e2e8f0;\n" +
                 "            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);\n" +
                 "            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);\n" +
@@ -36,6 +37,7 @@ public class WebTemplate {
                 "            --text-secondary: #a0aec0;\n" +
                 "            --accent-color: #667eea;\n" +
                 "            --success-color: #48bb78;\n" +
+                "            --danger-color: #f56565;\n" +
                 "            --border-color: #4a5568;\n" +
                 "            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);\n" +
                 "            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);\n" +
@@ -319,6 +321,116 @@ public class WebTemplate {
                 "            display: block;\n" +
                 "        }\n" +
                 "        \n" +
+                "        /* Module Control Panel */\n" +
+                "        .modules-container {\n" +
+                "            background: var(--card-bg);\n" +
+                "            border-radius: 16px;\n" +
+                "            padding: 24px;\n" +
+                "            box-shadow: var(--shadow-lg);\n" +
+                "            margin-top: 20px;\n" +
+                "            animation: fadeInUp 0.6s ease-out;\n" +
+                "            backdrop-filter: blur(10px);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .modules-container h2 {\n" +
+                "            color: var(--accent-color);\n" +
+                "            margin-bottom: 18px;\n" +
+                "            border-bottom: 2px solid var(--accent-color);\n" +
+                "            padding-bottom: 10px;\n" +
+                "            font-size: 1.35em;\n" +
+                "            font-weight: 600;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-grid {\n" +
+                "            display: grid;\n" +
+                "            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n" +
+                "            gap: 16px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-card {\n" +
+                "            background: rgba(102, 126, 234, 0.05);\n" +
+                "            border: 2px solid var(--border-color);\n" +
+                "            border-radius: 12px;\n" +
+                "            padding: 16px;\n" +
+                "            transition: all 0.3s ease;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-card:hover {\n" +
+                "            border-color: var(--accent-color);\n" +
+                "            transform: translateY(-2px);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-card.enabled {\n" +
+                "            border-color: var(--success-color);\n" +
+                "            background: rgba(72, 187, 120, 0.1);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-header {\n" +
+                "            display: flex;\n" +
+                "            justify-content: space-between;\n" +
+                "            align-items: center;\n" +
+                "            margin-bottom: 12px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-name {\n" +
+                "            font-weight: 600;\n" +
+                "            font-size: 1.1em;\n" +
+                "            color: var(--text-primary);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-toggle {\n" +
+                "            position: relative;\n" +
+                "            width: 50px;\n" +
+                "            height: 26px;\n" +
+                "            background: var(--text-secondary);\n" +
+                "            border-radius: 13px;\n" +
+                "            cursor: pointer;\n" +
+                "            transition: background 0.3s ease;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-toggle.enabled {\n" +
+                "            background: var(--success-color);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-toggle::after {\n" +
+                "            content: '';\n" +
+                "            position: absolute;\n" +
+                "            top: 3px;\n" +
+                "            left: 3px;\n" +
+                "            width: 20px;\n" +
+                "            height: 20px;\n" +
+                "            background: white;\n" +
+                "            border-radius: 50%;\n" +
+                "            transition: transform 0.3s ease;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-toggle.enabled::after {\n" +
+                "            transform: translateX(24px);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-description {\n" +
+                "            font-size: 0.9em;\n" +
+                "            color: var(--text-secondary);\n" +
+                "            margin-bottom: 8px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-keybind {\n" +
+                "            font-size: 0.85em;\n" +
+                "            color: var(--accent-color);\n" +
+                "            font-weight: 500;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .module-category {\n" +
+                "            display: inline-block;\n" +
+                "            padding: 4px 8px;\n" +
+                "            background: var(--accent-color);\n" +
+                "            color: white;\n" +
+                "            border-radius: 4px;\n" +
+                "            font-size: 0.8em;\n" +
+                "            font-weight: 500;\n" +
+                "            margin-top: 8px;\n" +
+                "        }\n" +
+                "        \n" +
                 "        .footer {\n" +
                 "            text-align: center;\n" +
                 "            color: white;\n" +
@@ -391,14 +503,8 @@ public class WebTemplate {
                 "                padding: 20px;\n" +
                 "            }\n" +
                 "            \n" +
-                "            .info-row {\n" +
-                "                flex-direction: column;\n" +
-                "                align-items: flex-start;\n" +
-                "                gap: 4px;\n" +
-                "            }\n" +
-                "            \n" +
-                "            .info-value {\n" +
-                "                text-align: left;\n" +
+                "            .module-grid {\n" +
+                "                grid-template-columns: 1fr;\n" +
                 "            }\n" +
                 "        }\n" +
                 "    </style>\n" +
@@ -507,6 +613,13 @@ public class WebTemplate {
                 "            </div>\n" +
                 "        </div>\n" +
                 "        \n" +
+                "        <div class=\"modules-container\">\n" +
+                "            <h2>⚙️ <span id=\"modules-title\">Module Control</span></h2>\n" +
+                "            <div class=\"module-grid\" id=\"moduleGrid\">\n" +
+                "                <div id=\"loading-modules\">Loading modules...</div>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        \n" +
                 "        <div class=\"scoreboard-container\">\n" +
                 "            <h2>📊 <span id=\"scoreboard-title\">Scoreboard</span></h2>\n" +
                 "            <ul class=\"scoreboard-list\" id=\"scoreboardList\">\n" +
@@ -569,6 +682,63 @@ public class WebTemplate {
                 "                });\n" +
                 "        }\n" +
                 "        \n" +
+                "        // Module control\n" +
+                "        function loadModules() {\n" +
+                "            fetch('/api/modules')\n" +
+                "                .then(response => response.json())\n" +
+                "                .then(data => {\n" +
+                "                    renderModules(data.modules);\n" +
+                "                })\n" +
+                "                .catch(error => {\n" +
+                "                    console.error('Error loading modules:', error);\n" +
+                "                    document.getElementById('moduleGrid').innerHTML = '<div style=\"color: var(--danger-color)\">Failed to load modules</div>';\n" +
+                "                });\n" +
+                "        }\n" +
+                "        \n" +
+                "        function renderModules(modules) {\n" +
+                "            const grid = document.getElementById('moduleGrid');\n" +
+                "            grid.innerHTML = '';\n" +
+                "            \n" +
+                "            modules.forEach(module => {\n" +
+                "                const card = document.createElement('div');\n" +
+                "                card.className = 'module-card' + (module.enabled ? ' enabled' : '');\n" +
+                "                card.innerHTML = `\n" +
+                "                    <div class=\"module-header\">\n" +
+                "                        <span class=\"module-name\">${escapeHtml(module.name)}</span>\n" +
+                "                        <div class=\"module-toggle ${module.enabled ? 'enabled' : ''}\" onclick=\"toggleModule('${escapeHtml(module.name)}')\"></div>\n" +
+                "                    </div>\n" +
+                "                    <div class=\"module-description\">${escapeHtml(module.description)}</div>\n" +
+                "                    <div class=\"module-keybind\">Keybind: ${escapeHtml(module.keybind)}</div>\n" +
+                "                    <div class=\"module-category\">${escapeHtml(module.category)}</div>\n" +
+                "                `;\n" +
+                "                grid.appendChild(card);\n" +
+                "            });\n" +
+                "        }\n" +
+                "        \n" +
+                "        function toggleModule(moduleName) {\n" +
+                "            fetch('/api/modules/' + encodeURIComponent(moduleName), {\n" +
+                "                method: 'POST',\n" +
+                "                headers: {\n" +
+                "                    'Content-Type': 'application/json'\n" +
+                "                },\n" +
+                "                body: JSON.stringify({ action: 'toggle' })\n" +
+                "            })\n" +
+                "            .then(response => response.json())\n" +
+                "            .then(data => {\n" +
+                "                loadModules(); // Refresh module list\n" +
+                "            })\n" +
+                "            .catch(error => {\n" +
+                "                console.error('Error toggling module:', error);\n" +
+                "                alert('Failed to toggle module: ' + error.message);\n" +
+                "            });\n" +
+                "        }\n" +
+                "        \n" +
+                "        function escapeHtml(text) {\n" +
+                "            const div = document.createElement('div');\n" +
+                "            div.textContent = text;\n" +
+                "            return div.innerHTML;\n" +
+                "        }\n" +
+                "        \n" +
                 "        // Language translations\n" +
                 "        const translations = {\n" +
                 "            en: {\n" +
@@ -580,8 +750,10 @@ public class WebTemplate {
                 "                serverInfo: 'Server Information',\n" +
                 "                systemInfo: 'System Information',\n" +
                 "                screenshot: 'Screenshot',\n" +
+                "                modules: 'Module Control',\n" +
                 "                scoreboard: 'Scoreboard',\n" +
                 "                loadingScoreboard: 'Loading scoreboard...',\n" +
+                "                loadingModules: 'Loading modules...',\n" +
                 "                footer: 'Lucid Dreaming Mod v1.0.0 | Auto-refreshing every 1 second',\n" +
                 "                labels: {\n" +
                 "                    name: 'Name:',\n" +
@@ -616,8 +788,10 @@ public class WebTemplate {
                 "                serverInfo: '服务器信息',\n" +
                 "                systemInfo: '系统信息',\n" +
                 "                screenshot: '截图',\n" +
+                "                modules: '模块控制',\n" +
                 "                scoreboard: '计分板',\n" +
                 "                loadingScoreboard: '加载计分板中...',\n" +
+                "                loadingModules: '加载模块中...',\n" +
                 "                footer: '清醒梦 Mod v1.0.0 | 每秒自动刷新',\n" +
                 "                labels: {\n" +
                 "                    name: '名称:',\n" +
@@ -664,8 +838,10 @@ public class WebTemplate {
                 "            document.getElementById('server-info-title').textContent = t.serverInfo;\n" +
                 "            document.getElementById('system-info-title').textContent = t.systemInfo;\n" +
                 "            document.getElementById('screenshot-title').textContent = t.screenshot;\n" +
+                "            document.getElementById('modules-title').textContent = t.modules;\n" +
                 "            document.getElementById('scoreboard-title').textContent = t.scoreboard;\n" +
                 "            document.getElementById('loading-scoreboard').textContent = t.loadingScoreboard;\n" +
+                "            document.getElementById('loading-modules').textContent = t.loadingModules;\n" +
                 "            document.getElementById('footer').textContent = t.footer;\n" +
                 "            \n" +
                 "            for (const [key, value] of Object.entries(t.labels)) {\n" +
@@ -769,7 +945,9 @@ public class WebTemplate {
                 "            applyTheme();\n" +
                 "            updateTranslations();\n" +
                 "            updateInfo();\n" +
+                "            loadModules();\n" +
                 "            setInterval(updateInfo, 1000);\n" +
+                "            setInterval(loadModules, 2000); // Refresh modules every 2 seconds\n" +
                 "        });\n" +
                 "    </script>\n" +
                 "</body>\n" +

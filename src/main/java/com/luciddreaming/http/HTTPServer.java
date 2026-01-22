@@ -40,6 +40,7 @@ public class HTTPServer {
             server.createContext("/api/info", new APIInfoHandler());
             server.createContext("/api/json", new APIJSONHandler());
             server.createContext("/api/screenshot", new APIScreenshotHandler());
+            server.createContext("/api/modules", new ModuleAPIHandler());
 
             server.setExecutor(null); // creates a default executor
             server.start();
