@@ -9,8 +9,8 @@ public class Keybind {
 
     public Keybind(String name, String description, int keyCode) {
         this.name = name;
-        // Ensure the key binding name follows Forge's expected format
-        this.keyBinding = new KeyBinding("key.luciddreaming." + name.toLowerCase(), keyCode, "Lucid Dreaming");
+        // The name parameter already includes the full key name with prefix
+        this.keyBinding = new KeyBinding(name, keyCode, "Lucid Dreaming");
     }
 
     public Keybind(String name, String description) {

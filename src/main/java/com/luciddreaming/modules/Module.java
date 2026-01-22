@@ -30,7 +30,9 @@ public abstract class Module {
     }
 
     public String getLocalizedName() {
-        return I18n.format("module.luciddreaming." + name.toLowerCase() + ".name");
+        // 将驼峰命名转换为下划线命名，例如 FakeBlackScreen -> fake_black_screen
+        String formattedName = name.replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
+        return I18n.format("module.luciddreaming." + formattedName + ".name");
     }
 
     public String getDescription() {
@@ -38,7 +40,9 @@ public abstract class Module {
     }
 
     public String getLocalizedDescription() {
-        return I18n.format("module.luciddreaming." + name.toLowerCase() + ".description");
+        // 将驼峰命名转换为下划线命名，例如 FakeBlackScreen -> fake_black_screen
+        String formattedName = name.replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
+        return I18n.format("module.luciddreaming." + formattedName + ".description");
     }
 
     public ModuleCategory getCategory() {
