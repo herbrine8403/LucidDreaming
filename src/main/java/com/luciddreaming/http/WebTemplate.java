@@ -118,6 +118,12 @@ public class WebTemplate {
                 "            transform: translateY(-2px);\n" +
                 "        }\n" +
                 "        \n" +
+                "        .control-btn.active {\n" +
+                "            background: white;\n" +
+                "            color: var(--accent-color);\n" +
+                "            border-color: white;\n" +
+                "        }\n" +
+                "        \n" +
                 "        .info-grid {\n" +
                 "            display: grid;\n" +
                 "            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));\n" +
@@ -513,6 +519,8 @@ public class WebTemplate {
                 "    <div class=\"container\">\n" +
                 "        <div class=\"header\">\n" +
                 "            <div class=\"header-controls\">\n" +
+                "                <button class=\"control-btn\" onclick=\"setLanguage('en')\" id=\"langEnBtn\">English</button>\n" +
+                "                <button class=\"control-btn\" onclick=\"setLanguage('zh')\" id=\"langZhBtn\">中文</button>\n" +
                 "                <button class=\"control-btn\" onclick=\"toggleTheme()\" id=\"themeBtn\">🌙 Dark</button>\n" +
                 "                <button class=\"control-btn\" onclick=\"takeScreenshot()\" id=\"screenshotBtn\">📸 Screenshot</button>\n" +
                 "            </div>\n" +
@@ -824,6 +832,12 @@ public class WebTemplate {
                 "        function setLanguage(lang) {\n" +
                 "            currentLang = lang;\n" +
                 "            localStorage.setItem('lang', lang);\n" +
+                "            \n" +
+                "            // Update language button states\n" +
+                "            document.getElementById('langEnBtn').classList.remove('active');\n" +
+                "            document.getElementById('langZhBtn').classList.remove('active');\n" +
+                "            document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1) + 'Btn').classList.add('active');\n" +
+                "            \n" +
                 "            updateTranslations();\n" +
                 "            updateInfo();\n" +
                 "        }\n" +
@@ -943,6 +957,13 @@ public class WebTemplate {
                 "        // Initialize\n" +
                 "        document.addEventListener('DOMContentLoaded', function() {\n" +
                 "            applyTheme();\n" +
+                "            \n" +
+                "            // Initialize language buttons\n" +
+                "            const langBtn = document.getElementById('lang' + currentLang.charAt(0).toUpperCase() + currentLang.slice(1) + 'Btn');\n" +
+                "            if (langBtn) {\n" +
+                "                langBtn.classList.add('active');\n" +
+                "            }\n" +
+                "            \n" +
                 "            updateTranslations();\n" +
                 "            updateInfo();\n" +
                 "            loadModules();\n" +
