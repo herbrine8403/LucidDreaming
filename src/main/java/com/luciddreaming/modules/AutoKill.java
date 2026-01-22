@@ -245,6 +245,9 @@ public class AutoKill extends Module {
             }
         }
 
+        // Reset attack cooldown to bypass Minecraft's attack speed limit
+        mc.player.resetCooldown();
+
         // Attack
         mc.playerController.attackEntity(mc.player, target);
         mc.player.swingArm(EnumHand.MAIN_HAND);

@@ -91,6 +91,9 @@ public class AutoClicker extends Module {
 
     private void leftClick() {
         try {
+            // Reset attack cooldown to bypass Minecraft's attack speed limit
+            mc.player.resetCooldown();
+            
             // Attack entity if mouse is over one, otherwise just click
             if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
                 mc.playerController.attackEntity(mc.player, mc.objectMouseOver.entityHit);
