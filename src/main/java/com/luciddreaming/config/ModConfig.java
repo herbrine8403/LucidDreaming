@@ -9,66 +9,66 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = LucidDreaming.MODID, name = LucidDreaming.NAME, category = "")
 public class ModConfig {
-    @Config.Name("Server")
-    @Config.Comment("Server settings")
+    @Config.Name("config.luciddreaming.server")
+    @Config.Comment("config.luciddreaming.server.comment")
     public static Server server = new Server();
 
-    @Config.Name("Web Interface")
-    @Config.Comment("Web interface settings")
+    @Config.Name("config.luciddreaming.web_interface")
+    @Config.Comment("config.luciddreaming.web_interface.comment")
     public static WebInterface webInterface = new WebInterface();
 
     public static class Server {
-        @Config.Name("Enable Web Server")
-        @Config.Comment("Enable or disable the web server interface (default: true)")
+        @Config.Name("config.luciddreaming.server.enable_web_server")
+        @Config.Comment("config.luciddreaming.server.enable_web_server.comment")
         @Config.RequiresWorldRestart
         public boolean enableWebServer = true;
 
-        @Config.Name("HTTP Server Port")
-        @Config.Comment("Port number for the HTTP server (default: 1122)")
+        @Config.Name("config.luciddreaming.server.http_port")
+        @Config.Comment("config.luciddreaming.server.http_port.comment")
         @Config.RangeInt(min = 1024, max = 65535)
         @Config.RequiresWorldRestart
         public int httpPort = 1122;
 
-        @Config.Name("Bind Address")
-        @Config.Comment("Network interface to bind to. Use '0.0.0.0' for all interfaces (recommended for Android/LAN access), or '127.0.0.1' for localhost only.")
+        @Config.Name("config.luciddreaming.server.bind_address")
+        @Config.Comment("config.luciddreaming.server.bind_address.comment")
         @Config.RequiresWorldRestart
         public String bindAddress = "0.0.0.0";
 
-        @Config.Name("Enable LAN Access")
-        @Config.Comment("Allow devices on the same network to access the HTTP server (recommended for Android devices)")
+        @Config.Name("config.luciddreaming.server.enable_lan_access")
+        @Config.Comment("config.luciddreaming.server.enable_lan_access.comment")
         public boolean enableLANAccess = true;
     }
 
     public static class WebInterface {
-        @Config.Name("Enable Screenshot")
-        @Config.Comment("Enable screenshot functionality in web interface")
+        @Config.Name("config.luciddreaming.web_interface.enable_screenshot")
+        @Config.Comment("config.luciddreaming.web_interface.enable_screenshot.comment")
         public boolean enableScreenshot = true;
 
-        @Config.Name("Screenshot Quality")
-        @Config.Comment("Screenshot quality (0.0 - 1.0)")
+        @Config.Name("config.luciddreaming.web_interface.screenshot_quality")
+        @Config.Comment("config.luciddreaming.web_interface.screenshot_quality.comment")
         @Config.RangeDouble(min = 0.1, max = 1.0)
         public double screenshotQuality = 0.8;
 
-        @Config.Name("Auto Save Screenshots")
-        @Config.Comment("Automatically save screenshots to local file")
+        @Config.Name("config.luciddreaming.web_interface.auto_save_screenshots")
+        @Config.Comment("config.luciddreaming.web_interface.auto_save_screenshots.comment")
         public boolean autoSaveScreenshots = false;
 
-        @Config.Name("Screenshot Save Path")
-        @Config.Comment("Directory to save screenshots (default: screenshots/luciddreaming/)")
+        @Config.Name("config.luciddreaming.web_interface.screenshot_save_path")
+        @Config.Comment("config.luciddreaming.web_interface.screenshot_save_path.comment")
         public String screenshotSavePath = "screenshots/luciddreaming/";
 
-        @Config.Name("Theme Mode")
-        @Config.Comment("Theme mode: 0 = Auto, 1 = Light, 2 = Dark")
+        @Config.Name("config.luciddreaming.web_interface.theme_mode")
+        @Config.Comment("config.luciddreaming.web_interface.theme_mode.comment")
         @Config.RangeInt(min = 0, max = 2)
         public int themeMode = 0;
 
-        @Config.Name("Auto Refresh Interval")
-        @Config.Comment("Auto refresh interval in milliseconds (0 = disabled)")
+        @Config.Name("config.luciddreaming.web_interface.auto_refresh_interval")
+        @Config.Comment("config.luciddreaming.web_interface.auto_refresh_interval.comment")
         @Config.RangeInt(min = 0, max = 60000)
         public int autoRefreshInterval = 1000;
 
-        @Config.Name("Enable Module Control")
-        @Config.Comment("Enable module control panel in web interface")
+        @Config.Name("config.luciddreaming.web_interface.enable_module_control")
+        @Config.Comment("config.luciddreaming.web_interface.enable_module_control.comment")
         public boolean enableModuleControl = true;
     }
 
