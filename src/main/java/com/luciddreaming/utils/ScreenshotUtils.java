@@ -35,18 +35,29 @@ public class ScreenshotUtils {
     }
 
     public static ScreenshotResult takeScreenshotWithImage(float quality) throws IOException {
-        if (mc == null || mc.world == null) {
-            LucidDreaming.LOGGER.warn("Cannot take screenshot: Minecraft not initialized");
+        if (mc == null || mc.world == null || mc.displayWidth <= 0 || mc.displayHeight <= 0) {
+            LucidDreaming.LOGGER.warn("Cannot take screenshot: Invalid Minecraft state or dimensions");
             return null;
         }
 
         try {
-            // Use Minecraft's built-in screenshot method
-            BufferedImage image = ScreenShotHelper.createScreenshot(mc.displayWidth, mc.displayHeight, mc.getFramebuffer());
+            // Get framebuffer
+            Framebuffer framebuffer = mc.getFramebuffer();
+            if (framebuffer == null) {
+                LucidDreaming.LOGGER.warn("Cannot take screenshot: Framebuffer is null");
+                return null;
+            }
+
+            // Create screenshot using ScreenShotHelper
+            BufferedImage image = ScreenShotHelper.createScreenshot(framebuffer);
             
             if (image == null) {
-                LucidDreaming.LOGGER.warn("Screenshot returned null image");
-                return null;
+                // Fallback: Try alternative method
+                image = createScreenshotAlternative();
+                if (image == null) {
+                    LucidDreaming.LOGGER.warn("Screenshot returned null image from both methods");
+                    return null;
+                }
             }
 
             // Convert to byte array
@@ -77,7 +88,43 @@ public class ScreenshotUtils {
             return new ScreenshotResult(baos.toByteArray(), image);
         } catch (Exception e) {
             LucidDreaming.LOGGER.error("Failed to take screenshot", e);
-            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * Alternative method to create screenshot if ScreenShotHelper fails
+     */
+    private static BufferedImage createScreenshotAlternative() {
+        try {
+            Framebuffer framebuffer = mc.getFramebuffer();
+            int width = framebuffer.framebufferTextureWidth;
+            int height = framebuffer.framebufferTextureHeight;
+            
+            // Get pixel data from framebuffer
+            GlStateManager.bindTexture(framebuffer.framebufferTexture);
+            ByteBuffer buffer = ByteBuffer.allocateDirect(width * height * 4);
+            GlStateManager.glGetTexImage(3553, 0, 32993, 33639, buffer);
+            
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            
+            // Convert RGBA to ARGB
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int i = (x + y * width) * 4;
+                    int r = buffer.get(i) & 0xFF;
+                    int g = buffer.get(i + 1) & 0xFF;
+                    int b = buffer.get(i + 2) & 0xFF;
+                    int a = buffer.get(i + 3) & 0xFF;
+                    int argb = (a << 24) | (r << 16) | (g << 8) | b;
+                    image.setRGB(x, height - 1 - y, argb);
+                }
+            }
+            
+            GlStateManager.bindTexture(0);
+            return image;
+        } catch (Exception e) {
+            LucidDreaming.LOGGER.error("Failed to create screenshot using alternative method", e);
             return null;
         }
     }

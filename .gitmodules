@@ -13,3 +13,7 @@
 [submodule "third_party/mousse"]
 	path = third_party/mousse
 	url = https://github.com/Snoworange420/Mousse.git
+[submodule "third_party/ScreenshotToClipboard"]
+	path = third_party/ScreenshotToClipboard
+	url = https://github.com/comp500/ScreenshotToClipboard.git
+	branch = 1.12
