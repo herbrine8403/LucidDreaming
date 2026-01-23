@@ -287,8 +287,7 @@ public class ConfigTemplate {
                 "                configSaved: '配置保存成功！',\n" +
                 "                configError: '保存配置失败：'\n" +
                 "            }\n" +
-                "        };
-" +
+                "        }\n" +
                 "        \n" +
                 "        let currentLang = localStorage.getItem('lang') || 'en';\n" +
                 "        \n" +
@@ -380,7 +379,7 @@ public class ConfigTemplate {
                 "            }\n" +
                 "            \n" +
                 "            html += '<div class=\"config-actions\">';\n" +
-                "            html += '<button class=\"save\" onclick=\"saveModuleConfig(\\'' + moduleName + '\\')\">' + t.saveConfig + '</button>';\n" +
+                "            html += '<button class=\"save\" onclick=\"saveModuleConfig(\'' + moduleName + '\')\">' + t.saveConfig + '</button>';\n" +
                 "            html += '<button class=\"reset\" onclick=\"loadModuleConfig()\">' + t.resetConfig + '</button>';\n" +
                 "            html += '</div>';\n" +
                 "            \n" +
