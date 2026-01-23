@@ -3,7 +3,7 @@ package com.luciddreaming.utils;
 import com.luciddreaming.LucidDreaming;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Framebuffer;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ScreenShotHelper;
 
 import javax.imageio.ImageIO;
