@@ -30,9 +30,15 @@ public abstract class Module {
     }
 
     public String getLocalizedName() {
-        // 将驼峰命名转换为下划线命名，例如 FakeBlackScreen -> fake_black_screen
-        String formattedName = name.replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
-        return I18n.format("module.luciddreaming." + formattedName + ".name");
+        // 直接使用驼峰转小写作为键，例如 AutoFish -> autofish
+        String formattedName = name.toLowerCase();
+        String fullKey = "module.luciddreaming." + formattedName + ".name";
+        String localized = I18n.format(fullKey);
+        // 如果本地化返回键本身或包含键前缀，使用默认名称
+        if (localized.equals(fullKey) || localized.startsWith("module.luciddreaming.")) {
+            return name;
+        }
+        return localized;
     }
 
     public String getDescription() {
@@ -40,9 +46,15 @@ public abstract class Module {
     }
 
     public String getLocalizedDescription() {
-        // 将驼峰命名转换为下划线命名，例如 FakeBlackScreen -> fake_black_screen
-        String formattedName = name.replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase();
-        return I18n.format("module.luciddreaming." + formattedName + ".description");
+        // 直接使用驼峰转小写作为键，例如 AutoFish -> autofish
+        String formattedName = name.toLowerCase();
+        String fullKey = "module.luciddreaming." + formattedName + ".description";
+        String localized = I18n.format(fullKey);
+        // 如果本地化返回键本身或包含键前缀，使用默认描述
+        if (localized.equals(fullKey) || localized.startsWith("module.luciddreaming.")) {
+            return description;
+        }
+        return localized;
     }
 
     public ModuleCategory getCategory() {
