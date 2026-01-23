@@ -243,7 +243,7 @@ public class ConfigTemplate {
                 "            <div class=\"config-selector\">\n" +
                 "                <label for=\"moduleSelect\" id=\"moduleSelectLabel\">Select Module:</label>\n" +
                 "                <select id=\"moduleSelect\" onchange=\"loadModuleConfig()\">\n" +
-                "                    <option value="">-- Select a module --</option>\n" +
+                "                    <option value=\">-- Select a module --</option>\n" +
                 "                    <option value=\"AutoFish\">AutoFish</option>\n" +
                 "                    <option value=\"AutoClicker\">AutoClicker</option>\n" +
                 "                    <option value=\"AutoKill\">AutoKill</option>\n" +
