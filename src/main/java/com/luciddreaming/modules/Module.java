@@ -59,11 +59,11 @@ public abstract class Module {
             if (enabled) {
                 onEnable();
                 LucidDreaming.LOGGER.info("Module '{}' enabled", name);
-                sendLocalChatMessage(String.format(I18n.format("message.luciddreaming.enabled"), getLocalizedName()));
+                sendLocalChatMessage(I18n.format("message.luciddreaming.enabled", getLocalizedName()));
             } else {
                 onDisable();
                 LucidDreaming.LOGGER.info("Module '{}' disabled", name);
-                sendLocalChatMessage(String.format(I18n.format("message.luciddreaming.disabled"), getLocalizedName()));
+                sendLocalChatMessage(I18n.format("message.luciddreaming.disabled", getLocalizedName()));
             }
         }
     }

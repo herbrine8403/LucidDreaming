@@ -2,6 +2,7 @@ package com.luciddreaming;
 
 import com.luciddreaming.config.ModConfig;
 import com.luciddreaming.http.HTTPServer;
+import com.luciddreaming.modules.Module;
 import com.luciddreaming.modules.ModuleManager;
 import com.luciddreaming.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
@@ -67,9 +68,24 @@ public class LucidDreaming {
     public void postInit(FMLPostInitializationEvent event) {
         LOGGER.info("Lucid Dreaming Mod fully initialized!");
         LOGGER.info("Registered {} modules", moduleManager.getModules().size());
-        
+
         // Set Minecraft instance and call proxy postInit
         mc = Minecraft.getMinecraft();
         proxy.postInit(moduleManager);
+
+        // Check localization
+        String currentLanguage = mc.gameSettings.language;
+        LOGGER.info("=== Localization Debug ===");
+        LOGGER.info("Current game language: {}", currentLanguage);
+        LOGGER.info("Mod localized name: {}", getLocalizedName());
+        LOGGER.info("Mod localized description: {}", getLocalizedDescription());
+
+        // Test module localization
+        if (moduleManager != null && !moduleManager.getModules().isEmpty()) {
+            Module firstModule = moduleManager.getModules().get(0);
+            LOGGER.info("First module: {} (localized: {})", firstModule.getName(), firstModule.getLocalizedName());
+            LOGGER.info("First module description: {} (localized: {})", firstModule.getDescription(), firstModule.getLocalizedDescription());
+        }
+        LOGGER.info("========================");
     }
 }

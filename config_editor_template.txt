@@ -1,0 +1,171 @@
+/* Config Editor */
+        .config-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            margin-top: 20px;
+            animation: fadeInUp 0.6s ease-out;
+            backdrop-filter: blur(10px);
+        }
+        
+        .config-container h2 {
+            color: var(--accent-color);
+            margin-bottom: 18px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            font-size: 1.35em;
+            font-weight: 600;
+        }
+        
+        .config-selector {
+            margin-bottom: 20px;
+        }
+        
+        .config-selector label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 10px;
+        }
+        
+        .config-selector select {
+            padding: 10px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+        
+        .config-selector select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .config-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .config-item {
+            background: rgba(102, 126, 234, 0.05);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .config-item:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .config-item label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .config-item input[type="number"],
+        .config-item input[type="text"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .config-item input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+        
+        .config-item .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .config-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+        
+        .config-item select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .config-item .range-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .config-item input[type="range"] {
+            flex: 1;
+            cursor: pointer;
+            accent-color: var(--accent-color);
+        }
+        
+        .config-item .range-value {
+            min-width: 60px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .config-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .config-actions button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .config-actions button.save {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .config-actions button.save:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+        
+        .config-actions button.reset {
+            background: var(--text-secondary);
+            color: white;
+        }
+        
+        .config-actions button.reset:hover {
+            background: #718096;
+            transform: translateY(-2px);
+        }

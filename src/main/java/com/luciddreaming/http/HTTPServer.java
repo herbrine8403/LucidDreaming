@@ -41,7 +41,9 @@ public class HTTPServer {
             server.createContext("/api/json", new APIJSONHandler());
             server.createContext("/api/screenshot", new APIScreenshotHandler());
             server.createContext("/api/modules", new ModuleAPIHandler());
+            server.createContext("/api/config", new ModuleConfigAPIHandler());
             server.createContext("/api/autowalk", new APIAutoWalkHandler());
+            server.createContext("/config", new ConfigHandler());
 
             server.setExecutor(null); // creates a default executor
             server.start();
@@ -295,6 +297,17 @@ public class HTTPServer {
                         os.write(response.getBytes(StandardCharsets.UTF_8));
                     }
                 }
+            }
+        }
+    }
+
+    static class ConfigHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String response = ConfigTemplate.generateHTML();
+            exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes(StandardCharsets.UTF_8));
             }
         }
     }

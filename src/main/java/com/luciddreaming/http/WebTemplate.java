@@ -739,7 +739,7 @@ public class WebTemplate {
                 "        </div>\n" +
                 "        \n" +
                 "        <div class=\"modules-container\">\n" +
-                "            <h2>⚙️ <span id=\"modules-title\">Module Control</span></h2>\n" +
+                "            <h2>⚙️ <span id=\"modules-title\">Module Control</span> <a href=\"/config\" style=\"font-size: 0.6em; margin-left: 10px; color: var(--accent-color);\">[Edit Config]</a></h2>\n" +
                 "            <div class=\"module-grid\" id=\"moduleGrid\">\n" +
                 "                <div id=\"loading-modules\">Loading modules...</div>\n" +
                 "            </div>\n" +

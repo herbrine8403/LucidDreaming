@@ -23,6 +23,12 @@ public enum ModuleCategory {
     }
 
     public String getLocalizedName() {
-        return I18n.format("category.luciddreaming." + key);
+        String fullKey = "category.luciddreaming." + key;
+        String localized = I18n.format(fullKey);
+        // If localization returns the key itself or starts with "category.", use the default name
+        if (localized.equals(fullKey) || localized.startsWith("category.")) {
+            return name;
+        }
+        return localized;
     }
 }
