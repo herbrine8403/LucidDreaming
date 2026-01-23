@@ -68,14 +68,17 @@ public abstract class Module {
     public void setEnabled(boolean enabled) {
         if (this.enabled != enabled) {
             this.enabled = enabled;
+            String localizedName = getLocalizedName();
             if (enabled) {
                 onEnable();
                 LucidDreaming.LOGGER.info("Module '{}' enabled", name);
-                sendLocalChatMessage(I18n.format("message.luciddreaming.enabled", getLocalizedName()));
+                // 直接构建消息，避免依赖语言文件占位符
+                sendLocalChatMessage("§a[Lucid Dreaming] §f" + localizedName + " §a已启用");
             } else {
                 onDisable();
                 LucidDreaming.LOGGER.info("Module '{}' disabled", name);
-                sendLocalChatMessage(I18n.format("message.luciddreaming.disabled", getLocalizedName()));
+                // 直接构建消息，避免依赖语言文件占位符
+                sendLocalChatMessage("§c[Lucid Dreaming] §f" + localizedName + " §c已禁用");
             }
         }
     }
