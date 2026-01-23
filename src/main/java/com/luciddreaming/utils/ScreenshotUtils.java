@@ -48,8 +48,8 @@ public class ScreenshotUtils {
                 return null;
             }
 
-            // Create screenshot using ScreenShotHelper
-            BufferedImage image = ScreenShotHelper.createScreenshot(framebuffer);
+            // Create screenshot using ScreenShotHelper with correct parameters
+            BufferedImage image = ScreenShotHelper.createScreenshot(mc.displayWidth, mc.displayHeight, framebuffer);
             
             if (image == null) {
                 // Fallback: Try alternative method
@@ -101,28 +101,8 @@ public class ScreenshotUtils {
             int width = framebuffer.framebufferTextureWidth;
             int height = framebuffer.framebufferTextureHeight;
             
-            // Get pixel data from framebuffer
-            GlStateManager.bindTexture(framebuffer.framebufferTexture);
-            ByteBuffer buffer = ByteBuffer.allocateDirect(width * height * 4);
-            GlStateManager.glGetTexImage(3553, 0, 32993, 33639, buffer);
-            
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            
-            // Convert RGBA to ARGB
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    int i = (x + y * width) * 4;
-                    int r = buffer.get(i) & 0xFF;
-                    int g = buffer.get(i + 1) & 0xFF;
-                    int b = buffer.get(i + 2) & 0xFF;
-                    int a = buffer.get(i + 3) & 0xFF;
-                    int argb = (a << 24) | (r << 16) | (g << 8) | b;
-                    image.setRGB(x, height - 1 - y, argb);
-                }
-            }
-            
-            GlStateManager.bindTexture(0);
-            return image;
+            // Get pixel data from framebuffer using ScreenShotHelper
+            return ScreenShotHelper.createScreenshot(width, height, framebuffer);
         } catch (Exception e) {
             LucidDreaming.LOGGER.error("Failed to create screenshot using alternative method", e);
             return null;
