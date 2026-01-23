@@ -34,7 +34,7 @@ src/main/java/com/luciddreaming/
 │   ├── ModuleCategory.java     # 模块类别枚举
 │   ├── AutoFish.java           # 自动钓鱼模块
 │   ├── AutoClicker.java        # 自动点击器模块
-│   ├── KillAura.java           # 自动攻击光环模块
+│   ├── AutoKill.java           # 自动攻击模块
 │   ├── AntiKick.java           # 防踢出模块
 │   ├── NoRender.java           # 渲染控制模块
 │   └── FakeBlackScreen.java    # 假黑屏模块
@@ -67,7 +67,7 @@ src/main/java/com/luciddreaming/
 - 每个模块都有独立的配置类和配置项：
   - AutoFish：重抛延迟、多竿、不损坏
   - AutoClicker：CPS、CPS 波动
-  - KillAura：攻击速度、范围、CPS 波动、未命中概率
+  - AutoKill：攻击速度、范围、CPS 波动、未命中概率
   - AntiKick：模式、间隔
   - NoRender：隐藏实体、粒子、天气等
   - FakeBlackScreen：不透明度
@@ -122,7 +122,7 @@ src/main/java/com/luciddreaming/
 - 可配置 CPS（每秒点击次数）
 - 支持 CPS 波动以避免检测
 
-##### KillAura (自动攻击光环)
+##### AutoKill (自动攻击)
 - 自动攻击范围内的敌对生物
 - 支持攻击速度配置
 - 支持攻击范围配置
@@ -372,8 +372,8 @@ AutoClicker {
   D:Fluctuation Amount=1.0
 }
 
-# KillAura 模块配置
-KillAura {
+# AutoKill 模块配置
+AutoKill {
   B:Enabled=false
   I:Keybind=0
   D:Attack Speed=8.0
