@@ -40,8 +40,7 @@ public class MainThreadTaskQueue {
         ResultTask<?> resultTask;
         while ((resultTask = resultTasks.poll()) != null) {
             try {
-                Object result = resultTask.task.get();
-                resultTask.callback.accept(result);
+                resultTask.process();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -55,6 +54,14 @@ public class MainThreadTaskQueue {
         ResultTask(Supplier<T> task, Consumer<T> callback) {
             this.task = task;
             this.callback = callback;
+        }
+        
+        /**
+         * Process this task and invoke the callback with the result
+         */
+        public void process() {
+            T result = task.get();
+            callback.accept(result);
         }
     }
 }
