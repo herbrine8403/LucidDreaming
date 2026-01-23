@@ -243,7 +243,7 @@ public class ConfigTemplate {
                 "            <div class=\"config-selector\">\n" +
                 "                <label for=\"moduleSelect\" id=\"moduleSelectLabel\">Select Module:</label>\n" +
                 "                <select id=\"moduleSelect\" onchange=\"loadModuleConfig()\">\n" +
-                "                    <option value=\">-- Select a module --</option>\n" +
+                "                    <option value="">-- Select a module --</option>\n" +
                 "                    <option value=\"AutoFish\">AutoFish</option>\n" +
                 "                    <option value=\"AutoClicker\">AutoClicker</option>\n" +
                 "                    <option value=\"AutoKill\">AutoKill</option>\n" +
@@ -517,8 +517,8 @@ public class ConfigTemplate {
                 "        function formatConfigKey(key) {\n" +
                 "            const t = translations[currentLang];\n" +
                 "            // Check if we have a translation for this key\n" +
-                "            if (t.configKeys && t.configKeys[key.toLowerCase()]) {\n" +
-                "                return t.configKeys[key.toLowerCase()];\n" +
+                "            if (t.configKeys && t.configKeys[key]) {\n" +
+                "                return t.configKeys[key];\n" +
                 "            }\n" +
                 "            // Fallback to formatting the key\n" +
                 "            return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();\n" +
