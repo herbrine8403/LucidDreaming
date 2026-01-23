@@ -35,8 +35,8 @@ module.luciddreaming.fakeblackscreen.name=FakeBlackScreen
 module.luciddreaming.fakeblackscreen.description=Display a fake black screen
 
 # Messages
-message.luciddreaming.enabled=§a[Lucid Dreaming] §f{} §aenabled
-message.luciddreaming.disabled=§c[Lucid Dreaming] §f{} §cdisabled
+message.luciddreaming.enabled=§a[Lucid Dreaming] §f%s §aenabled
+message.luciddreaming.disabled=§c[Lucid Dreaming] §f%s §cdisabled
 
 # Keybinds
 key.luciddreaming.autofish=Toggle AutoFish

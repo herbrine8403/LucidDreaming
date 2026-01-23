@@ -35,8 +35,8 @@ module.luciddreaming.fakeblackscreen.name=假黑屏
 module.luciddreaming.fakeblackscreen.description=显示假黑屏
 
 # Messages
-message.luciddreaming.enabled=§a[清醒梦] §f{} §a已启用
-message.luciddreaming.disabled=§c[清醒梦] §f{} §c已禁用
+message.luciddreaming.enabled=§a[清醒梦] §f%s §a已启用
+message.luciddreaming.disabled=§c[清醒梦] §f%s §c已禁用
 
 # Keybinds
 key.luciddreaming.autofish=切换自动钓鱼
