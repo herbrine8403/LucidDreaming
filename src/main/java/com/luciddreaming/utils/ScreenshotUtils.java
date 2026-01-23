@@ -3,8 +3,7 @@ package com.luciddreaming.utils;
 import com.luciddreaming.LucidDreaming;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.client.renderer.Framebuffer;
 import net.minecraft.util.ScreenShotHelper;
 
 import javax.imageio.ImageIO;
@@ -12,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,77 +33,80 @@ public class ScreenshotUtils {
     }
 
     public static ScreenshotResult takeScreenshotWithImage(float quality) throws IOException {
-        if (mc == null || mc.world == null || mc.displayWidth <= 0 || mc.displayHeight <= 0) {
+        if (mc == null || mc.displayWidth <= 0 || mc.displayHeight <= 0) {
             LucidDreaming.LOGGER.warn("Cannot take screenshot: Invalid Minecraft state or dimensions");
             return null;
         }
 
         try {
-            // Get framebuffer
-            Framebuffer framebuffer = mc.getFramebuffer();
-            if (framebuffer == null) {
-                LucidDreaming.LOGGER.warn("Cannot take screenshot: Framebuffer is null");
-                return null;
-            }
-
-            // Create screenshot using ScreenShotHelper with correct parameters
-            BufferedImage image = ScreenShotHelper.createScreenshot(mc.displayWidth, mc.displayHeight, framebuffer);
-            
-            if (image == null) {
-                // Fallback: Try alternative method
-                image = createScreenshotAlternative();
-                if (image == null) {
-                    LucidDreaming.LOGGER.warn("Screenshot returned null image from both methods");
-                    return null;
-                }
-            }
-
-            // Convert to byte array
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            String format = quality >= 1.0f ? "png" : "jpg";
-
-            if (format.equals("jpg")) {
-                // For JPEG, use ImageIO with quality
-                java.awt.image.BufferedImage jpgImage = new java.awt.image.BufferedImage(
-                    image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-                jpgImage.getGraphics().drawImage(image, 0, 0, null);
+            // Use reliable main thread executor to ensure OpenGL context is available
+            return DirectMainThreadExecutor.executeOnMainThread(() -> {
+                // Save current OpenGL state
+                GlStateManager.pushMatrix();
+                GlStateManager.pushAttrib();
                 
-                javax.imageio.ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
-                javax.imageio.ImageWriteParam param = writer.getDefaultWriteParam();
-                param.setCompressionMode(javax.imageio.ImageWriteParam.MODE_EXPLICIT);
-                param.setCompressionQuality(quality);
-                
-                try (javax.imageio.stream.ImageOutputStream ios = ImageIO.createImageOutputStream(baos)) {
-                    writer.setOutput(ios);
-                    writer.write(null, new javax.imageio.IIOImage(jpgImage, null, null), param);
-                }
-            } else {
-                // For PNG, use ImageIO directly
-                ImageIO.write(image, "png", baos);
-            }
+                try {
+                    // Get Minecraft's framebuffer
+                    Framebuffer framebuffer = mc.getFramebuffer();
+                    if (framebuffer == null) {
+                        LucidDreaming.LOGGER.warn("Cannot take screenshot: Framebuffer is null");
+                        return null;
+                    }
 
-            LucidDreaming.LOGGER.info("Screenshot taken successfully ({} bytes)", baos.size());
-            return new ScreenshotResult(baos.toByteArray(), image);
+                    // Verify we're on the main thread with active OpenGL context
+                    if (!DirectMainThreadExecutor.isMainThread()) {
+                        LucidDreaming.LOGGER.error("CRITICAL: Screenshot taken on wrong thread: {}", Thread.currentThread().getName());
+                        return null;
+                    }
+
+                    // Create screenshot using Minecraft's built-in ScreenShotHelper
+                    // This method handles all OpenGL context operations correctly
+                    BufferedImage image = ScreenShotHelper.createScreenshot(
+                        mc.displayWidth, 
+                        mc.displayHeight, 
+                        framebuffer
+                    );
+                    
+                    if (image == null) {
+                        LucidDreaming.LOGGER.warn("ScreenShotHelper returned null image");
+                        return null;
+                    }
+
+                    // Convert image to byte array
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    String format = quality >= 1.0f ? "png" : "jpg";
+
+                    if (format.equals("jpg")) {
+                        // For JPEG, convert to RGB format first
+                        java.awt.image.BufferedImage jpgImage = new java.awt.image.BufferedImage(
+                            image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+                        jpgImage.getGraphics().drawImage(image, 0, 0, null);
+                        
+                        javax.imageio.ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+                        javax.imageio.ImageWriteParam param = writer.getDefaultWriteParam();
+                        param.setCompressionMode(javax.imageio.ImageWriteParam.MODE_EXPLICIT);
+                        param.setCompressionQuality(quality);
+                        
+                        try (javax.imageio.stream.ImageOutputStream ios = ImageIO.createImageOutputStream(baos)) {
+                            writer.setOutput(ios);
+                            writer.write(null, new javax.imageio.IIOImage(jpgImage, null, null), param);
+                        }
+                    } else {
+                        // For PNG, write directly
+                        ImageIO.write(image, "png", baos);
+                    }
+
+                    LucidDreaming.LOGGER.info("Screenshot taken successfully ({} bytes)", baos.size());
+                    return new ScreenshotResult(baos.toByteArray(), image);
+                } finally {
+                    // Restore OpenGL state
+                    GlStateManager.popAttrib();
+                    GlStateManager.popMatrix();
+                }
+            });
         } catch (Exception e) {
             LucidDreaming.LOGGER.error("Failed to take screenshot", e);
-            return null;
-        }
-    }
-    
-    /**
-     * Alternative method to create screenshot if ScreenShotHelper fails
-     */
-    private static BufferedImage createScreenshotAlternative() {
-        try {
-            Framebuffer framebuffer = mc.getFramebuffer();
-            int width = framebuffer.framebufferTextureWidth;
-            int height = framebuffer.framebufferTextureHeight;
-            
-            // Get pixel data from framebuffer using ScreenShotHelper
-            return ScreenShotHelper.createScreenshot(width, height, framebuffer);
-        } catch (Exception e) {
-            LucidDreaming.LOGGER.error("Failed to create screenshot using alternative method", e);
-            return null;
+            throw new IOException("Failed to take screenshot: " + e.getMessage(), e);
         }
     }
 

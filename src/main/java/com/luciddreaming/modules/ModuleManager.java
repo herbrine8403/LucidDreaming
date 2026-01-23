@@ -40,6 +40,10 @@ public class ModuleManager {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
+            // Process main thread tasks
+            com.luciddreaming.utils.MainThreadTaskQueue.processTasks();
+            
+            // Run enabled modules
             for (Module module : modules) {
                 if (module.isEnabled()) {
                     module.onTick();

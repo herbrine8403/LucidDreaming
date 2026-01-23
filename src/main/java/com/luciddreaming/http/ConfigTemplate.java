@@ -273,7 +273,60 @@ public class ConfigTemplate {
                 "                saveConfig: 'Save Configuration',\n" +
                 "                resetConfig: 'Reset',\n" +
                 "                configSaved: 'Configuration saved successfully!',\n" +
-                "                configError: 'Error saving configuration: '\n" +
+                "                configError: 'Error saving configuration: ',\n" +
+                "                // Module names\n" +
+                "                modules: {\n" +
+                "                    AutoFish: 'AutoFish',\n" +
+                "                    AutoClicker: 'AutoClicker',\n" +
+                "                    AutoKill: 'AutoKill',\n" +
+                "                    AntiKick: 'AntiKick',\n" +
+                "                    AutoWalk: 'AutoWalk',\n" +
+                "                    NoRender: 'NoRender',\n" +
+                "                    FakeBlackScreen: 'Fake Black Screen'\n" +
+                "                },\n" +
+                "                // Common config keys\n" +
+                "                configKeys: {\n" +
+                "                    enabled: 'Enabled',\n" +
+                "                    delay: 'Delay',\n" +
+                "                    chance: 'Chance',\n" +
+                "                    range: 'Range',\n" +
+                "                    speed: 'Speed',\n" +
+                "                    cooldown: 'Cooldown',\n" +
+                "                    opacity: 'Opacity',\n" +
+                "                    distance: 'Distance',\n" +
+                "                    interval: 'Interval',\n" +
+                "                    time: 'Time',\n" +
+                "                    amount: 'Amount',\n" +
+                "                    cost: 'Cost',\n" +
+                "                    mode: 'Mode',\n" +
+                "                    key: 'Key',\n" +
+                "                    message: 'Message',\n" +
+                "                    sound: 'Sound',\n" +
+                "                    particle: 'Particle',\n" +
+                "                    effect: 'Effect',\n" +
+                "                    radius: 'Radius',\n" +
+                "                    strength: 'Strength',\n" +
+                "                    duration: 'Duration',\n" +
+                "                    amplifier: 'Amplifier',\n" +
+                "                    min: 'Min',\n" +
+                "                    max: 'Max',\n" +
+                "                    threshold: 'Threshold',\n" +
+                "                    multiplier: 'Multiplier',\n" +
+                "                    factor: 'Factor',\n" +
+                "                    percentage: 'Percentage',\n" +
+                "                    level: 'Level',\n" +
+                "                    count: 'Count',\n" +
+                "                    limit: 'Limit',\n" +
+                "                    period: 'Period',\n" +
+                "                    rate: 'Rate',\n" +
+                "                    frequency: 'Frequency',\n" +
+                "                    intervalMin: 'Min Interval',\n" +
+                "                    intervalMax: 'Max Interval',\n" +
+                "                    delayMin: 'Min Delay',\n" +
+                "                    delayMax: 'Max Delay',\n" +
+                "                    speedMin: 'Min Speed',\n" +
+                "                    speedMax: 'Max Speed'\n" +
+                "                }\n" +
                 "            },\n" +
                 "            zh: {\n" +
                 "                title: '⚙️ 模块配置',\n" +
@@ -285,7 +338,60 @@ public class ConfigTemplate {
                 "                saveConfig: '保存配置',\n" +
                 "                resetConfig: '重置',\n" +
                 "                configSaved: '配置保存成功！',\n" +
-                "                configError: '保存配置失败：'\n" +
+                "                configError: '保存配置失败：',\n" +
+                "                // Module names\n" +
+                "                modules: {\n" +
+                "                    AutoFish: '自动钓鱼',\n" +
+                "                    AutoClicker: '自动点击',\n" +
+                "                    AutoKill: '自动击杀',\n" +
+                "                    AntiKick: '防踢',\n" +
+                "                    AutoWalk: '自动行走',\n" +
+                "                    NoRender: '不渲染',\n" +
+                "                    FakeBlackScreen: '假黑屏'\n" +
+                "                },\n" +
+                "                // Common config keys\n" +
+                "                configKeys: {\n" +
+                "                    enabled: '已启用',\n" +
+                "                    delay: '延迟',\n" +
+                "                    chance: '概率',\n" +
+                "                    range: '范围',\n" +
+                "                    speed: '速度',\n" +
+                "                    cooldown: '冷却',\n" +
+                "                    opacity: '透明度',\n" +
+                "                    distance: '距离',\n" +
+                "                    interval: '间隔',\n" +
+                "                    time: '时间',\n" +
+                "                    amount: '数量',\n" +
+                "                    cost: '消耗',\n" +
+                "                    mode: '模式',\n" +
+                "                    key: '按键',\n" +
+                "                    message: '消息',\n" +
+                "                    sound: '声音',\n" +
+                "                    particle: '粒子',\n" +
+                "                    effect: '效果',\n" +
+                "                    radius: '半径',\n" +
+                "                    strength: '强度',\n" +
+                "                    duration: '持续时间',\n" +
+                "                    amplifier: '放大器',\n" +
+                "                    min: '最小值',\n" +
+                "                    max: '最大值',\n" +
+                "                    threshold: '阈值',\n" +
+                "                    multiplier: '倍数',\n" +
+                "                    factor: '因子',\n" +
+                "                    percentage: '百分比',\n" +
+                "                    level: '等级',\n" +
+                "                    count: '计数',\n" +
+                "                    limit: '限制',\n" +
+                "                    period: '周期',\n" +
+                "                    rate: '速率',\n" +
+                "                    frequency: '频率',\n" +
+                "                    intervalMin: '最小间隔',\n" +
+                "                    intervalMax: '最大间隔',\n" +
+                "                    delayMin: '最小延迟',\n" +
+                "                    delayMax: '最大延迟',\n" +
+                "                    speedMin: '最小速度',\n" +
+                "                    speedMax: '最大速度'\n" +
+                "                }\n" +
                 "            }\n" +
                 "        }\n" +
                 "        \n" +
@@ -309,10 +415,17 @@ public class ConfigTemplate {
                 "            document.querySelector('.back-link').textContent = t.backLink;\n" +
                 "            document.getElementById('moduleSelectLabel').textContent = t.selectModule;\n" +
                 "            \n" +
-                "            // Update module select placeholder\n" +
+                "            // Update module select placeholder and options\n" +
                 "            const moduleSelect = document.getElementById('moduleSelect');\n" +
                 "            const placeholderOption = moduleSelect.options[0];\n" +
                 "            placeholderOption.textContent = '-- ' + t.selectModule + ' --';\n" +
+                "            \n" +
+                "            // Update module names in select options\n" +
+                "            for (let i = 1; i < moduleSelect.options.length; i++) {\n" +
+                "                const option = moduleSelect.options[i];\n" +
+                "                const moduleKey = option.value;\n" +
+                "                option.textContent = t.modules[moduleKey] || moduleKey;\n" +
+                "            }\n" +
                 "            \n" +
                 "            // Update config form if a module is selected\n" +
                 "            if (moduleSelect.value) {\n" +
@@ -359,18 +472,18 @@ public class ConfigTemplate {
                 "                \n" +
                 "                if (typeof value === 'boolean') {\n" +
                 "                    html += '<div class=\"checkbox-wrapper\">';\n" +
-                "                    html += '<input type=\"checkbox\" id=\"config_' + key + '\" ' + (value ? 'checked' : '') + '>';\n" +
-                "                    html += '<span>' + (value ? t.enabled : t.disabled) + '</span>';\n" +
+                "                    html += '<input type=\"checkbox\" id=\"config_' + key + '\" ' + (value ? 'checked' : '') + ' onchange=\"updateCheckboxText(this)\">';\n" +
+                "                    html += '<span id=\"checkbox_text_' + key + '\">' + (value ? t.enabled : t.disabled) + '</span>';\n" +
                 "                    html += '</div>';\n" +
                 "                } else if (typeof value === 'number') {\n" +
                 "                    if (key.includes('Range') || key.includes('Speed') || key.includes('Amount') || key.includes('Chance') || key.includes('Opacity') || key.includes('Cost') || key.includes('Distance') || key.includes('Time') || key.includes('Interval')) {\n" +
-                "                        html += '<div class=\"range-wrapper\">';\n" +
-                "                        html += '<input type=\"range\" id=\"config_' + key + '\" value=\"' + value + '\" min=\"0\" max=\"100\" step=\"0.1\" oninput=\"updateRangeValue(this)\">';\n" +
-                "                        html += '<span class=\"range-value\" id=\"range_' + key + '\">' + value + '</span>';\n" +
-                "                        html += '</div>';\n" +
-                "                    } else {\n" +
-                "                        html += '<input type=\"number\" id=\"config_' + key + '\" value=\"' + value + '\" step=\"0.1\">';\n" +
-                "                    }\n" +
+                "                            html += '<div class=\"range-wrapper\">';\n" +
+                "                            html += '<input type=\"range\" id=\"config_' + key + '\" value=\"' + value + '\" min=\"0\" max=\"100\" step=\"0.1\" oninput=\"updateRangeValue(this)\">';\n" +
+                "                            html += '<span class=\"range-value\" id=\"range_' + key + '\">' + value + '</span>';\n" +
+                "                            html += '</div>';\n" +
+                "                        } else {\n" +
+                "                            html += '<input type=\"number\" id=\"config_' + key + '\" value=\"' + value + '\" step=\"0.1\">';\n" +
+                "                        }\n" +
                 "                } else if (typeof value === 'string') {\n" +
                 "                    html += '<input type=\"text\" id=\"config_' + key + '\" value=\"' + value + '\">';\n" +
                 "                }\n" +
@@ -393,7 +506,21 @@ public class ConfigTemplate {
                 "            }\n" +
                 "        }\n" +
                 "        \n" +
+                "        function updateCheckboxText(checkbox) {\n" +
+                "            const textSpan = document.getElementById('checkbox_text_' + checkbox.id.replace('config_', ''));\n" +
+                "            const t = translations[currentLang];\n" +
+                "            if (textSpan) {\n" +
+                "                textSpan.textContent = checkbox.checked ? t.enabled : t.disabled;\n" +
+                "            }\n" +
+                "        }\n" +
+                "        \n" +
                 "        function formatConfigKey(key) {\n" +
+                "            const t = translations[currentLang];\n" +
+                "            // Check if we have a translation for this key\n" +
+                "            if (t.configKeys && t.configKeys[key.toLowerCase()]) {\n" +
+                "                return t.configKeys[key.toLowerCase()];\n" +
+                "            }\n" +
+                "            // Fallback to formatting the key\n" +
                 "            return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).trim();\n" +
                 "        }\n" +
                 "        \n" +
