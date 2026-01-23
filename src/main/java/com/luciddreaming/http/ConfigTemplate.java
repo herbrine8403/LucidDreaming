@@ -84,6 +84,33 @@ public class ConfigTemplate {
                 "            background: rgba(255, 255, 255, 0.3);\n" +
                 "        }\n" +
                 "        \n" +
+                "        .language-selector {\n" +
+                "            display: flex;\n" +
+                "            justify-content: center;\n" +
+                "            gap: 10px;\n" +
+                "            margin-bottom: 20px;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .language-btn {\n" +
+                "            padding: 8px 16px;\n" +
+                "            background: rgba(255, 255, 255, 0.2);\n" +
+                "            border: none;\n" +
+                "            border-radius: 8px;\n" +
+                "            color: white;\n" +
+                "            cursor: pointer;\n" +
+                "            transition: all 0.3s ease;\n" +
+                "            font-weight: 500;\n" +
+                "        }\n" +
+                "        \n" +
+                "        .language-btn:hover {\n" +
+                "            background: rgba(255, 255, 255, 0.3);\n" +
+                "        }\n" +
+                "        \n" +
+                "        .language-btn.active {\n" +
+                "            background: rgba(255, 255, 255, 0.5);\n" +
+                "            font-weight: 600;\n" +
+                "        }\n" +
+                "        \n" +
                 "        .config-container {\n" +
                 "            background: var(--card-bg);\n" +
                 "            border-radius: 16px;\n" +
@@ -205,14 +232,18 @@ public class ConfigTemplate {
                 "    <div class=\"container\">\n" +
                 "        <div class=\"header\">\n" +
                 "            <a href=\"/\" class=\"back-link\">← Back to Dashboard</a>\n" +
-                "            <h1>⚙️ Module Configuration</h1>\n" +
+                "            <div class=\"language-selector\">\n" +
+                "                <button class=\"language-btn active\" id=\"langEnBtn\" onclick=\"setLanguage('en')\">English</button>\n" +
+                "                <button class=\"language-btn\" id=\"langZhBtn\" onclick=\"setLanguage('zh')\">中文</button>\n" +
+                "            </div>\n" +
+                "            <h1 id=\"title\">⚙️ Module Configuration</h1>\n" +
                 "        </div>\n" +
                 "        \n" +
                 "        <div class=\"config-container\">\n" +
                 "            <div class=\"config-selector\">\n" +
-                "                <label for=\"moduleSelect\">Select Module:</label>\n" +
+                "                <label for=\"moduleSelect\" id=\"moduleSelectLabel\">Select Module:</label>\n" +
                 "                <select id=\"moduleSelect\" onchange=\"loadModuleConfig()\">\n" +
-                "                    <option value=\"\">-- Select a module --</option>\n" +
+                "                    <option value=\">-- Select a module --</option>\n" +
                 "                    <option value=\"AutoFish\">AutoFish</option>\n" +
                 "                    <option value=\"AutoClicker\">AutoClicker</option>\n" +
                 "                    <option value=\"AutoKill\">AutoKill</option>\n" +
@@ -230,13 +261,77 @@ public class ConfigTemplate {
                 "    </div>\n" +
                 "    \n" +
                 "    <script>\n" +
+                "        // Language translations\n" +
+                "        const translations = {\n" +
+                "            en: {\n" +
+                "                title: '⚙️ Module Configuration',\n" +
+                "                backLink: '← Back to Dashboard',\n" +
+                "                selectModule: 'Select Module:',\n" +
+                "                noModuleSelected: 'Select a module to view and edit its configuration.',\n" +
+                "                enabled: 'Enabled',\n" +
+                "                disabled: 'Disabled',\n" +
+                "                saveConfig: 'Save Configuration',\n" +
+                "                resetConfig: 'Reset',\n" +
+                "                configSaved: 'Configuration saved successfully!',\n" +
+                "                configError: 'Error saving configuration: '\n" +
+                "            },\n" +
+                "            zh: {\n" +
+                "                title: '⚙️ 模块配置',\n" +
+                "                backLink: '← 返回仪表盘',\n" +
+                "                selectModule: '选择模块:',\n" +
+                "                noModuleSelected: '选择一个模块来查看和编辑其配置。',\n" +
+                "                enabled: '已启用',\n" +
+                "                disabled: '已禁用',\n" +
+                "                saveConfig: '保存配置',\n" +
+                "                resetConfig: '重置',\n" +
+                "                configSaved: '配置保存成功！',\n" +
+                "                configError: '保存配置失败：'\n" +
+                "            }\n" +
+                "        };
+" +
+                "        \n" +
+                "        let currentLang = localStorage.getItem('lang') || 'en';\n" +
+                "        \n" +
+                "        function setLanguage(lang) {\n" +
+                "            currentLang = lang;\n" +
+                "            localStorage.setItem('lang', lang);\n" +
+                "            \n" +
+                "            // Update language button states\n" +
+                "            document.getElementById('langEnBtn').classList.remove('active');\n" +
+                "            document.getElementById('langZhBtn').classList.remove('active');\n" +
+                "            document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1) + 'Btn').classList.add('active');\n" +
+                "            \n" +
+                "            updateTranslations();\n" +
+                "        }\n" +
+                "        \n" +
+                "        function updateTranslations() {\n" +
+                "            const t = translations[currentLang];\n" +
+                "            document.getElementById('title').textContent = t.title;\n" +
+                "            document.querySelector('.back-link').textContent = t.backLink;\n" +
+                "            document.getElementById('moduleSelectLabel').textContent = t.selectModule;\n" +
+                "            \n" +
+                "            // Update module select placeholder\n" +
+                "            const moduleSelect = document.getElementById('moduleSelect');\n" +
+                "            const placeholderOption = moduleSelect.options[0];\n" +
+                "            placeholderOption.textContent = '-- ' + t.selectModule + ' --';\n" +
+                "            \n" +
+                "            // Update config form if a module is selected\n" +
+                "            if (moduleSelect.value) {\n" +
+                "                // Refresh the config form to update translations\n" +
+                "                loadModuleConfig();\n" +
+                "            } else {\n" +
+                "                document.getElementById('configForm').innerHTML = '<p>' + t.noModuleSelected + '</p>';\n" +
+                "            }\n" +
+                "        }\n" +
+                "        \n" +
                 "        function loadModuleConfig() {\n" +
                 "            const moduleSelect = document.getElementById('moduleSelect');\n" +
                 "            const moduleName = moduleSelect.value;\n" +
                 "            const configForm = document.getElementById('configForm');\n" +
+                "            const t = translations[currentLang];\n" +
                 "            \n" +
                 "            if (!moduleName) {\n" +
-                "                configForm.innerHTML = '<p>Select a module to view and edit its configuration.</p>';\n" +
+                "                configForm.innerHTML = '<p>' + t.noModuleSelected + '</p>';\n" +
                 "                return;\n" +
                 "            }\n" +
                 "            \n" +
@@ -247,12 +342,13 @@ public class ConfigTemplate {
                 "                })\n" +
                 "                .catch(error => {\n" +
                 "                    console.error('Error loading module config:', error);\n" +
-                "                    configForm.innerHTML = '<p>Error loading configuration: ' + error.message + '</p>';\n" +
+                "                    configForm.innerHTML = '<p>' + t.configError + error.message + '</p>';\n" +
                 "                });\n" +
                 "        }\n" +
                 "        \n" +
                 "        function renderConfigForm(moduleName, config) {\n" +
                 "            const configForm = document.getElementById('configForm');\n" +
+                "            const t = translations[currentLang];\n" +
                 "            let html = '';\n" +
                 "            \n" +
                 "            for (const key in config) {\n" +
@@ -265,7 +361,7 @@ public class ConfigTemplate {
                 "                if (typeof value === 'boolean') {\n" +
                 "                    html += '<div class=\"checkbox-wrapper\">';\n" +
                 "                    html += '<input type=\"checkbox\" id=\"config_' + key + '\" ' + (value ? 'checked' : '') + '>';\n" +
-                "                    html += '<span>' + (value ? 'Enabled' : 'Disabled') + '</span>';\n" +
+                "                    html += '<span>' + (value ? t.enabled : t.disabled) + '</span>';\n" +
                 "                    html += '</div>';\n" +
                 "                } else if (typeof value === 'number') {\n" +
                 "                    if (key.includes('Range') || key.includes('Speed') || key.includes('Amount') || key.includes('Chance') || key.includes('Opacity') || key.includes('Cost') || key.includes('Distance') || key.includes('Time') || key.includes('Interval')) {\n" +
@@ -284,8 +380,8 @@ public class ConfigTemplate {
                 "            }\n" +
                 "            \n" +
                 "            html += '<div class=\"config-actions\">';\n" +
-                "            html += '<button class=\"save\" onclick=\"saveModuleConfig(\\'' + moduleName + '\\')\">Save Configuration</button>';\n" +
-                "            html += '<button class=\"reset\" onclick=\"loadModuleConfig()\">Reset</button>';\n" +
+                "            html += '<button class=\"save\" onclick=\"saveModuleConfig(\\'' + moduleName + '\\')\">' + t.saveConfig + '</button>';\n" +
+                "            html += '<button class=\"reset\" onclick=\"loadModuleConfig()\">' + t.resetConfig + '</button>';\n" +
                 "            html += '</div>';\n" +
                 "            \n" +
                 "            configForm.innerHTML = html;\n" +
@@ -306,6 +402,7 @@ public class ConfigTemplate {
                 "            const configForm = document.getElementById('configForm');\n" +
                 "            const inputs = configForm.querySelectorAll('input, select');\n" +
                 "            const configData = {};\n" +
+                "            const t = translations[currentLang];\n" +
                 "            \n" +
                 "            inputs.forEach(input => {\n" +
                 "                const key = input.id.replace('config_', '');\n" +
@@ -328,16 +425,21 @@ public class ConfigTemplate {
                 "            .then(response => response.json())\n" +
                 "            .then(data => {\n" +
                 "                if (data.success) {\n" +
-                "                    alert('Configuration saved successfully!');\n" +
+                "                    alert(t.configSaved);\n" +
                 "                } else {\n" +
-                "                    alert('Error saving configuration: ' + data.error);\n" +
+                "                    alert(t.configError + data.error);\n" +
                 "                }\n" +
                 "            })\n" +
                 "            .catch(error => {\n" +
                 "                console.error('Error saving module config:', error);\n" +
-                "                alert('Error saving configuration: ' + error.message);\n" +
+                "                alert(t.configError + error.message);\n" +
                 "            });\n" +
                 "        }\n" +
+                "        \n" +
+                "        // Initialize language\n" +
+                "        document.addEventListener('DOMContentLoaded', function() {\n" +
+                "            setLanguage(currentLang);\n" +
+                "        });\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
