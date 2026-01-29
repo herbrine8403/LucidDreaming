@@ -73,6 +73,7 @@ public class HTTPServer {
     static class RootHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
+            LucidDreaming.LOGGER.info("RootHandler: Received request for {}", exchange.getRequestURI().getPath());
             String response = WebTemplate.generateHTML();
             exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
             try (OutputStream os = exchange.getResponseBody()) {
