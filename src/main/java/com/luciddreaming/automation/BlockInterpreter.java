@@ -222,16 +222,15 @@ public class BlockInterpreter {
                         double dx = -Math.sin(rad);
                         double dz = Math.cos(rad);
 
-                        BlockPos newPos = new BlockPos(
+                        // 直接移动玩家位置
+                        mc.player.setPosition(
                             mc.player.posX + dx,
                             mc.player.posY,
                             mc.player.posZ + dz
                         );
-
-                        AutoWalk autoWalk = (AutoWalk) moduleManager.getModule("AutoWalk");
-                        if (autoWalk != null) {
-                            autoWalk.setTarget(newPos.getX(), newPos.getY(), newPos.getZ());
-                        }
+                        
+                        LucidDreaming.LOGGER.info("Moved player to ({}, {}, {})",
+                            mc.player.posX, mc.player.posY, mc.player.posZ);
                     }
                 });
                 } catch (Exception e) {
