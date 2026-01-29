@@ -792,17 +792,43 @@ public class WebTemplate {
                 "        </div>\n" +
                 "        \n" +
                 "        <!-- 模块控制 -->\n" +
-                "        <div class=\"card\">\n" +
-                "            <div class=\"card-header\">\n" +
-                "                <svg class=\"card-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n" +
-                "                    <circle cx=\"12\" cy=\"12\" r=\"3\"/>\n" +
-                "                    <path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z\"/>\n" +
-                "                </svg>\n" +
-                "                <h2 class=\"card-title\" id=\"modulesTitle\">模块控制</h2>\n" +
-                "                <a href=\"/config\" class=\"card-link\" id=\"editConfigLink\">[编辑配置]</a>\n" +
+                "        <div class=\"grid grid-2\">\n" +
+                "            <div class=\"card\">\n" +
+                "                <div class=\"card-header\">\n" +
+                "                    <svg class=\"card-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n" +
+                "                        <circle cx=\"12\" cy=\"12\" r=\"3\"/>\n" +
+                "                        <path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z\"/>\n" +
+                "                    </svg>\n" +
+                "                    <h2 class=\"card-title\" id=\"modulesTitle\">模块控制</h2>\n" +
+                "                    <a href=\"/config\" class=\"card-link\" id=\"editConfigLink\">[编辑配置]</a>\n" +
+                "                </div>\n" +
+                "                <div class=\"grid grid-auto\" id=\"moduleGrid\">\n" +
+                "                    <div id=\"loadingModules\">加载模块中...</div>\n" +
+                "                </div>\n" +
                 "            </div>\n" +
-                "            <div class=\"grid grid-auto\" id=\"moduleGrid\">\n" +
-                "                <div id=\"loadingModules\">加载模块中...</div>\n" +
+                "            \n" +
+                "            <div class=\"card\">\n" +
+                "                <div class=\"card-header\">\n" +
+                "                    <svg class=\"card-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n" +
+                "                        <path d=\"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\"/>\n" +
+                "                    </svg>\n" +
+                "                    <h2 class=\"card-title\" id=\"automationTitle\">自动化</h2>\n" +
+                "                    <a href=\"/automation\" class=\"card-link\" id=\"automationLink\">[管理自动化]</a>\n" +
+                "                </div>\n" +
+                "                <div class=\"status-box\" id=\"automationStatus\">\n" +
+                "                    <p class=\"status-text\" id=\"automationStatusText\">自动化引擎正在运行</p>\n" +
+                "                    <p class=\"status-text\" id=\"automationCount\">已加载: <strong id=\"automationCountValue\">0</strong> 个任务</p>\n" +
+                "                </div>\n" +
+                "                <div style=\"margin-top: var(--spacing-md); text-align: center;\">\n" +
+                "                    <button class=\"btn btn-primary\" onclick=\"location.href='/automation'\" id=\"createAutomationBtn\">\n" +
+                "                        <span class=\"btn-icon\">\n" +
+                "                            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n" +
+                "                                <path d=\"M12 5v14M5 12h14\"/>\n" +
+                "                            </svg>\n" +
+                "                        </span>\n" +
+                "                        <span id=\"createAutomationText\">创建新自动化</span>\n" +
+                "                    </button>\n" +
+                "                </div>\n" +
                 "            </div>\n" +
                 "        </div>\n" +
                 "        \n" +
@@ -1100,7 +1126,12 @@ public class WebTemplate {
                 "                    pathFound: '路径已找到',\n" +
                 "                    pathNotFound: '路径未找到',\n" +
                 "                    nodes: '节点'\n" +
-                "                }\n" +
+                "                },\n" +
+                "                automationTitle: '自动化',\n" +
+                "                automationStatusRunning: '自动化引擎正在运行',\n" +
+                "                automationStatusIdle: '自动化引擎空闲中',\n" +
+                "                createAutomationText: '创建新自动化',\n" +
+                "                automationLink: '[管理自动化]'\n" +
                 "            },\n" +
                 "            en: {\n" +
                 "                pageTitle: 'Control Panel',\n" +
@@ -1153,7 +1184,12 @@ public class WebTemplate {
                 "                    pathFound: 'Path found',\n" +
                 "                    pathNotFound: 'Path not found',\n" +
                 "                    nodes: 'nodes'\n" +
-                "                }\n" +
+                "                },\n" +
+                "                automationTitle: 'Automation',\n" +
+                "                automationStatusRunning: 'Automation engine running',\n" +
+                "                automationStatusIdle: 'Automation engine idle',\n" +
+                "                createAutomationText: 'Create new automation',\n" +
+                "                automationLink: '[Manage Automations]'\n" +
                 "            }\n" +
                 "        };\n" +
                 "        \n" +
@@ -1192,6 +1228,7 @@ public class WebTemplate {
                 "                systemInfoTitle: 'systemInfoTitle',\n" +
                 "                modulesTitle: 'modulesTitle',\n" +
                 "                editConfigLink: 'editConfigLink',\n" +
+                "                automationTitle: 'automationTitle',\n" +
                 "                autowalkTitle: 'autowalkTitle',\n" +
                 "                setTargetBtn: 'setTargetBtn',\n" +
                 "                clearTargetBtn: 'clearTargetBtn',\n" +
@@ -1199,7 +1236,9 @@ public class WebTemplate {
                 "                scoreboardTitle: 'scoreboardTitle',\n" +
                 "                loadingModules: 'loadingModules',\n" +
                 "                loadingScoreboard: 'loadingScoreboard',\n" +
-                "                footerText: 'footerText'\n" +
+                "                footerText: 'footerText',\n" +
+                "                createAutomationText: 'createAutomationText',\n" +
+                "                automationLink: 'automationLink'\n" +
                 "            };\n" +
                 "            \n" +
                 "            for (const [key, elementId] of Object.entries(elements)) {\n" +
@@ -1450,6 +1489,32 @@ public class WebTemplate {
                 "                });\n" +
                 "        }\n" +
                 "        \n" +
+                "        // 更新自动化状态\n" +
+                "        function updateAutomationStatus() {\n" +
+                "            fetch('/api/automation')\n" +
+                "                .then(response => response.json())\n" +
+                "                .then(data => {\n" +
+                "                    const automationCountValue = document.getElementById('automationCountValue');\n" +
+                "                    const automationStatusText = document.getElementById('automationStatusText');\n" +
+                "                    \n" +
+                "                    if (automationCountValue) {\n" +
+                "                        automationCountValue.textContent = data.automations ? data.automations.length : 0;\n" +
+                "                    }\n" +
+                "                    \n" +
+                "                    if (automationStatusText) {\n" +
+                "                        const t = translations[currentLang];\n" +
+                "                        if (data.automations && data.automations.length > 0) {\n" +
+                "                            automationStatusText.textContent = t.automationStatusRunning;\n" +
+                "                        } else {\n" +
+                "                            automationStatusText.textContent = t.automationStatusIdle;\n" +
+                "                        }\n" +
+                "                    }\n" +
+                "                })\n" +
+                "                .catch(error => {\n" +
+                "                    console.error('获取自动化状态错误:', error);\n" +
+                "                });\n" +
+                "        }\n" +
+                "        \n" +
                 "        // 初始化\n" +
                 "        document.addEventListener('DOMContentLoaded', function() {\n" +
                 "            initTheme();\n" +
@@ -1464,11 +1529,13 @@ public class WebTemplate {
                 "            updateInfo();\n" +
                 "            loadModules();\n" +
                 "            updateAutoWalkStatus();\n" +
+                "            updateAutomationStatus();\n" +
                 "            \n" +
                 "            // 自动刷新\n" +
                 "            setInterval(updateInfo, 1000);\n" +
                 "            setInterval(loadModules, 2000);\n" +
                 "            setInterval(updateAutoWalkStatus, 1000);\n" +
+                "            setInterval(updateAutomationStatus, 5000);\n" +
                 "        });\n" +
                 "    </script>\n" +
                 "</body>\n" +

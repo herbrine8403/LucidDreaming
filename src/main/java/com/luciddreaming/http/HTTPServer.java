@@ -44,6 +44,9 @@ public class HTTPServer {
             server.createContext("/api/config", new ModuleConfigAPIHandler());
             server.createContext("/api/autowalk", new APIAutoWalkHandler());
             server.createContext("/config", new ConfigHandler());
+            server.createContext("/automation", new AutomationHandler());
+            server.createContext("/automation/editor", new AutomationEditorHandler());
+            server.createContext("/api/automation", new AutomationAPIHandler());
 
             server.setExecutor(null); // creates a default executor
             server.start();

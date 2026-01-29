@@ -1,5 +1,7 @@
 package com.luciddreaming;
 
+import com.google.gson.Gson;
+import com.luciddreaming.automation.AutomationEngine;
 import com.luciddreaming.config.ModConfig;
 import com.luciddreaming.http.HTTPServer;
 import com.luciddreaming.modules.Module;
@@ -26,7 +28,10 @@ public class LucidDreaming {
 
     public static HTTPServer httpServer;
     public static ModuleManager moduleManager;
+    public static AutomationEngine automationEngine;
     public static Minecraft mc;
+    
+    public static Gson gson = new Gson();
 
     @SidedProxy(clientSide = "com.luciddreaming.proxy.ClientProxy", serverSide = "com.luciddreaming.proxy.CommonProxy")
     public static CommonProxy proxy;
@@ -52,6 +57,10 @@ public class LucidDreaming {
         MinecraftForge.EVENT_BUS.register(moduleManager);
 
         proxy.registerModules(moduleManager);
+
+        // 初始化自动化引擎
+        LOGGER.info("Initializing Automation Engine...");
+        automationEngine = new AutomationEngine();
 
         if (ModConfig.server.enableWebServer) {
             LOGGER.info("Starting HTTP Server...");
