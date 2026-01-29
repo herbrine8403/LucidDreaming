@@ -44,6 +44,9 @@ public class HTTPServer {
             server.createContext("/api/config", new ModuleConfigAPIHandler());
             server.createContext("/api/autowalk", new APIAutoWalkHandler());
             server.createContext("/config", new ConfigHandler());
+            server.createContext("/automation", new AutomationHandler());
+            server.createContext("/automation/editor", new AutomationEditorHandler());
+            server.createContext("/api/automation", new AutomationAPIHandler());
 
             server.setExecutor(null); // creates a default executor
             server.start();
@@ -305,6 +308,28 @@ public class HTTPServer {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             String response = ConfigTemplate.generateHTML();
+            exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes(StandardCharsets.UTF_8));
+            }
+        }
+    }
+
+    static class AutomationHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String response = AutomationTemplate.generateHTML();
+            exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(response.getBytes(StandardCharsets.UTF_8));
+            }
+        }
+    }
+
+    static class AutomationEditorHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String response = AutomationEditorTemplate.generateHTML();
             exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(response.getBytes(StandardCharsets.UTF_8));

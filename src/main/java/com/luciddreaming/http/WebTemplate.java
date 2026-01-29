@@ -671,6 +671,15 @@ public class WebTemplate {
                 "                    </span>\n" +
                 "                    <span id=\"screenshotText\">截图</span>\n" +
                 "                </button>\n" +
+                "                <a href=\"/automation\" class=\"btn\">\n" +
+                "                    <span class=\"btn-icon\">\n" +
+                "                        <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\">\n" +
+                "                            <path d=\"M12 6V4M12 20V18M6 12H4M20 12H18M7.05 7.05L5.64 5.64M18.36 18.36L16.95 16.95M7.05 16.95L5.64 18.36M18.36 5.64L16.95 7.05\"/>\n" +
+                "                            <circle cx=\"12\" cy=\"12\" r=\"3\"/>\n" +
+                "                        </svg>\n" +
+                "                    </span>\n" +
+                "                    <span>自动化</span>\n" +
+                "                </a>\n" +
                 "            </div>\n" +
                 "        </header>\n" +
                 "        \n" +

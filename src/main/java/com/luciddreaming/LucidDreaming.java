@@ -1,5 +1,6 @@
 package com.luciddreaming;
 
+import com.luciddreaming.automation.AutomationManager;
 import com.luciddreaming.config.ModConfig;
 import com.luciddreaming.http.HTTPServer;
 import com.luciddreaming.modules.Module;
@@ -26,6 +27,7 @@ public class LucidDreaming {
 
     public static HTTPServer httpServer;
     public static ModuleManager moduleManager;
+    public static AutomationManager automationManager;
     public static Minecraft mc;
 
     @SidedProxy(clientSide = "com.luciddreaming.proxy.ClientProxy", serverSide = "com.luciddreaming.proxy.CommonProxy")
@@ -62,6 +64,10 @@ public class LucidDreaming {
         } else {
             LOGGER.info("Web Server is disabled in configuration. Skipping HTTP server startup.");
         }
+
+        LOGGER.info("Initializing Automation Manager...");
+        automationManager = AutomationManager.getInstance();
+        LOGGER.info("Automation Manager initialized with {} tasks", automationManager.getAllTasks().size());
     }
 
     @Mod.EventHandler
