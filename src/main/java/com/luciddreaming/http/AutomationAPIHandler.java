@@ -23,25 +23,21 @@ public class AutomationAPIHandler implements com.sun.net.httpserver.HttpHandler 
         String path = exchange.getRequestURI().getPath();
 
         try {
+            // GET /api/automation/blocks - 获取所有可用积木 (必须在通用匹配之前)
+            if ("GET".equals(method) && "/api/automation/blocks".equals(path)) {
+                handleGetBlocks(exchange);
+            }
+            // POST /api/automation/validate - 验证积木脚本
+            else if ("POST".equals(method) && "/api/automation/validate".equals(path)) {
+                handleValidateBlocks(exchange);
+            }
             // GET /api/automation - 获取所有任务
-            if ("GET".equals(method) && "/api/automation".equals(path)) {
+            else if ("GET".equals(method) && "/api/automation".equals(path)) {
                 handleGetAllTasks(exchange);
             }
             // POST /api/automation - 创建新任务
             else if ("POST".equals(method) && "/api/automation".equals(path)) {
                 handleCreateTask(exchange);
-            }
-            // GET /api/automation/{id} - 获取指定任务
-            else if ("GET".equals(method) && path.startsWith("/api/automation/")) {
-                handleGetTask(exchange, path);
-            }
-            // PUT /api/automation/{id} - 更新任务
-            else if ("PUT".equals(method) && path.startsWith("/api/automation/")) {
-                handleUpdateTask(exchange, path);
-            }
-            // DELETE /api/automation/{id} - 删除任务
-            else if ("DELETE".equals(method) && path.startsWith("/api/automation/")) {
-                handleDeleteTask(exchange, path);
             }
             // POST /api/automation/{id}/run - 运行任务
             else if ("POST".equals(method) && path.startsWith("/api/automation/") && path.endsWith("/run")) {
@@ -55,13 +51,17 @@ public class AutomationAPIHandler implements com.sun.net.httpserver.HttpHandler 
             else if ("POST".equals(method) && path.startsWith("/api/automation/") && path.endsWith("/toggle")) {
                 handleToggleTask(exchange, path);
             }
-            // GET /api/automation/blocks - 获取所有可用积木
-            else if ("GET".equals(method) && "/api/automation/blocks".equals(path)) {
-                handleGetBlocks(exchange);
+            // GET /api/automation/{id} - 获取指定任务
+            else if ("GET".equals(method) && path.startsWith("/api/automation/")) {
+                handleGetTask(exchange, path);
             }
-            // POST /api/automation/validate - 验证积木脚本
-            else if ("POST".equals(method) && "/api/automation/validate".equals(path)) {
-                handleValidateBlocks(exchange);
+            // PUT /api/automation/{id} - 更新任务
+            else if ("PUT".equals(method) && path.startsWith("/api/automation/")) {
+                handleUpdateTask(exchange, path);
+            }
+            // DELETE /api/automation/{id} - 删除任务
+            else if ("DELETE".equals(method) && path.startsWith("/api/automation/")) {
+                handleDeleteTask(exchange, path);
             }
             else {
                 sendErrorResponse(exchange, 404, "Not Found");
