@@ -994,7 +994,7 @@ public class AutomationTemplate {
                 "            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);\n" +
                 "            selectAllCheckbox.checked = allChecked;\n" +
                 "            \n" +
-                "            // 如果不是所有都被选中，取消"全选"复选框的选中状态\n" +
+                "            // 如果不是所有都被选中，取消 全选 复选框的选中状态\n" +
                 "            if (!allChecked) {\n" +
                 "                selectAllCheckbox.checked = false;\n" +
                 "            }\n" +
