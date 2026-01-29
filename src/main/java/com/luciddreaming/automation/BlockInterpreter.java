@@ -154,11 +154,15 @@ public class BlockInterpreter {
         if (yawObj instanceof Number) {
             float yaw = ((Number) yawObj).floatValue();
             final float finalYaw = yaw;
-            DirectMainThreadExecutor.executeAndWait(() -> {
-                if (mc.player != null) {
-                    mc.player.rotationYaw = finalYaw;
-                }
-            });
+            try {
+                DirectMainThreadExecutor.executeAndWait(() -> {
+                    if (mc.player != null) {
+                        mc.player.rotationYaw = finalYaw;
+                    }
+                });
+            } catch (Exception e) {
+                LucidDreaming.LOGGER.error("Error executing face direction", e);
+            }
         }
     }
 
@@ -170,11 +174,15 @@ public class BlockInterpreter {
         if (degreesObj instanceof Number) {
             float degrees = ((Number) degreesObj).floatValue();
             final float finalDegrees = block.getType() == BlockType.MOTION_TURN_LEFT ? -degrees : degrees;
-            DirectMainThreadExecutor.executeAndWait(() -> {
-                if (mc.player != null) {
-                    mc.player.rotationYaw += finalDegrees;
-                }
-            });
+            try {
+                DirectMainThreadExecutor.executeAndWait(() -> {
+                    if (mc.player != null) {
+                        mc.player.rotationYaw += finalDegrees;
+                    }
+                });
+            } catch (Exception e) {
+                LucidDreaming.LOGGER.error("Error executing turn", e);
+            }
         }
     }
 
@@ -206,7 +214,8 @@ public class BlockInterpreter {
                 }
 
                 final int finalDirection = direction;
-                DirectMainThreadExecutor.executeAndWait(() -> {
+                try {
+                    DirectMainThreadExecutor.executeAndWait(() -> {
                     if (mc.player != null) {
                         float yaw = mc.player.rotationYaw;
                         float rad = (float) Math.toRadians(yaw + finalDirection);
@@ -225,6 +234,9 @@ public class BlockInterpreter {
                         }
                     }
                 });
+                } catch (Exception e) {
+                    LucidDreaming.LOGGER.error("Error executing move", e);
+                }
 
                 try {
                     TimeUnit.MILLISECONDS.sleep(500);
@@ -253,12 +265,16 @@ public class BlockInterpreter {
             final int finalY = y;
             final int finalZ = z;
 
-            DirectMainThreadExecutor.executeAndWait(() -> {
-                AutoWalk autoWalk = (AutoWalk) moduleManager.getModule("AutoWalk");
-                if (autoWalk != null) {
-                    autoWalk.setTarget(finalX, finalY, finalZ);
-                }
-            });
+            try {
+                DirectMainThreadExecutor.executeAndWait(() -> {
+                    AutoWalk autoWalk = (AutoWalk) moduleManager.getModule("AutoWalk");
+                    if (autoWalk != null) {
+                        autoWalk.setTarget(finalX, finalY, finalZ);
+                    }
+                });
+            } catch (Exception e) {
+                LucidDreaming.LOGGER.error("Error executing move to", e);
+            }
 
             // 等待移动完成
             AutoWalk autoWalk = (AutoWalk) moduleManager.getModule("AutoWalk");
@@ -282,7 +298,8 @@ public class BlockInterpreter {
         Object nearestObj = block.getParameter("nearest");
         boolean nearest = nearestObj instanceof Boolean && (Boolean) nearestObj;
 
-        DirectMainThreadExecutor.executeAndWait(() -> {
+        try {
+            DirectMainThreadExecutor.executeAndWait(() -> {
             if (mc.player != null && mc.world != null) {
                 Entity target = null;
 
@@ -308,6 +325,9 @@ public class BlockInterpreter {
                 }
             }
         });
+        } catch (Exception e) {
+            LucidDreaming.LOGGER.error("Error executing interact", e);
+        }
     }
 
     /**
