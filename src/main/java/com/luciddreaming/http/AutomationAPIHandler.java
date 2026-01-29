@@ -192,6 +192,15 @@ public class AutomationAPIHandler implements com.sun.net.httpserver.HttpHandler 
             for (Map<String, Object> blockMap : blocksList) {
                 blocks.add(Block.fromMap(blockMap));
             }
+            
+            // 设置积木链
+            for (int i = 0; i < blocks.size() - 1; i++) {
+                blocks.get(i).setNextBlock(blocks.get(i + 1));
+            }
+            if (!blocks.isEmpty()) {
+                blocks.get(blocks.size() - 1).setNextBlock(null);
+            }
+            
             task.setBlocks(blocks);
         }
 
