@@ -71,10 +71,8 @@ public class AutomationManager {
      * 更新任务
      */
     public void updateTask(AutomationTask task) {
-        if (tasks.containsKey(task.getId())) {
-            tasks.put(task.getId(), task);
-            saveTasks();
-        }
+        tasks.put(task.getId(), task);
+        saveTasks();
     }
 
     /**
