@@ -235,7 +235,7 @@ public class AutomationEngine {
             if (targetEntity != null) {
                 if ("right_click".equals(interactionType)) {
                     // 模拟右键点击实体
-                    playerController().processRightClick(player, world, targetEntity, EnumHand.MAIN_HAND);
+                    playerController().attackEntity(player, targetEntity);
                 } else if ("left_click".equals(interactionType)) {
                     // 模拟左键攻击实体
                     playerController().attackEntity(player, targetEntity);

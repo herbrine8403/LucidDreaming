@@ -112,7 +112,7 @@ public class AutomationAPIHandler implements HttpHandler {
     }
     
     private void handlePost(HttpExchange exchange, String automationId) throws IOException {
-        String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+        String body = readRequestBody(exchange.getRequestBody());
         Map<String, Object> requestData = LucidDreaming.gson.fromJson(body, Map.class);
         
         if (automationId == null) {
@@ -250,6 +250,17 @@ public class AutomationAPIHandler implements HttpHandler {
             }
         }
         return null;
+    }
+    
+    private String readRequestBody(java.io.InputStream inputStream) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        }
+        return stringBuilder.toString();
     }
     
     private void sendResponse(HttpExchange exchange, int statusCode, String response) throws IOException {
