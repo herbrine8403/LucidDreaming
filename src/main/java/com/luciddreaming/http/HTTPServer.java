@@ -36,14 +36,18 @@ public class HTTPServer {
             server = HttpServer.create(new InetSocketAddress(address, port), 0);
 
             // Create context handlers
+            LucidDreaming.LOGGER.info("Creating RootHandler for '/'");
             server.createContext("/", new RootHandler());
+            LucidDreaming.LOGGER.info("Creating APIInfoHandler for '/api/info'");
             server.createContext("/api/info", new APIInfoHandler());
             server.createContext("/api/json", new APIJSONHandler());
             server.createContext("/api/screenshot", new APIScreenshotHandler());
             server.createContext("/api/modules", new ModuleAPIHandler());
             server.createContext("/api/config", new ModuleConfigAPIHandler());
             server.createContext("/api/autowalk", new APIAutoWalkHandler());
+            LucidDreaming.LOGGER.info("Creating AutomationAPIHandler for '/api/automation'");
             server.createContext("/api/automation", new AutomationAPIHandler());
+            LucidDreaming.LOGGER.info("Creating ConfigHandler for '/config'");
             server.createContext("/config", new ConfigHandler());
             server.createContext("/automation", new AutomationHandler());
             server.createContext("/automation/editor", new AutomationEditorHandler());
