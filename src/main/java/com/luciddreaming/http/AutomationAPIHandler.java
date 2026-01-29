@@ -21,6 +21,8 @@ public class AutomationAPIHandler implements com.sun.net.httpserver.HttpHandler 
     public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
         String method = exchange.getRequestMethod();
         String path = exchange.getRequestURI().getPath();
+        LucidDreaming.LOGGER.info("AutomationAPIHandler received {} request to {}", method, path);
+        LucidDreaming.LOGGER.info("Request URI: {}", exchange.getRequestURI());
 
         try {
             // GET /api/automation/blocks - 获取所有可用积木 (必须在通用匹配之前)
