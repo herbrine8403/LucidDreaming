@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
@@ -303,7 +304,7 @@ public class BlockInterpreter {
                 }
 
                 if (target != null) {
-                    mc.playerController.interactWithEntity(mc.player, target);
+                    mc.playerController.interactWithEntity(mc.player, target, EnumHand.MAIN_HAND);
                 }
             }
         });
@@ -425,7 +426,7 @@ public class BlockInterpreter {
         if (mc.world != null) {
             Scoreboard scoreboard = mc.world.getScoreboard();
             if (scoreboard != null) {
-                ScoreObjective objective = scoreboard.getObjectiveFromName(objectiveName);
+                ScoreObjective objective = scoreboard.getObjective(objectiveName);
                 if (objective != null) {
                     Score score = scoreboard.getOrCreateScore(mc.player.getName(), objective);
                     return String.valueOf(score.getScorePoints());

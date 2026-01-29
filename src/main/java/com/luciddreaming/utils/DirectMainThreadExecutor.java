@@ -55,6 +55,40 @@ public class DirectMainThreadExecutor {
     }
 
     /**
+     * Execute a runnable task on the main thread and wait for it to complete
+     */
+    public static void executeAndWait(Runnable task) throws Exception {
+        if (isMainThread()) {
+            // Already on main thread, execute directly
+            task.run();
+            return;
+        }
+
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicReference<Exception> exception = new AtomicReference<>();
+
+        // Schedule task to run on next client tick
+        mc.addScheduledTask(() -> {
+            try {
+                task.run();
+            } catch (Exception e) {
+                exception.set(e);
+                LucidDreaming.LOGGER.error("Error in main thread task", e);
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        // Wait for the task to complete
+        latch.await();
+
+        // Rethrow any exception that occurred
+        if (exception.get() != null) {
+            throw exception.get();
+        }
+    }
+
+    /**
      * Check if current thread is the main Minecraft thread
      */
     public static boolean isMainThread() {

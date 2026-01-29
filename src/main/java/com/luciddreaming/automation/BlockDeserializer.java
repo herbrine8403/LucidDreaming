@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Block 类的 JSON 反序列化器
