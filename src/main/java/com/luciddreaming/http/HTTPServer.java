@@ -37,6 +37,7 @@ public class HTTPServer {
 
             // Create context handlers
             LucidDreaming.LOGGER.info("Creating RootHandler for '/'");
+            LucidDreaming.LOGGER.info("RootHandler will intercept all unmatched requests");
             server.createContext("/", new RootHandler());
             LucidDreaming.LOGGER.info("Creating APIInfoHandler for '/api/info'");
             server.createContext("/api/info", new APIInfoHandler());
@@ -46,6 +47,7 @@ public class HTTPServer {
             server.createContext("/api/config", new ModuleConfigAPIHandler());
             server.createContext("/api/autowalk", new APIAutoWalkHandler());
             LucidDreaming.LOGGER.info("Creating AutomationAPIHandler for '/api/automation'");
+            LucidDreaming.LOGGER.info("AutomationAPIHandler registered BEFORE RootHandler");
             server.createContext("/api/automation", new AutomationAPIHandler());
             LucidDreaming.LOGGER.info("Creating ConfigHandler for '/config'");
             server.createContext("/config", new ConfigHandler());
