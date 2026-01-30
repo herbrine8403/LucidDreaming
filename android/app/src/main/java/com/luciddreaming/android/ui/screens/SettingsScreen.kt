@@ -72,7 +72,7 @@ fun SettingsScreen(
                         start = 16.dp,
                         end = 16.dp,
                         top = 16.dp,
-                        bottom = 80.dp // 增加底部内边距，避免被底部导航栏遮挡
+                        bottom = 100.dp // 增加底部内边距到100dp，确保内容完全可见
                     )
             ) {
                 // 刷新时间设置

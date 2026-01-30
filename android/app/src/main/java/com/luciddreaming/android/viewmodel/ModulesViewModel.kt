@@ -5,14 +5,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.luciddreaming.android.data.model.Module
 import com.luciddreaming.android.data.model.ModuleResponse
+import com.luciddreaming.android.data.preferences.SettingsPreferences
 import com.luciddreaming.android.data.repository.GameInfoRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 class ModulesViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = GameInfoRepository()
+    private val settingsPreferences = SettingsPreferences(application)
 
     private val _modulesResponse = MutableStateFlow<ModuleResponse?>(null)
     val modulesResponse: StateFlow<ModuleResponse?> = _modulesResponse.asStateFlow()
@@ -22,6 +26,8 @@ class ModulesViewModel(application: Application) : AndroidViewModel(application)
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
+
+    private var autoRefreshEnabled = false
 
     fun loadModules() {
         viewModelScope.launch {
@@ -75,5 +81,27 @@ class ModulesViewModel(application: Application) : AndroidViewModel(application)
 
     fun clearError() {
         _error.value = null
+    }
+
+    fun startAutoRefresh() {
+        if (autoRefreshEnabled) return
+        autoRefreshEnabled = true
+        
+        viewModelScope.launch {
+            while (autoRefreshEnabled) {
+                val settings = settingsPreferences.settings.first()
+                val interval = settings.refreshInterval
+                
+                delay(interval * 1000L)
+                
+                if (autoRefreshEnabled) {
+                    loadModules()
+                }
+            }
+        }
+    }
+
+    fun stopAutoRefresh() {
+        autoRefreshEnabled = false
     }
 }

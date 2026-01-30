@@ -47,6 +47,14 @@ fun MonitorScreen(viewModel: MonitorViewModel) {
     LaunchedEffect(Unit) {
         contentVisible = true
         viewModel.loadGameInfo()
+        viewModel.startAutoRefresh()
+    }
+    
+    // 当屏幕销毁时停止自动刷新
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.stopAutoRefresh()
+        }
     }
 
     Scaffold(

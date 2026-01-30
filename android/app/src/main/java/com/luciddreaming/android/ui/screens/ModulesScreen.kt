@@ -40,6 +40,14 @@ fun ModulesScreen(viewModel: ModulesViewModel) {
 
     LaunchedEffect(Unit) {
         viewModel.loadModules()
+        viewModel.startAutoRefresh()
+    }
+    
+    // 当屏幕销毁时停止自动刷新
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.stopAutoRefresh()
+        }
     }
 
     Scaffold(

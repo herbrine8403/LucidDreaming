@@ -4,14 +4,18 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.luciddreaming.android.data.model.GameInfo
+import com.luciddreaming.android.data.preferences.SettingsPreferences
 import com.luciddreaming.android.data.repository.GameInfoRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 
 class MonitorViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = GameInfoRepository()
+    private val settingsPreferences = SettingsPreferences(application)
 
     private val _gameInfo = MutableStateFlow<GameInfo?>(null)
     val gameInfo: StateFlow<GameInfo?> = _gameInfo.asStateFlow()
@@ -24,6 +28,8 @@ class MonitorViewModel(application: Application) : AndroidViewModel(application)
 
     private val _screenshot = MutableStateFlow<ByteArray?>(null)
     val screenshot: StateFlow<ByteArray?> = _screenshot.asStateFlow()
+
+    private var autoRefreshEnabled = false
 
     fun loadGameInfo() {
         viewModelScope.launch {
@@ -56,5 +62,27 @@ class MonitorViewModel(application: Application) : AndroidViewModel(application)
 
     fun clearError() {
         _error.value = null
+    }
+
+    fun startAutoRefresh() {
+        if (autoRefreshEnabled) return
+        autoRefreshEnabled = true
+        
+        viewModelScope.launch {
+            while (autoRefreshEnabled) {
+                val settings = settingsPreferences.settings.first()
+                val interval = settings.refreshInterval
+                
+                delay(interval * 1000L)
+                
+                if (autoRefreshEnabled) {
+                    loadGameInfo()
+                }
+            }
+        }
+    }
+
+    fun stopAutoRefresh() {
+        autoRefreshEnabled = false
     }
 }
