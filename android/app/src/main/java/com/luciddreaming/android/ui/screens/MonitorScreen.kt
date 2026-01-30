@@ -20,6 +20,7 @@ import com.luciddreaming.android.data.model.GameInfo
 import com.luciddreaming.android.ui.theme.AccentGreen
 import com.luciddreaming.android.viewmodel.MonitorViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MonitorScreen(viewModel: MonitorViewModel) {
     val gameInfo by viewModel.gameInfo.collectAsState()
