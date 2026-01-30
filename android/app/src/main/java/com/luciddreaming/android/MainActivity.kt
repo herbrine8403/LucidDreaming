@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -84,12 +85,15 @@ fun LucidDreamingApp() {
                                 easing = FastOutSlowInEasing
                             )
                             
-                            slideInHorizontally(
-                                animationSpec = animationSpec,
-                                initialOffsetX = { -it }
-                            ) with slideOutHorizontally(
-                                animationSpec = animationSpec,
-                                targetOffsetX = { -it }
+                            ContentTransform(
+                                slideInHorizontally(
+                                    animationSpec = animationSpec,
+                                    initialOffsetX = { -it }
+                                ),
+                                slideOutHorizontally(
+                                    animationSpec = animationSpec,
+                                    targetOffsetX = { -it }
+                                )
                             )
                         },
                         label = "screenTransition"
