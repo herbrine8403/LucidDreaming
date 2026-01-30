@@ -77,27 +77,17 @@ fun LucidDreamingApp() {
                     androidx.compose.animation.AnimatedContent(
                         targetState = currentScreen,
                         transitionSpec = {
-                            val slideDirection = when {
-                                initialState == Screen.MONITOR && targetState == Screen.MODULES -> 
-                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
-                                initialState == Screen.MODULES && targetState == Screen.MONITOR -> 
-                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
-                                initialState == Screen.MONITOR && targetState == Screen.AUTOMATION -> 
-                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
-                                initialState == Screen.AUTOMATION && targetState == Screen.MONITOR -> 
-                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
-                                initialState == Screen.MODULES && targetState == Screen.AUTOMATION -> 
-                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
-                                else -> 
-                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
-                            }
+                            val animationSpec = tween<Float>(
+                                durationMillis = 300,
+                                easing = FastOutSlowInEasing
+                            )
                             
                             slideIntoContainer(
-                                towards = androidx.compose.animation.slideInHorizontally { it },
-                                animationSpec = slideDirection
+                                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                                animationSpec = animationSpec
                             ) togetherWith slideOutOfContainer(
-                                towards = androidx.compose.animation.slideOutHorizontally { -it },
-                                animationSpec = slideDirection
+                                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                                animationSpec = animationSpec
                             )
                         },
                         label = "screenTransition"

@@ -73,7 +73,7 @@ fun AutomationScreen() {
                         targetValue = 1.1f,
                         animationSpec = infiniteRepeatable(
                             animation = tween(durationMillis = 1500, easing = FastOutSlowInEasing),
-                            repeatMode = androidx.compose.animation.core.ReverseMode
+                            repeatMode = androidx.compose.animation.core.RepeatMode.Reverse
                         ),
                         label = "pulse"
                     )

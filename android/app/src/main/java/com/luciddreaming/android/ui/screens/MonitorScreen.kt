@@ -313,7 +313,7 @@ fun MonitorScreen(viewModel: MonitorViewModel) {
                                     )
                                     Spacer(modifier = Modifier.height(12.dp))
                                     gameInfo!!.scoreboard.forEachIndexed { index, line ->
-                                        val lineVisible by remember { mutableStateOf(false) }
+                                        var lineVisible by remember { mutableStateOf(false) }
                                         LaunchedEffect(Unit) {
                                             kotlinx.coroutines.delay(900L + index * 50L)
                                             lineVisible = true
