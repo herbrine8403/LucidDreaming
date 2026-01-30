@@ -52,24 +52,27 @@ fun SettingsScreen(
         refreshInterval = appSettings.refreshInterval
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("设置") }
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 16.dp,
-                    bottom = 16.dp + paddingValues.calculateBottomPadding()
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("设置") }
                 )
-        ) {
+            }
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 16.dp,
+                        bottom = 16.dp + paddingValues.calculateBottomPadding()
+                    )
+            ) {
                 // 刷新时间设置
                 AnimatedVisibility(
                     visible = contentVisible,
@@ -343,28 +346,29 @@ fun SettingsScreen(
                 }
             }
         }
-    }
 
-    // 成功提示
-    AnimatedVisibility(
-        visible = showSuccessMessage,
-        enter = fadeIn() + slideInVertically(),
-        exit = fadeOut() + slideOutVertically(),
-        modifier = Modifier.padding(16.dp)
-    ) {
-        Snackbar(
-            action = {
-                TextButton(onClick = { showSuccessMessage = false }) {
-                    Text("确定")
-                }
-            }
+        // 成功提示
+        AnimatedVisibility(
+            visible = showSuccessMessage,
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically(),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
         ) {
-            Text("设置已保存")
+            Snackbar(
+                action = {
+                    TextButton(onClick = { showSuccessMessage = false }) {
+                        Text("确定")
+                    }
+                }
+            ) {
+                Text("设置已保存")
+            }
         }
-    }
 
-    // 取消绑定确认对话框
-    if (showUnbindDialog) {
+        // 取消绑定确认对话框
+        if (showUnbindDialog) {
         AlertDialog(
             onDismissRequest = { viewModel.hideUnbindDialog() },
             icon = {
