@@ -85,7 +85,7 @@ fun LucidDreamingApp() {
                             slideIntoContainer(
                                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
                                 animationSpec = animationSpec
-                            ) togetherWith slideOutOfContainer(
+                            ) with slideOutOfContainer(
                                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
                                 animationSpec = animationSpec
                             )
