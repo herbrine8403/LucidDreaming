@@ -59,20 +59,17 @@ fun SettingsScreen(
             )
         }
     ) { paddingValues ->
-        Box(
-            modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 16.dp,
+                    bottom = 16.dp + paddingValues.calculateBottomPadding()
+                )
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        top = 16.dp,
-                        bottom = 300.dp // 测试用：增加到300dp，观察遮挡情况
-                    )
-            ) {
                 // 刷新时间设置
                 AnimatedVisibility(
                     visible = contentVisible,
@@ -337,24 +334,23 @@ fun SettingsScreen(
                         }
                     }
                 }
-            }
-
-            // 成功提示
-            AnimatedVisibility(
+                
+                // 成功提示
+                AnimatedVisibility(
                 visible = showSuccessMessage,
                 enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically(),
-                modifier = Modifier.align(Alignment.BottomCenter)
-            ) {
-                Snackbar(
-                    modifier = Modifier.padding(16.dp),
-                    action = {
-                        TextButton(onClick = { showSuccessMessage = false }) {
-                            Text("确定")
-                        }
-                    }
+                exit = fadeOut() + slideOutVertically()
                 ) {
-                    Text("设置已保存")
+                    Snackbar(
+                        modifier = Modifier.padding(16.dp),
+                        action = {
+                            TextButton(onClick = { showSuccessMessage = false }) {
+                                Text("确定")
+                            }
+                        }
+                    ) {
+                        Text("设置已保存")
+                    }
                 }
             }
 
