@@ -21,8 +21,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIntoContainer
 import androidx.compose.animation.slideOutOfContainer
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.IntOffset
-import androidx.compose.animation.core.with
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -51,6 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LucidDreamingApp() {
     LucidDreamingTheme {
