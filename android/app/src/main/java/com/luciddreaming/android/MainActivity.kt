@@ -18,9 +18,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIntoContainer
-import androidx.compose.animation.slideOutOfContainer
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -87,12 +84,12 @@ fun LucidDreamingApp() {
                                 easing = FastOutSlowInEasing
                             )
                             
-                            slideIntoContainer(
-                                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                                animationSpec = animationSpec
-                            ) with slideOutOfContainer(
-                                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                                animationSpec = animationSpec
+                            slideInHorizontally(
+                                animationSpec = animationSpec,
+                                initialOffsetX = { -it }
+                            ) with slideOutHorizontally(
+                                animationSpec = animationSpec,
+                                targetOffsetX = { -it }
                             )
                         },
                         label = "screenTransition"
