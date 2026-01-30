@@ -334,24 +334,6 @@ fun SettingsScreen(
                         }
                     }
                 }
-                
-                // 成功提示
-                AnimatedVisibility(
-                    visible = showSuccessMessage,
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
-                ) {
-                    Snackbar(
-                        modifier = Modifier.padding(16.dp),
-                        action = {
-                            TextButton(onClick = { showSuccessMessage = false }) {
-                                Text("确定")
-                            }
-                        }
-                    ) {
-                        Text("设置已保存")
-                    }
-                }
             }
 
             LaunchedEffect(showSuccessMessage) {
@@ -360,6 +342,24 @@ fun SettingsScreen(
                     showSuccessMessage = false
                 }
             }
+        }
+    }
+
+    // 成功提示
+    AnimatedVisibility(
+        visible = showSuccessMessage,
+        enter = fadeIn() + slideInVertically(),
+        exit = fadeOut() + slideOutVertically(),
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Snackbar(
+            action = {
+                TextButton(onClick = { showSuccessMessage = false }) {
+                    Text("确定")
+                }
+            }
+        ) {
+            Text("设置已保存")
         }
     }
 
