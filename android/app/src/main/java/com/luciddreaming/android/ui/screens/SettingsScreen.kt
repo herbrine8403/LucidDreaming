@@ -60,9 +60,7 @@ fun SettingsScreen(
         }
     ) { paddingValues ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 modifier = Modifier
@@ -72,7 +70,7 @@ fun SettingsScreen(
                         start = 16.dp,
                         end = 16.dp,
                         top = 16.dp,
-                        bottom = 120.dp // 进一步增加底部内边距到120dp，确保内容完全不被遮挡
+                        bottom = 16.dp + paddingValues.calculateBottomPadding()
                     )
             ) {
                 // 刷新时间设置
