@@ -15,6 +15,7 @@ import com.luciddreaming.android.data.model.Module
 import com.luciddreaming.android.ui.theme.AccentGreen
 import com.luciddreaming.android.viewmodel.ModulesViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModulesScreen(viewModel: ModulesViewModel) {
     val modulesResponse by viewModel.modulesResponse.collectAsState()
