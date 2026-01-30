@@ -3,6 +3,21 @@ package com.luciddreaming.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -59,19 +74,48 @@ fun LucidDreamingApp() {
                         )
                     }
                 ) { paddingValues: PaddingValues ->
-                    when (currentScreen) {
-                        Screen.MONITOR -> {
-                            MonitorScreen(
-                                viewModel = monitorViewModel
+                    androidx.compose.animation.AnimatedContent(
+                        targetState = currentScreen,
+                        transitionSpec = {
+                            val slideDirection = when {
+                                initialState == Screen.MONITOR && targetState == Screen.MODULES -> 
+                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+                                initialState == Screen.MODULES && targetState == Screen.MONITOR -> 
+                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+                                initialState == Screen.MONITOR && targetState == Screen.AUTOMATION -> 
+                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+                                initialState == Screen.AUTOMATION && targetState == Screen.MONITOR -> 
+                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+                                initialState == Screen.MODULES && targetState == Screen.AUTOMATION -> 
+                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+                                else -> 
+                                    androidx.compose.animation.core.tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)
+                            }
+                            
+                            slideIntoContainer(
+                                towards = androidx.compose.animation.slideInHorizontally { it },
+                                animationSpec = slideDirection
+                            ) togetherWith slideOutOfContainer(
+                                towards = androidx.compose.animation.slideOutHorizontally { -it },
+                                animationSpec = slideDirection
                             )
-                        }
-                        Screen.MODULES -> {
-                            ModulesScreen(
-                                viewModel = modulesViewModel
-                            )
-                        }
-                        Screen.AUTOMATION -> {
-                            AutomationScreen()
+                        },
+                        label = "screenTransition"
+                    ) { targetScreen ->
+                        when (targetScreen) {
+                            Screen.MONITOR -> {
+                                MonitorScreen(
+                                    viewModel = monitorViewModel
+                                )
+                            }
+                            Screen.MODULES -> {
+                                ModulesScreen(
+                                    viewModel = modulesViewModel
+                                )
+                            }
+                            Screen.AUTOMATION -> {
+                                AutomationScreen()
+                            }
                         }
                     }
                 }
