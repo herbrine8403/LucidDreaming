@@ -70,7 +70,7 @@ fun SettingsScreen(
                         start = 16.dp,
                         end = 16.dp,
                         top = 16.dp,
-                        bottom = 16.dp + paddingValues.calculateBottomPadding()
+                        bottom = 16.dp + paddingValues.calculateBottomPadding() + 40.dp // 额外增加40dp，适配平板设备
                     )
             ) {
                 // 刷新时间设置
