@@ -38,6 +38,7 @@ import com.luciddreaming.android.ui.theme.LucidDreamingTheme
 import com.luciddreaming.android.viewmodel.ConnectionViewModel
 import com.luciddreaming.android.viewmodel.MonitorViewModel
 import com.luciddreaming.android.viewmodel.ModulesViewModel
+import com.luciddreaming.android.viewmodel.SettingsViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,7 @@ fun LucidDreamingApp() {
             val connectionViewModel: ConnectionViewModel = viewModel()
             val monitorViewModel: MonitorViewModel = viewModel()
             val modulesViewModel: ModulesViewModel = viewModel()
+            val settingsViewModel: SettingsViewModel = viewModel()
 
             val connectionSettings by connectionViewModel.connectionSettings.collectAsState()
 
@@ -111,6 +113,14 @@ fun LucidDreamingApp() {
                             }
                             Screen.AUTOMATION -> {
                                 AutomationScreen()
+                            }
+                            Screen.SETTINGS -> {
+                                SettingsScreen(
+                                    viewModel = settingsViewModel,
+                                    onUnbindSuccess = {
+                                        // 返回连接界面
+                                    }
+                                )
                             }
                         }
                     }

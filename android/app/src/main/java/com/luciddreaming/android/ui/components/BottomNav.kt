@@ -23,7 +23,8 @@ enum class Screen(
 ) {
     MONITOR("monitor", "监测", Icons.Default.Dashboard),
     MODULES("modules", "模块", Icons.Default.Extension),
-    AUTOMATION("automation", "自动化", Icons.Default.Build)
+    AUTOMATION("automation", "自动化", Icons.Default.Build),
+    SETTINGS("settings", "设置", Icons.Default.Settings)
 }
 
 @Composable
