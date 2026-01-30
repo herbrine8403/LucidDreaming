@@ -337,9 +337,9 @@ fun SettingsScreen(
                 
                 // 成功提示
                 AnimatedVisibility(
-                visible = showSuccessMessage,
-                enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically()
+                    visible = showSuccessMessage,
+                    enter = fadeIn() + slideInVertically(),
+                    exit = fadeOut() + slideOutVertically()
                 ) {
                     Snackbar(
                         modifier = Modifier.padding(16.dp),
