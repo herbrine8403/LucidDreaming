@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
 
 enum class Screen(
     val route: String,

@@ -21,6 +21,9 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.heightIn
 import coil.compose.AsyncImage
 import com.luciddreaming.android.ui.theme.AccentGreen
 
@@ -43,7 +46,7 @@ fun AboutScreen(onClose: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5f))
-                .onClick { onClose() }
+                .clickable { onClose() }
         )
         
         // 关于内容卡片
@@ -66,10 +69,10 @@ fun AboutScreen(onClose: () -> Unit) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .maxHeight(500.dp)
+                    .heightIn(max = 500.dp)
                     .align(Alignment.Center)
                     .padding(16.dp)
-                    .onClick { /* 防止点击卡片时关闭 */ },
+                    .clickable { /* 防止点击卡片时关闭 */ },
                 shape = MaterialTheme.shapes.large,
                 elevation = CardDefaults.cardElevation(8.dp)
             ) {
@@ -193,9 +196,4 @@ fun AboutScreen(onClose: () -> Unit) {
     }
 }
 
-// 扩展函数，为Box添加点击事件
-fun Modifier.onClick(onClick: () -> Unit): Modifier = this.then(
-    Modifier.clickable {
-        onClick()
-    }
-)
+
