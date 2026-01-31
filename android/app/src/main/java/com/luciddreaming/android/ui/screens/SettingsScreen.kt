@@ -14,6 +14,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.unit.PaddingValues
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -34,7 +35,8 @@ import com.luciddreaming.android.ui.theme.AccentGreen
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(),
-    onUnbindSuccess: () -> Unit
+    onUnbindSuccess: () -> Unit,
+    paddingValues: PaddingValues
 ) {
     val appSettings by viewModel.appSettings.collectAsState()
     val showUnbindDialog by viewModel.showUnbindDialog.collectAsState()
@@ -55,8 +57,15 @@ fun SettingsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .verticalScroll(
+                state = rememberScrollState(),
+                contentPadding = PaddingValues(
+                    top = paddingValues.calculateTopPadding() + 16.dp,
+                    bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                )
+            )
     ) {
         // 刷新时间设置
         AnimatedVisibility(

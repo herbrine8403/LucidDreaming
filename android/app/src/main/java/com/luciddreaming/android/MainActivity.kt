@@ -103,23 +103,28 @@ fun LucidDreamingApp() {
                         when (targetScreen) {
                             Screen.MONITOR -> {
                                 MonitorScreen(
-                                    viewModel = monitorViewModel
+                                    viewModel = monitorViewModel,
+                                    paddingValues = paddingValues
                                 )
                             }
                             Screen.MODULES -> {
                                 ModulesScreen(
-                                    viewModel = modulesViewModel
+                                    viewModel = modulesViewModel,
+                                    paddingValues = paddingValues
                                 )
                             }
                             Screen.AUTOMATION -> {
-                                AutomationScreen()
+                                AutomationScreen(
+                                    paddingValues = paddingValues
+                                )
                             }
                             Screen.SETTINGS -> {
                                 SettingsScreen(
                                     viewModel = settingsViewModel,
                                     onUnbindSuccess = {
                                         // 返回连接界面
-                                    }
+                                    },
+                                    paddingValues = paddingValues
                                 )
                             }
                         }

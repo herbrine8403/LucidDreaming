@@ -15,6 +15,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.unit.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -33,7 +34,7 @@ import com.luciddreaming.android.viewmodel.ModulesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun ModulesScreen(viewModel: ModulesViewModel) {
+fun ModulesScreen(viewModel: ModulesViewModel, paddingValues: PaddingValues) {
     val modulesResponse by viewModel.modulesResponse.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
@@ -118,12 +119,16 @@ fun ModulesScreen(viewModel: ModulesViewModel) {
             }
             modulesResponse != null -> {
                 LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentPadding = PaddingValues(
+                                top = paddingValues.calculateTopPadding() + 16.dp,
+                                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
                     itemsIndexed(modulesResponse!!.modules) { index, module ->
                         AnimatedModuleCard(
                             module = module,

@@ -15,6 +15,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.unit.PaddingValues
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -36,7 +37,7 @@ import com.luciddreaming.android.viewmodel.MonitorViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
-fun MonitorScreen(viewModel: MonitorViewModel) {
+fun MonitorScreen(viewModel: MonitorViewModel, paddingValues: PaddingValues) {
     val gameInfo by viewModel.gameInfo.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
@@ -127,9 +128,15 @@ fun MonitorScreen(viewModel: MonitorViewModel) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues)
-                        .verticalScroll(rememberScrollState())
-                        .padding(16.dp),
+                        .verticalScroll(
+                            state = rememberScrollState(),
+                            contentPadding = PaddingValues(
+                                top = paddingValues.calculateTopPadding(),
+                                bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                                start = 16.dp,
+                                end = 16.dp
+                            )
+                        ),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     // Screenshot Card with animation
