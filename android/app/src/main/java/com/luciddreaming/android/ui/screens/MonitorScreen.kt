@@ -122,6 +122,7 @@ fun MonitorScreen(viewModel: MonitorViewModel, paddingValues: PaddingValues) {
     LaunchedEffect(Unit) {
         contentVisible = true
         viewModel.loadGameInfo()
+        viewModel.loadScreenshot()
         viewModel.startAutoRefresh()
     }
     
