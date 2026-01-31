@@ -36,20 +36,14 @@ fun AboutScreen(onClose: () -> Unit) {
         contentVisible = true
     }
     
+    // 窗口样式的关于界面
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(Color.Transparent)
+            .clickable { onClose() }
     ) {
-        // 半透明背景
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f))
-                .clickable { onClose() }
-        )
-        
-        // 关于内容卡片
+        // 关于内容窗口
         AnimatedVisibility(
             visible = contentVisible,
             enter = scaleIn(
@@ -68,13 +62,16 @@ fun AboutScreen(onClose: () -> Unit) {
         ) {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(max = 500.dp)
+                    .widthIn(max = 400.dp)
+                    .heightIn(max = 550.dp)
                     .align(Alignment.Center)
                     .padding(16.dp)
                     .clickable { /* 防止点击卡片时关闭 */ },
                 shape = MaterialTheme.shapes.large,
-                elevation = CardDefaults.cardElevation(8.dp)
+                elevation = CardDefaults.cardElevation(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             ) {
                 Column(
                     modifier = Modifier
@@ -83,7 +80,7 @@ fun AboutScreen(onClose: () -> Unit) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    // 标题
+                    // 标题栏
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -94,7 +91,12 @@ fun AboutScreen(onClose: () -> Unit) {
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold
                         )
-                        IconButton(onClick = onClose) {
+                        IconButton(
+                            onClick = onClose,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = "关闭"
@@ -107,17 +109,17 @@ fun AboutScreen(onClose: () -> Unit) {
                     // 应用图标
                     Box(
                         modifier = Modifier
-                            .size(100.dp)
+                            .size(120.dp)
                             .background(
                                 color = MaterialTheme.colorScheme.primaryContainer,
-                                shape = MaterialTheme.shapes.large
+                                shape = MaterialTheme.shapes.extraLarge
                             )
-                            .padding(16.dp)
+                            .padding(24.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Dashboard,
                             contentDescription = "App Icon",
-                            modifier = Modifier.size(68.dp),
+                            modifier = Modifier.size(72.dp),
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
