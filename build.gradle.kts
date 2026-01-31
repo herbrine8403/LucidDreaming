@@ -3,18 +3,11 @@ plugins {
     kotlin("plugin.serialization") version "1.9.20"
 }
 
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
 allprojects {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 
