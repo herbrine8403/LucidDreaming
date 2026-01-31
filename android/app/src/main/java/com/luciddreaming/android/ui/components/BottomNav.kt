@@ -52,12 +52,6 @@ fun SideNavDrawer(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Minecraft Mod Control",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
         }
         
         Spacer(modifier = Modifier.height(8.dp))
