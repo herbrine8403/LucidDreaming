@@ -69,6 +69,7 @@ fun LucidDreamingApp() {
                 var currentScreen by remember { mutableStateOf(Screen.MONITOR) }
                 val drawerState = rememberDrawerState(DrawerValue.Closed)
                 val scope = rememberCoroutineScope()
+                var showAboutScreen by remember { mutableStateOf(false) }
 
                 ModalNavigationDrawer(
                     drawerState = drawerState,
@@ -82,6 +83,9 @@ fun LucidDreamingApp() {
                                 scope.launch {
                                     drawerState.close()
                                 }
+                            },
+                            onAboutClick = {
+                                showAboutScreen = true
                             }
                         )
                     }
@@ -100,54 +104,65 @@ fun LucidDreamingApp() {
                             )
                         }
                     ) {paddingValues: PaddingValues ->
-                        androidx.compose.animation.AnimatedContent(
-                            targetState = currentScreen,
-                            transitionSpec = {
-                                val animationSpec = tween<IntOffset>(
-                                    durationMillis = 300,
-                                    easing = FastOutSlowInEasing
+                        Box {
+                            androidx.compose.animation.AnimatedContent(
+                                targetState = currentScreen,
+                                transitionSpec = {
+                                    val animationSpec = tween<IntOffset>(
+                                        durationMillis = 300,
+                                        easing = FastOutSlowInEasing
+                                    )
+                                    
+                                    ContentTransform(
+                                        slideInHorizontally(
+                                            animationSpec = animationSpec,
+                                            initialOffsetX = { -it }
+                                        ),
+                                        slideOutHorizontally(
+                                            animationSpec = animationSpec,
+                                            targetOffsetX = { -it }
+                                        )
+                                    )
+                                },
+                                label = "screenTransition"
+                            ) { targetScreen ->
+                                when (targetScreen) {
+                                    Screen.MONITOR -> {
+                                        MonitorScreen(
+                                            viewModel = monitorViewModel,
+                                            paddingValues = paddingValues
+                                        )
+                                    }
+                                    Screen.MODULES -> {
+                                        ModulesScreen(
+                                            viewModel = modulesViewModel,
+                                            paddingValues = paddingValues
+                                        )
+                                    }
+                                    Screen.AUTOMATION -> {
+                                        AutomationScreen(
+                                            paddingValues = paddingValues
+                                        )
+                                    }
+                                    Screen.SETTINGS -> {
+                                        SettingsScreen(
+                                            viewModel = settingsViewModel,
+                                            onUnbindSuccess = {
+                                                // 返回连接界面
+                                            },
+                                            paddingValues = paddingValues
+                                        )
+                                    }
+                                }
+                            }
+                            
+                            // 关于界面
+                            if (showAboutScreen) {
+                                AboutScreen(
+                                    onClose = {
+                                        showAboutScreen = false
+                                    }
                                 )
-                                
-                                ContentTransform(
-                                    slideInHorizontally(
-                                        animationSpec = animationSpec,
-                                        initialOffsetX = { -it }
-                                    ),
-                                    slideOutHorizontally(
-                                        animationSpec = animationSpec,
-                                        targetOffsetX = { -it }
-                                    )
-                                )
-                            },
-                            label = "screenTransition"
-                        ) { targetScreen ->
-                            when (targetScreen) {
-                                Screen.MONITOR -> {
-                                    MonitorScreen(
-                                        viewModel = monitorViewModel,
-                                        paddingValues = paddingValues
-                                    )
-                                }
-                                Screen.MODULES -> {
-                                    ModulesScreen(
-                                        viewModel = modulesViewModel,
-                                        paddingValues = paddingValues
-                                    )
-                                }
-                                Screen.AUTOMATION -> {
-                                    AutomationScreen(
-                                        paddingValues = paddingValues
-                                    )
-                                }
-                                Screen.SETTINGS -> {
-                                    SettingsScreen(
-                                        viewModel = settingsViewModel,
-                                        onUnbindSuccess = {
-                                            // 返回连接界面
-                                        },
-                                        paddingValues = paddingValues
-                                    )
-                                }
                             }
                         }
                     }

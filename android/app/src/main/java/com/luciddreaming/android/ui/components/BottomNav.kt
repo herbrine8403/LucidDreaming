@@ -32,13 +32,39 @@ enum class Screen(
 fun SideNavDrawer(
     currentScreen: Screen,
     onNavigate: (Screen) -> Unit,
-    onCloseDrawer: () -> Unit
+    onCloseDrawer: () -> Unit,
+    onAboutClick: () -> Unit
 ) {
     ModalDrawerSheet(
         drawerContainerColor = MaterialTheme.colorScheme.surface,
         drawerTonalElevation = 8.dp
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        // 顶部标题
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "LucidDreaming",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Minecraft Mod Control",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        Divider()
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        // 导航项
         Screen.values().forEach { screen ->
             val isSelected = currentScreen == screen
             
@@ -79,6 +105,36 @@ fun SideNavDrawer(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
             )
         }
+        
+        // 底部关于软件入口
+        Spacer(modifier = Modifier.weight(1f))
+        Divider()
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        NavigationDrawerItem(
+            selected = false,
+            onClick = {
+                onAboutClick()
+                onCloseDrawer()
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "关于软件"
+                )
+            },
+            label = {
+                Text("关于软件")
+            },
+            colors = NavigationDrawerItemDefaults.colors(
+                unselectedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
+        )
+        
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
