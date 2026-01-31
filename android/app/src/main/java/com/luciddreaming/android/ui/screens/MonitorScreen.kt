@@ -15,10 +15,10 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.unit.PaddingValues
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.unit.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -125,20 +125,22 @@ fun MonitorScreen(viewModel: MonitorViewModel, paddingValues: PaddingValues) {
                 }
             }
             gameInfo != null -> {
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(
-                            state = rememberScrollState(),
-                            contentPadding = PaddingValues(
-                                top = paddingValues.calculateTopPadding(),
-                                bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                                start = 16.dp,
-                                end = 16.dp
-                            )
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                        .padding(
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding() + 16.dp,
+                            start = 16.dp,
+                            end = 16.dp
+                        )
                 ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
                     // Screenshot Card with animation
                     AnimatedVisibility(
                         visible = contentVisible,
@@ -351,6 +353,7 @@ fun MonitorScreen(viewModel: MonitorViewModel, paddingValues: PaddingValues) {
                             }
                         }
                     }
+                }
                 }
             }
         }
