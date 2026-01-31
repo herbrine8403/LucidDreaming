@@ -142,11 +142,17 @@ fun LucidDreamingApp() {
                             
                             // 关于界面
                             if (showAboutScreen) {
-                                AboutScreen(
-                                    onClose = {
-                                        showAboutScreen = false
-                                    }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .align(Alignment.Center)
+                                ) {
+                                    AboutScreen(
+                                        onClose = {
+                                            showAboutScreen = false
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
