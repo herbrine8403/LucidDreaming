@@ -70,7 +70,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Create settings.gradle.kts for Android build
+    - name: Update settings.gradle.kts for Android build
       run: |
         echo "pluginManagement {" > settings.gradle.kts
         echo "    repositories {" >> settings.gradle.kts
@@ -137,7 +137,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Create settings.gradle.kts for iOS build
+    - name: Update settings.gradle.kts for iOS build
       run: |
         echo "pluginManagement {" > settings.gradle.kts
         echo "    repositories {" >> settings.gradle.kts
