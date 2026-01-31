@@ -70,11 +70,24 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    - name: Create settings.gradle.kts for Android build
+      run: |
+        echo "pluginManagement {" > settings.gradle.kts
+        echo "    repositories {" >> settings.gradle.kts
+        echo "        google()" >> settings.gradle.kts
+        echo "        mavenCentral()" >> settings.gradle.kts
+        echo "        gradlePluginPortal()" >> settings.gradle.kts
+        echo "    }" >> settings.gradle.kts
+        echo "}" >> settings.gradle.kts
+        echo "rootProject.name = \"LucidDreaming\"" >> settings.gradle.kts
+        echo "include(":shared")" >> settings.gradle.kts
+        echo "include(":androidApp")" >> settings.gradle.kts
+
     - name: Build Android Debug APK
-      run: ./gradlew :androidApp:assembleDebug --stacktrace --build-file build.gradle.kts
+      run: ./gradlew :androidApp:assembleDebug --stacktrace
 
     - name: Build Android Release APK
-      run: ./gradlew :androidApp:assembleRelease --stacktrace --build-file build.gradle.kts
+      run: ./gradlew :androidApp:assembleRelease --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
@@ -124,8 +137,21 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
+    - name: Create settings.gradle.kts for iOS build
+      run: |
+        echo "pluginManagement {" > settings.gradle.kts
+        echo "    repositories {" >> settings.gradle.kts
+        echo "        google()" >> settings.gradle.kts
+        echo "        mavenCentral()" >> settings.gradle.kts
+        echo "        gradlePluginPortal()" >> settings.gradle.kts
+        echo "    }" >> settings.gradle.kts
+        echo "}" >> settings.gradle.kts
+        echo "rootProject.name = \"LucidDreaming\"" >> settings.gradle.kts
+        echo "include(":shared")" >> settings.gradle.kts
+        echo "include(":androidApp")" >> settings.gradle.kts
+
     - name: Build shared module for iOS
-      run: ./gradlew :shared:compileKotlinIosArm64 --build-file build.gradle.kts
+      run: ./gradlew :shared:compileKotlinIosArm64
 
     - name: Install CocoaPods dependencies
       run: |
