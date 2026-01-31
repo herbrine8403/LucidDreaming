@@ -52,313 +52,300 @@ fun SettingsScreen(
         refreshInterval = appSettings.refreshInterval
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("设置") }
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 16.dp,
-                    bottom = 16.dp + paddingValues.calculateBottomPadding()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        // 刷新时间设置
+        AnimatedVisibility(
+            visible = contentVisible,
+            enter = fadeIn(animationSpec = tween(300)) + scaleIn(
+                animationSpec = spring(
+                    dampingRatio = 0.6f,
+                    stiffness = 200f
                 )
+            ),
+            exit = fadeOut(animationSpec = tween(200))
         ) {
-            // 刷新时间设置
-            AnimatedVisibility(
-                visible = contentVisible,
-                enter = fadeIn(animationSpec = tween(300)) + scaleIn(
-                    animationSpec = spring(
-                        dampingRatio = 0.6f,
-                        stiffness = 200f
-                    )
-                ),
-                exit = fadeOut(animationSpec = tween(200))
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
             ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(4.dp)
+                Column(
+                    modifier = Modifier.padding(16.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
+                    Text(
+                        text = "数据刷新",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "数据刷新",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "刷新时间间隔",
-                                modifier = Modifier.weight(1f)
-                            )
-                            
-                            Spacer(modifier = Modifier.width(8.dp))
-                            
-                            Text(
-                                text = "${refreshInterval}秒",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(end = 8.dp)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Slider(
-                            value = refreshInterval.toFloat(),
-                            onValueChange = { refreshInterval = it.toInt() },
-                            onValueChangeFinished = {
-                                viewModel.updateRefreshInterval(refreshInterval)
-                                showSuccessMessage = true
-                            },
-                            valueRange = 1f..30f,
-                            steps = 29,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        Text(
-                            text = "每 ${refreshInterval} 秒刷新一次数据",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
-                    }
-                }
-            }
-
-            // 连接设置
-            AnimatedVisibility(
-                visible = contentVisible,
-                enter = fadeIn(animationSpec = tween(300, delayMillis = 100)) + scaleIn(
-                    animationSpec = spring(
-                        dampingRatio = 0.6f,
-                        stiffness = 200f
-                    )
-                ),
-                exit = fadeOut(animationSpec = tween(200))
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(4.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "连接管理",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-
-                        Text(
-                            text = "取消与服务器的绑定，返回连接界面",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = 16.dp)
-                        )
-
-                        Button(
-                            onClick = { viewModel.showUnbindDialog() },
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.error
-                            )
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.LinkOff,
-                                contentDescription = null,
-                                modifier = Modifier.padding(end = 8.dp)
-                            )
-                            Text(text = "取消绑定")
-                        }
-                    }
-                }
-            }
-
-            // 关于软件
-            AnimatedVisibility(
-                visible = contentVisible,
-                enter = fadeIn(animationSpec = tween(300, delayMillis = 200)) + scaleIn(
-                    animationSpec = spring(
-                        dampingRatio = 0.6f,
-                        stiffness = 200f
-                    )
-                ),
-                exit = fadeOut(animationSpec = tween(200))
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(4.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "关于软件",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-
-                        // 软件信息
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Info,
-                                contentDescription = null,
-                                modifier = Modifier.padding(end = 16.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Column {
-                                Text(
-                                    text = "Lucid Dreaming",
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                                Text(
-                                    text = "版本 1.0.0",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-
-                        Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-                        // 开发者信息
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = null,
-                                modifier = Modifier.padding(end = 16.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Column {
-                                Text(
-                                    text = "开发者",
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                                Text(
-                                    text = "Drwei",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-
-                        Divider(modifier = Modifier.padding(vertical = 8.dp))
-
-                        // 功能特性
-                        Text(
-                            text = "功能特性",
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                            text = "刷新时间间隔",
+                            modifier = Modifier.weight(1f)
                         )
                         
+                        Spacer(modifier = Modifier.width(8.dp))
+                        
                         Text(
-                            text = "• 实时监测 Minecraft 游戏状态\n" +
-                                  "• 模块控制与管理\n" +
-                                  "• 自动化任务配置\n" +
-                                  "• HTTP 服务器通信",
+                            text = "${refreshInterval}秒",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(end = 8.dp)
                         )
                     }
-                }
-            }
 
-            // 高级设置（可以扩展更多设置）
-            AnimatedVisibility(
-                visible = contentVisible,
-                enter = fadeIn(animationSpec = tween(300, delayMillis = 300)) + scaleIn(
-                    animationSpec = spring(
-                        dampingRatio = 0.6f,
-                        stiffness = 200f
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Slider(
+                        value = refreshInterval.toFloat(),
+                        onValueChange = { refreshInterval = it.toInt() },
+                        onValueChangeFinished = {
+                            viewModel.updateRefreshInterval(refreshInterval)
+                            showSuccessMessage = true
+                        },
+                        valueRange = 1f..30f,
+                        steps = 29,
+                        modifier = Modifier.fillMaxWidth()
                     )
-                ),
-                exit = fadeOut(animationSpec = tween(200))
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = CardDefaults.cardElevation(4.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "高级设置",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
 
-                        // 这里可以添加更多高级设置项
-                        Text(
-                            text = "更多设置选项即将推出...",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-            
-            // 成功提示
-            AnimatedVisibility(
-                visible = showSuccessMessage,
-                enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically()
-            ) {
-                Snackbar(
-                    modifier = Modifier.padding(16.dp),
-                    action = {
-                        TextButton(onClick = { showSuccessMessage = false }) {
-                            Text("确定")
-                        }
-                    }
-                ) {
-                    Text("设置已保存")
+                    Text(
+                        text = "每 ${refreshInterval} 秒刷新一次数据",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
                 }
             }
         }
 
-        LaunchedEffect(showSuccessMessage) {
-            if (showSuccessMessage) {
-                kotlinx.coroutines.delay(2000)
-                showSuccessMessage = false
+        // 连接设置
+        AnimatedVisibility(
+            visible = contentVisible,
+            enter = fadeIn(animationSpec = tween(300, delayMillis = 100)) + scaleIn(
+                animationSpec = spring(
+                    dampingRatio = 0.6f,
+                    stiffness = 200f
+                )
+            ),
+            exit = fadeOut(animationSpec = tween(200))
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "连接管理",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    Text(
+                        text = "取消与服务器的绑定，返回连接界面",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    Button(
+                        onClick = { viewModel.showUnbindDialog() },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.LinkOff,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+                        Text(text = "取消绑定")
+                    }
+                }
             }
+        }
+
+        // 关于软件
+        AnimatedVisibility(
+            visible = contentVisible,
+            enter = fadeIn(animationSpec = tween(300, delayMillis = 200)) + scaleIn(
+                animationSpec = spring(
+                    dampingRatio = 0.6f,
+                    stiffness = 200f
+                )
+            ),
+            exit = fadeOut(animationSpec = tween(200))
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "关于软件",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    // 软件信息
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 16.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column {
+                            Text(
+                                text = "Lucid Dreaming",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = "版本 1.0.0",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                    // 开发者信息
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null,
+                            modifier = Modifier.padding(end = 16.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column {
+                            Text(
+                                text = "开发者",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = "Drwei",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                    // 功能特性
+                    Text(
+                        text = "功能特性",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                    )
+                    
+                    Text(
+                        text = "• 实时监测 Minecraft 游戏状态\n" +
+                              "• 模块控制与管理\n" +
+                              "• 自动化任务配置\n" +
+                              "• HTTP 服务器通信",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+
+        // 高级设置（可以扩展更多设置）
+        AnimatedVisibility(
+            visible = contentVisible,
+            enter = fadeIn(animationSpec = tween(300, delayMillis = 300)) + scaleIn(
+                animationSpec = spring(
+                    dampingRatio = 0.6f,
+                    stiffness = 200f
+                )
+            ),
+            exit = fadeOut(animationSpec = tween(200))
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "高级设置",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+
+                    // 这里可以添加更多高级设置项
+                    Text(
+                        text = "更多设置选项即将推出...",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+        
+        // 成功提示
+        AnimatedVisibility(
+            visible = showSuccessMessage,
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically()
+        ) {
+            Snackbar(
+                modifier = Modifier.padding(16.dp),
+                action = {
+                    TextButton(onClick = { showSuccessMessage = false }) {
+                        Text("确定")
+                    }
+                }
+            ) {
+                Text("设置已保存")
+            }
+        }
+    }
+
+    LaunchedEffect(showSuccessMessage) {
+        if (showSuccessMessage) {
+            kotlinx.coroutines.delay(2000)
+            showSuccessMessage = false
         }
     }
 
