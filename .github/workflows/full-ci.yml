@@ -80,8 +80,8 @@ jobs:
         echo "    }" >> settings.gradle.kts
         echo "}" >> settings.gradle.kts
         echo "rootProject.name = \"LucidDreaming\"" >> settings.gradle.kts
-        echo "include(":shared")" >> settings.gradle.kts
-        echo "include(":androidApp")" >> settings.gradle.kts
+        echo "include(\"shared\")" >> settings.gradle.kts
+        echo "include(\"androidApp\")" >> settings.gradle.kts
 
     - name: Build Android Debug APK
       run: ./gradlew :androidApp:assembleDebug --stacktrace
@@ -147,8 +147,8 @@ jobs:
         echo "    }" >> settings.gradle.kts
         echo "}" >> settings.gradle.kts
         echo "rootProject.name = \"LucidDreaming\"" >> settings.gradle.kts
-        echo "include(":shared")" >> settings.gradle.kts
-        echo "include(":androidApp")" >> settings.gradle.kts
+        echo "include(\"shared\")" >> settings.gradle.kts
+        echo "include(\"androidApp\")" >> settings.gradle.kts
 
     - name: Build shared module for iOS
       run: ./gradlew :shared:compileKotlinIosArm64
