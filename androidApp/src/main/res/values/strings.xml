@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">LucidDreaming</string>
+    <string name="connect_to_luciddreaming">Connect to LucidDreaming</string>
+    <string name="ip_address">IP Address</string>
+    <string name="port">Port</string>
+    <string name="connect">Connect</string>
+    <string name="connection_failed">Connection failed</string>
+    <string name="game_monitor">Game Monitor</string>
+    <string name="refresh">Refresh</string>
+    <string name="failed_to_load_game_info">Failed to load game info</string>
+    <string name="game_screenshot">Game Screenshot</string>
+    <string name="no_screenshot_available">No screenshot available</string>
+    <string name="capture_screenshot">Capture Screenshot</string>
+    <string name="modules">Modules</string>
+    <string name="failed_to_load_modules">Failed to load modules</string>
+    <string name="failed_to_toggle_module">Failed to toggle module</string>
+    <string name="settings">Settings</string>
+    <string name="refresh_settings">Refresh Settings</string>
+    <string name="auto_refresh">Auto Refresh</string>
+    <string name="refresh_interval">Refresh Interval</string>
+    <string name="seconds">seconds</string>
+    <string name="appearance">Appearance</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="connection">Connection</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="reset_settings">Reset Settings</string>
+    <string name="automation">Automation</string>
+    <string name="automation_features">Automation Features</string>
+    <string name="automation_features_under_development">Automation features are currently under development.</string>
+    <string name="coming_soon">Coming soon!</string>
+    <string name="about_luciddreaming">About LucidDreaming</string>
+    <string name="close">Close</string>
+    <string name="lucidreaming_description">LucidDreaming is a powerful tool for managing and monitoring Minecraft servers.</string>
+    <string name="version">Version: 1.0.0</string>
+    <string name="developed_with">Developed with Kotlin and Jetpack Compose</string>
+    <string name="copyright">© 2026 LucidDreaming Team</string>
+</resources>

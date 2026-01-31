@@ -1,0 +1,11 @@
+platform :ios, '15.0'
+
+use_frameworks!
+
+workspace 'LucidDreaming.xcworkspace'
+
+project 'LucidDreaming.xcodeproj'
+
+pod 'Shared', :path => '../shared'
+
+# SwiftUI and Combine are included in iOS SDK
