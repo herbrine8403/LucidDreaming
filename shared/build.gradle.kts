@@ -1,7 +1,7 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("com.android.library")
+    kotlin("multiplatform") version "1.9.20"
+    kotlin("plugin.serialization") version "1.9.20"
+    id("com.android.library") version "8.2.0"
 }
 
 kotlin {
