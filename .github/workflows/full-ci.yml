@@ -72,16 +72,18 @@ jobs:
 
     - name: Update settings.gradle.kts for Android build
       run: |
-        echo "pluginManagement {" > settings.gradle.kts
-        echo "    repositories {" >> settings.gradle.kts
-        echo "        google()" >> settings.gradle.kts
-        echo "        mavenCentral()" >> settings.gradle.kts
-        echo "        gradlePluginPortal()" >> settings.gradle.kts
-        echo "    }" >> settings.gradle.kts
-        echo "}" >> settings.gradle.kts
-        echo "rootProject.name = \"LucidDreaming\"" >> settings.gradle.kts
-        echo "include(\"shared\")" >> settings.gradle.kts
-        echo "include(\"androidApp\")" >> settings.gradle.kts
+        cat > settings.gradle.kts << 'EOF'
+        pluginManagement {
+            repositories {
+                google()
+                mavenCentral()
+                gradlePluginPortal()
+            }
+        }
+        rootProject.name = "LucidDreaming"
+        include(":shared")
+        include(":androidApp")
+        EOF
 
     - name: Build Android Debug APK
       run: ./gradlew :androidApp:assembleDebug --stacktrace
@@ -139,16 +141,18 @@ jobs:
 
     - name: Update settings.gradle.kts for iOS build
       run: |
-        echo "pluginManagement {" > settings.gradle.kts
-        echo "    repositories {" >> settings.gradle.kts
-        echo "        google()" >> settings.gradle.kts
-        echo "        mavenCentral()" >> settings.gradle.kts
-        echo "        gradlePluginPortal()" >> settings.gradle.kts
-        echo "    }" >> settings.gradle.kts
-        echo "}" >> settings.gradle.kts
-        echo "rootProject.name = \"LucidDreaming\"" >> settings.gradle.kts
-        echo "include(\"shared\")" >> settings.gradle.kts
-        echo "include(\"androidApp\")" >> settings.gradle.kts
+        cat > settings.gradle.kts << 'EOF'
+        pluginManagement {
+            repositories {
+                google()
+                mavenCentral()
+                gradlePluginPortal()
+            }
+        }
+        rootProject.name = "LucidDreaming"
+        include(":shared")
+        include(":androidApp")
+        EOF
 
     - name: Build shared module for iOS
       run: ./gradlew :shared:compileKotlinIosArm64
