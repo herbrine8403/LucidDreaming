@@ -5,6 +5,14 @@ plugins {
     id("com.android.library") version "8.2.0" apply false
 }
 
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 allprojects {
     repositories {
         google()
