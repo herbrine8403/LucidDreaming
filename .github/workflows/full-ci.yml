@@ -32,13 +32,15 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build Mod with Gradle
-      run: ./gradlew build --no-daemon
+      run: |
+        cd mod
+        ./gradlew build --no-daemon
 
     - name: Upload Mod build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: luciddreaming-mod
-        path: build/libs/*.jar
+        path: mod/build/libs/*.jar
         retention-days: 30
 
   # Android APP 构建任务
