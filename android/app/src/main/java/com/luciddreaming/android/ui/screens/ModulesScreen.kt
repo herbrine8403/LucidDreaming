@@ -51,90 +51,102 @@ fun ModulesScreen(viewModel: ModulesViewModel, paddingValues: PaddingValues) {
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("模块") },
-                actions = {
-                    var refreshing by remember { mutableStateOf(false) }
-                    val rotation by animateFloatAsState(
-                        targetValue = if (refreshing) 360f else 0f,
-                        animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
-                        finishedListener = { if (refreshing) refreshing = false },
-                        label = "refreshRotation"
-                    )
-                    
-                    IconButton(onClick = {
-                        refreshing = true
-                        viewModel.loadModules()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "刷新",
-                            modifier = Modifier.scale(if (refreshing) 1.2f else 1f)
-                        )
-                    }
-                }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = paddingValues.calculateTopPadding() + 8.dp,
+                bottom = 16.dp,
+                start = 16.dp,
+                end = 16.dp
             )
-        }
-    ) { paddingValues ->
-        when {
-            isLoading && modulesResponse == null -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // 刷新按钮
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                var refreshing by remember { mutableStateOf(false) }
+                val rotation by animateFloatAsState(
+                    targetValue = if (refreshing) 360f else 0f,
+                    animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
+                    finishedListener = { if (refreshing) refreshing = false },
+                    label = "refreshRotation"
+                )
+                
+                IconButton(onClick = {
+                    refreshing = true
+                    viewModel.loadModules()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "刷新",
+                        modifier = Modifier.scale(if (refreshing) 1.2f else 1f)
+                    )
                 }
             }
-            error != null && modulesResponse == null -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
+            
+            when {
+                isLoading && modulesResponse == null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Error,
-                            contentDescription = null,
-                            modifier = Modifier.size(64.dp),
-                            tint = MaterialTheme.colorScheme.error
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = error!!,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = { viewModel.loadModules() }) {
-                            Text("重试")
+                        CircularProgressIndicator()
+                    }
+                }
+                error != null && modulesResponse == null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp),
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = error!!,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(onClick = { viewModel.loadModules() }) {
+                                Text("重试")
+                            }
                         }
                     }
                 }
-            }
-            modulesResponse != null -> {
-                LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            contentPadding = PaddingValues(
-                                top = paddingValues.calculateTopPadding() + 16.dp,
-                                bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                                start = 16.dp,
-                                end = 16.dp
-                            ),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
+                modulesResponse != null -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentPadding = PaddingValues(
+                            bottom = 16.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
                     itemsIndexed(modulesResponse!!.modules) { index, module ->
                         AnimatedModuleCard(
                             module = module,
                             index = index,
                             onToggle = { viewModel.toggleModule(module.name) }
                         )
+                    }
                     }
                 }
             }

@@ -22,17 +22,16 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.luciddreaming.android.ui.components.BottomNavBar
-import com.luciddreaming.android.ui.components.Screen
+import com.luciddreaming.android.ui.components.*
 import com.luciddreaming.android.ui.screens.*
 import com.luciddreaming.android.ui.theme.LucidDreamingTheme
 import com.luciddreaming.android.viewmodel.ConnectionViewModel
@@ -65,67 +64,90 @@ fun LucidDreamingApp() {
             val connectionSettings by connectionViewModel.connectionSettings.collectAsState()
 
             if (connectionSettings.isConnected) {
-                // Main app with bottom navigation
+                // Main app with side navigation drawer
                 val navController = rememberNavController()
                 var currentScreen by remember { mutableStateOf(Screen.MONITOR) }
+                val drawerState = rememberDrawerState(DrawerValue.Closed)
+                val scope = rememberCoroutineScope()
 
-                Scaffold(
-                    bottomBar = {
-                        BottomNavBar(
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        SideNavDrawer(
                             currentScreen = currentScreen,
                             onNavigate = { screen ->
                                 currentScreen = screen
+                            },
+                            onCloseDrawer = {
+                                scope.launch {
+                                    drawerState.close()
+                                }
                             }
                         )
                     }
-                ) { paddingValues: PaddingValues ->
-                    androidx.compose.animation.AnimatedContent(
-                        targetState = currentScreen,
-                        transitionSpec = {
-                            val animationSpec = tween<IntOffset>(
-                                durationMillis = 300,
-                                easing = FastOutSlowInEasing
+                ) {
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = { Text(currentScreen.title) },
+                                navigationIcon = {
+                                    DrawerButton {
+                                        scope.launch {
+                                            drawerState.open()
+                                        }
+                                    }
+                                }
                             )
-                            
-                            ContentTransform(
-                                slideInHorizontally(
-                                    animationSpec = animationSpec,
-                                    initialOffsetX = { -it }
-                                ),
-                                slideOutHorizontally(
-                                    animationSpec = animationSpec,
-                                    targetOffsetX = { -it }
+                        }
+                    ) {paddingValues: PaddingValues ->
+                        androidx.compose.animation.AnimatedContent(
+                            targetState = currentScreen,
+                            transitionSpec = {
+                                val animationSpec = tween<IntOffset>(
+                                    durationMillis = 300,
+                                    easing = FastOutSlowInEasing
                                 )
-                            )
-                        },
-                        label = "screenTransition"
-                    ) { targetScreen ->
-                        when (targetScreen) {
-                            Screen.MONITOR -> {
-                                MonitorScreen(
-                                    viewModel = monitorViewModel,
-                                    paddingValues = paddingValues
+                                
+                                ContentTransform(
+                                    slideInHorizontally(
+                                        animationSpec = animationSpec,
+                                        initialOffsetX = { -it }
+                                    ),
+                                    slideOutHorizontally(
+                                        animationSpec = animationSpec,
+                                        targetOffsetX = { -it }
+                                    )
                                 )
-                            }
-                            Screen.MODULES -> {
-                                ModulesScreen(
-                                    viewModel = modulesViewModel,
-                                    paddingValues = paddingValues
-                                )
-                            }
-                            Screen.AUTOMATION -> {
-                                AutomationScreen(
-                                    paddingValues = paddingValues
-                                )
-                            }
-                            Screen.SETTINGS -> {
-                                SettingsScreen(
-                                    viewModel = settingsViewModel,
-                                    onUnbindSuccess = {
-                                        // 返回连接界面
-                                    },
-                                    paddingValues = paddingValues
-                                )
+                            },
+                            label = "screenTransition"
+                        ) { targetScreen ->
+                            when (targetScreen) {
+                                Screen.MONITOR -> {
+                                    MonitorScreen(
+                                        viewModel = monitorViewModel,
+                                        paddingValues = paddingValues
+                                    )
+                                }
+                                Screen.MODULES -> {
+                                    ModulesScreen(
+                                        viewModel = modulesViewModel,
+                                        paddingValues = paddingValues
+                                    )
+                                }
+                                Screen.AUTOMATION -> {
+                                    AutomationScreen(
+                                        paddingValues = paddingValues
+                                    )
+                                }
+                                Screen.SETTINGS -> {
+                                    SettingsScreen(
+                                        viewModel = settingsViewModel,
+                                        onUnbindSuccess = {
+                                            // 返回连接界面
+                                        },
+                                        paddingValues = paddingValues
+                                    )
+                                }
                             }
                         }
                     }

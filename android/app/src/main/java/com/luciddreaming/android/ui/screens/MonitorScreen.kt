@@ -58,86 +58,90 @@ fun MonitorScreen(viewModel: MonitorViewModel, paddingValues: PaddingValues) {
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("监测") },
-                actions = {
-                    var refreshing by remember { mutableStateOf(false) }
-                    val rotation by animateFloatAsState(
-                        targetValue = if (refreshing) 360f else 0f,
-                        animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
-                        finishedListener = { if (refreshing) refreshing = false },
-                        label = "refreshRotation"
-                    )
-                    
-                    IconButton(onClick = {
-                        refreshing = true
-                        viewModel.loadGameInfo()
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Refresh,
-                            contentDescription = "刷新",
-                            modifier = Modifier.scale(if (refreshing) 1.2f else 1f)
-                        )
-                    }
-                }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = paddingValues.calculateTopPadding() + 8.dp,
+                bottom = 16.dp,
+                start = 16.dp,
+                end = 16.dp
             )
-        }
-    ) { paddingValues ->
-        when {
-            isLoading && gameInfo == null -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // 刷新按钮
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                var refreshing by remember { mutableStateOf(false) }
+                val rotation by animateFloatAsState(
+                    targetValue = if (refreshing) 360f else 0f,
+                    animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
+                    finishedListener = { if (refreshing) refreshing = false },
+                    label = "refreshRotation"
+                )
+                
+                IconButton(onClick = {
+                    refreshing = true
+                    viewModel.loadGameInfo()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = "刷新",
+                        modifier = Modifier.scale(if (refreshing) 1.2f else 1f)
+                    )
                 }
             }
-            error != null && gameInfo == null -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(paddingValues),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
+            
+            when {
+                isLoading && gameInfo == null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Error,
-                            contentDescription = null,
-                            modifier = Modifier.size(64.dp),
-                            tint = MaterialTheme.colorScheme.error
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = error!!,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = { viewModel.loadGameInfo() }) {
-                            Text("重试")
+                        CircularProgressIndicator()
+                    }
+                }
+                error != null && gameInfo == null -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp),
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = error!!,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(onClick = { viewModel.loadGameInfo() }) {
+                                Text("重试")
+                            }
                         }
                     }
                 }
-            }
-            gameInfo != null -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = paddingValues.calculateTopPadding(),
-                            bottom = paddingValues.calculateBottomPadding() + 16.dp,
-                            start = 16.dp,
-                            end = 16.dp
-                        )
-                ) {
+                gameInfo != null -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .weight(1f)
                             .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
@@ -351,10 +355,6 @@ fun MonitorScreen(viewModel: MonitorViewModel, paddingValues: PaddingValues) {
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-                }
             }
         }
     }
