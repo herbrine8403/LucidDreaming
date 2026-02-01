@@ -9,7 +9,7 @@ class iOSSsettingsPreferences : SettingsPreferences {
     private val userDefaults = NSUserDefaults.standardUserDefaults
     private val _settings = MutableStateFlow(
         AppSettings(
-            refreshInterval = userDefaults.integerForKey("refresh_interval").takeIf { it > 0 } ?: 10,
+            refreshInterval = userDefaults.integerForKey("refresh_interval").toInt().takeIf { it > 0 } ?: 10,
             autoRefresh = userDefaults.boolForKey("auto_refresh"),
             darkMode = userDefaults.boolForKey("dark_mode")
         )
