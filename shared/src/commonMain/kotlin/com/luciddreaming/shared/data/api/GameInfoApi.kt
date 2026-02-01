@@ -6,6 +6,6 @@ import io.ktor.client.request.*
 
 class GameInfoApi(private val client: HttpClient) {
     suspend fun getGameInfo(): GameInfo {
-        return client.get("/api/game/info")
+        return client.get("/api/game/info").body()
     }
 }
