@@ -76,7 +76,7 @@ fun LucidDreamingApp() {
                                 NavigationRailItem(
                                     icon = {
                                         when (it) {
-                                            Screen.MONITOR -> Icon(Icons.Filled.ChartBar, contentDescription = it.title)
+                                            Screen.MONITOR -> Icon(Icons.Filled.InsertChart, contentDescription = it.title)
                                             Screen.MODULES -> Icon(Icons.Filled.List, contentDescription = it.title)
                                             Screen.AUTOMATION -> Icon(Icons.Filled.Settings, contentDescription = it.title)
                                             Screen.SETTINGS -> Icon(Icons.Filled.Gear, contentDescription = it.title)

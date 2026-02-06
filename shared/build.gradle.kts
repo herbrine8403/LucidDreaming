@@ -65,6 +65,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-darwin:2.3.7")
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 api("io.ktor:ktor-client-core:2.3.7")
+                api("io.ktor:ktor-client-content-negotiation:2.3.7")
             }
         }
     }
