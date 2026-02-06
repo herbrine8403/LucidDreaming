@@ -95,14 +95,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: luciddreaming-android-debug
-        path: androidApp/build/outputs/apk/debug/app-debug.apk
+        path: androidApp/build/outputs/apk/debug/androidApp-debug.apk
         retention-days: 30
 
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
         name: luciddreaming-android-release
-        path: androidApp/build/outputs/apk/release/app-release-unsigned.apk
+        path: androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk
         retention-days: 30
 
     - name: Upload Android Build Reports
@@ -154,8 +154,8 @@ jobs:
         include(":androidApp")
         EOF
 
-    - name: Build shared module for iOS
-      run: ./gradlew :shared:linkPodDebugFrameworkIosArm64
+    - name: Generate Xcode project and podspec
+      run: ./gradlew :shared:podGen
 
     - name: Install CocoaPods dependencies
       run: |
