@@ -154,7 +154,7 @@ jobs:
         include(":androidApp")
         EOF
 
-- name: Build shared module for iOS
+    - name: Build shared module for iOS
       run: ./gradlew :shared:linkDebugFrameworkIosArm64
 
     - name: Create build directory
