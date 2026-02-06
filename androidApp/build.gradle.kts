@@ -19,6 +19,9 @@ android {
         }
     }
 
+    // Set consistent APK file names
+    setProperty("archivesBaseName", "androidApp")
+
     buildTypes {
         release {
             isMinifyEnabled = true

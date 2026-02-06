@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: luciddreaming-android-debug
-          path: androidApp/build/outputs/apk/debug/com.luciddreaming.android-debug.apk
+          path: androidApp/build/outputs/apk/debug/androidApp-debug.apk
           retention-days: 30
 
       - name: Upload Debug Build Reports
@@ -85,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: luciddreaming-android-release
-          path: androidApp/build/outputs/apk/release/com.luciddreaming.android-release-unsigned.apk
+          path: androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk
           retention-days: 30
 
       - name: Upload Release Build Reports
