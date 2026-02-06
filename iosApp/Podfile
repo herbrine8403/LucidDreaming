@@ -2,6 +2,8 @@ platform :ios, '15.0'
 
 use_frameworks!
 
+project 'LucidDreaming.xcodeproj'
+
 target 'LucidDreaming' do
   pod 'Shared', :path => '../shared'
 end
