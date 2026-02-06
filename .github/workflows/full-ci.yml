@@ -154,15 +154,23 @@ jobs:
         include(":androidApp")
         EOF
 
-    - name: Install CocoaPods dependencies
-      run: |
-        cd iosApp
-        pod install --repo-update
+- name: Build shared module for iOS
+      run: ./gradlew :shared:linkDebugFrameworkIosArm64
 
-    - name: Build iOS APP
+    - name: Create build directory
       run: |
         cd iosApp
-        xcodebuild -workspace LucidDreaming.xcworkspace -scheme LucidDreaming -destination 'platform=iOS Simulator,name=iPhone 15' build
+        mkdir -p build
+
+    - name: Configure with CMake
+      run: |
+        cd iosApp/build
+        cmake .. -G Xcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64
+
+    - name: Build with CMake
+      run: |
+        cd iosApp/build
+        cmake --build . --config Debug
 
     - name: Upload iOS Build Reports
       if: failure()
