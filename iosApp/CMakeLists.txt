@@ -10,7 +10,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
 
 # Find the Kotlin framework
-set(KOTLIN_FRAMEWORK_PATH ${CMAKE_SOURCE_DIR}/../shared/build/cocoapods/framework/Shared.framework)
+set(KOTLIN_FRAMEWORK_PATH ${CMAKE_SOURCE_DIR}/../shared/build/cocoapods/publish/release/Shared.framework)
 
 if(EXISTS ${KOTLIN_FRAMEWORK_PATH})
     message(STATUS "Found Kotlin framework at ${KOTLIN_FRAMEWORK_PATH}")

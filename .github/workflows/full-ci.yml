@@ -155,7 +155,7 @@ jobs:
         EOF
 
     - name: Build shared module for iOS
-      run: ./gradlew :shared:linkDebugFrameworkIosArm64
+      run: ./gradlew :shared:linkPodDebugFrameworkIosArm64
 
     - name: Create build directory
       run: |
