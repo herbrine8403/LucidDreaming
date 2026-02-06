@@ -35,8 +35,6 @@ kotlin {
             export("io.ktor:ktor-client-core:2.3.7")
             export("io.ktor:ktor-client-content-negotiation:2.3.7")
         }
-
-        pod("Shared")
     }
 
     sourceSets {
