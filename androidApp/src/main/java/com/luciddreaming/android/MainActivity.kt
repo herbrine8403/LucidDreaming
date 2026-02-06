@@ -106,7 +106,7 @@ fun LucidDreamingApp() {
                                         title = { Text(currentScreen.title) }
                                     )
                                 }
-                            ) {
+                            ) { paddingValues ->
                                 AnimatedContent(
                                     targetState = currentScreen,
                                     transitionSpec = {
@@ -127,23 +127,23 @@ fun LucidDreamingApp() {
                                         )
                                     },
                                     label = "screenTransition"
-                                ) {
-                                    when (currentScreen) {
+                                ) { targetScreen ->
+                                    when (targetScreen) {
                                         Screen.MONITOR -> {
                                             MonitorScreen(
                                                 viewModel = monitorViewModel,
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                         Screen.MODULES -> {
                                             ModulesScreen(
                                                 viewModel = modulesViewModel,
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                         Screen.AUTOMATION -> {
                                             AutomationScreen(
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                         Screen.SETTINGS -> {
@@ -152,7 +152,7 @@ fun LucidDreamingApp() {
                                                 onUnbindSuccess = {
                                                     // Return to connection screen
                                                 },
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                     }
@@ -215,7 +215,7 @@ fun LucidDreamingApp() {
                                     }
                                 )
                             }
-                        ) {
+                        ) { paddingValues ->
                             Box {
                                 AnimatedContent(
                                     targetState = currentScreen,
@@ -237,23 +237,23 @@ fun LucidDreamingApp() {
                                         )
                                     },
                                     label = "screenTransition"
-                                ) {
-                                    when (currentScreen) {
+                                ) { targetScreen ->
+                                    when (targetScreen) {
                                         Screen.MONITOR -> {
                                             MonitorScreen(
                                                 viewModel = monitorViewModel,
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                         Screen.MODULES -> {
                                             ModulesScreen(
                                                 viewModel = modulesViewModel,
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                         Screen.AUTOMATION -> {
                                             AutomationScreen(
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                         Screen.SETTINGS -> {
@@ -262,7 +262,7 @@ fun LucidDreamingApp() {
                                                 onUnbindSuccess = {
                                                     // Return to connection screen
                                                 },
-                                                paddingValues = it
+                                                paddingValues = paddingValues
                                             )
                                         }
                                     }
