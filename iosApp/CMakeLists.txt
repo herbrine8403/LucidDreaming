@@ -57,6 +57,11 @@ set_target_properties(LucidDreaming PROPERTIES
     MACOSX_BUNDLE_IDENTIFIER "com.luciddreaming.ios"
 )
 
+# Set PRODUCT_BUNDLE_IDENTIFIER for iOS
+set_target_properties(LucidDreaming PROPERTIES
+    XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "com.luciddreaming.ios"
+)
+
 # Copy resources
 file(GLOB_RECURSE RESOURCES
     "LucidDreaming/*.lproj"
