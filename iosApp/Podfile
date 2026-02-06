@@ -6,6 +6,8 @@ workspace 'LucidDreaming.xcworkspace'
 
 project 'LucidDreaming.xcodeproj'
 
-pod 'Shared', :path => '../shared'
+target 'LucidDreaming' do
+  pod 'Shared', :path => '../shared'
+end
 
 # SwiftUI and Combine are included in iOS SDK
