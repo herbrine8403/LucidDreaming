@@ -154,9 +154,6 @@ jobs:
         include(":androidApp")
         EOF
 
-    - name: Generate Xcode project and podspec
-      run: ./gradlew :shared:podGen
-
     - name: Install CocoaPods dependencies
       run: |
         cd iosApp
